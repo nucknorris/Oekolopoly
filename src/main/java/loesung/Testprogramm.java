@@ -10,52 +10,52 @@ public class Testprogramm {
      */
     public static void main(String[] args) {
         Kybernetien sim = new Kybernetien(8, 1, 12, 13, 4, 10, 20, 21, 0);
-        SnuckIndividuum ind = new SnuckIndividuum(0.1, 0.1, 0.1, 0.1, 0.1);
+        SnuckIndividuumNeuronal ind = new SnuckIndividuumNeuronal();
         // Oplewnia ind = new Oplewnia(0.1, 0.1, 0.1, 0.2, 0.1);
         sim.bewerteEineStrategie(ind);
         printResult(sim);
 
-        // // Serialisiere
-        // System.out.println("Strategie schreiben ...");
-        // try
-        // {
-        // FileOutputStream fileOut =
-        // new FileOutputStream("meinlosgin.ser");
-        // ObjectOutputStream out = new ObjectOutputStream(fileOut);
-        // out.writeObject(ind);
-        // out.close();
-        // fileOut.close();
-        // } catch (IOException i) {
-        // i.printStackTrace();
-        // }
-        //
-        // // Wieder einlesen
-        // System.out.println("Strategie wieder einlesen ...");
-        // MeinIndividuum deserial = null;
-        // try
-        // {
-        // FileInputStream fileIn =
-        // new FileInputStream("meinlogin.ser");
-        // ObjectInputStream in = new ObjectInputStream(fileIn);
-        // deserial = (MeinIndividuum) in.readObject();
-        // in.close();
-        // fileIn.close();
-        // } catch (IOException i)
-        // {
-        // i.printStackTrace();
-        // return;
-        // } catch (ClassNotFoundException c)
-        // {
-        // System.out.println("MeinIndividuum class not found");
-        // c.printStackTrace();
-        // return;
-        // }
-        //
-        // // Wieder bewerten
-        // System.out.println("Wird sie wieder gleich bewertet?");
-        // Kybernetien sim2 = new Kybernetien(8, 1, 12, 13, 4, 10, 20, 21, 0);
-        // sim2.bewerteEineStrategie(deserial);
-        // printResult(sim2);
+        // Serialisiere
+        System.out.println("Strategie schreiben ...");
+        try
+        {
+            FileOutputStream fileOut =
+                    new FileOutputStream("meinlogin.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(ind);
+            out.close();
+            fileOut.close();
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+
+        // Wieder einlesen
+        System.out.println("Strategie wieder einlesen ...");
+        SnuckIndividuumNeuronal deserial = null;
+        try
+        {
+            FileInputStream fileIn =
+                    new FileInputStream("meinlogin.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            deserial = (SnuckIndividuumNeuronal) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException i)
+        {
+            i.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c)
+        {
+            System.out.println("MeinIndividuum class not found");
+            c.printStackTrace();
+            return;
+        }
+
+        // Wieder bewerten
+        System.out.println("Wird sie wieder gleich bewertet?");
+        Kybernetien sim2 = new Kybernetien(8, 1, 12, 13, 4, 10, 20, 21, 0);
+        sim2.bewerteEineStrategie(deserial);
+        printResult(sim2);
     }
 
     private static void printResult(Kybernetien sim) {
