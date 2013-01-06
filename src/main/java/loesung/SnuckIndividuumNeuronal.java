@@ -25,6 +25,12 @@ public class SnuckIndividuumNeuronal implements Individuum, Serializable {
     private double bv; // 6 Bevšlkerung
     private double po; // 7 Politik
     private double ap; // 8 Aktionspunkte
+
+    private double lqPart; // 0 Lebensqualitaet
+    private double auPart; // 1 Aufklaerung
+    private double prPart; // 2 Produktion
+    private double saPart; // 3 Sanierung
+    private double vrPart; // 4 Vermehrungsrate
     private Punktverteilung sim;
     /**
      * 
@@ -53,15 +59,39 @@ public class SnuckIndividuumNeuronal implements Individuum, Serializable {
 
     public void wendeDieStrategieAn(Punktverteilung simulatorstatus) {
         init(simulatorstatus);
-        ArrayList<Neuron> hiddenLayerNeurons = initHiddenLayer(initInputNeurons());
+        ArrayList<Neuron> inputLayerNeurons = initInputNeurons();
+        for (Neuron neuron : inputLayerNeurons) {
+            System.out.println("i: " + neuron.getValue());
+        }
+        ArrayList<Neuron> hiddenLayerNeurons = initHiddenLayer(inputLayerNeurons);
+        for (Neuron neuron : hiddenLayerNeurons) {
+            System.out.println("h: " + neuron.getValue());
+        }
         ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayerNeurons);
-
         double sum = 0.0;
 
+        System.out.println("\nNeurons: ");
         for (Neuron neuron : outputLayer) {
-            System.out.println(neuron.getValue());
-            // sum += neu
+            System.out.println("o: " + neuron.getValue());
+            sum += neuron.getValue();
         }
+        System.out.println("sum: " + sum);
+
+        System.out.println("ap: " + ap);
+        lqPart = (outputLayer.get(0).getValue() / sum) * ap;
+        auPart = (outputLayer.get(1).getValue() / sum) * ap;
+        prPart = (outputLayer.get(2).getValue() / sum) * ap;
+        saPart = (outputLayer.get(3).getValue() / sum) * ap;
+        vrPart = (outputLayer.get(4).getValue() / sum) * ap;
+
+        System.out.println(lqPart + ", " + auPart + ", " + prPart + ", " + saPart + ", " + vrPart);
+
+        sim.investiereInLebensqualitaet((int) Math.round(lqPart));
+        sim.investiereInAufklaerung((int) Math.round(auPart));
+        sim.investiereInProduktion((int) Math.round(prPart));
+        sim.investiereInSanierung((int) Math.round(saPart));
+        sim.investiereInVermehrungsrate((int) Math.round(vrPart));
+
     }
 
     /**
@@ -109,18 +139,17 @@ public class SnuckIndividuumNeuronal implements Individuum, Serializable {
 
     private ArrayList<Neuron> initOutputLayer(ArrayList<Neuron> inputNeurons) {
         ArrayList<Neuron> outputLayerNeurons = new ArrayList<Neuron>();
-        Neuron n0 = new Neuron(weights[1][0], thresholds[1][0], inputNeurons);
-        Neuron n1 = new Neuron(weights[1][1], thresholds[1][1], inputNeurons);
-        Neuron n2 = new Neuron(weights[1][2], thresholds[1][2], inputNeurons);
-        Neuron n3 = new Neuron(weights[1][3], thresholds[1][3], inputNeurons);
-        Neuron n4 = new Neuron(weights[1][4], thresholds[1][4], inputNeurons);
+        Neuron n0 = new Neuron(weights[2][0], thresholds[2][0], inputNeurons);
+        Neuron n1 = new Neuron(weights[2][1], thresholds[2][1], inputNeurons);
+        Neuron n2 = new Neuron(weights[2][2], thresholds[2][2], inputNeurons);
+        Neuron n3 = new Neuron(weights[2][3], thresholds[2][3], inputNeurons);
+        Neuron n4 = new Neuron(weights[2][4], thresholds[2][4], inputNeurons);
 
         outputLayerNeurons.add(n0);
         outputLayerNeurons.add(n1);
         outputLayerNeurons.add(n2);
         outputLayerNeurons.add(n3);
         outputLayerNeurons.add(n4);
-        ;
         return outputLayerNeurons;
     }
 
@@ -140,7 +169,7 @@ public class SnuckIndividuumNeuronal implements Individuum, Serializable {
         Neuron n6 = new Neuron(weights[1][6], thresholds[1][6], inputNeurons);
         Neuron n7 = new Neuron(weights[1][7], thresholds[1][7], inputNeurons);
         Neuron n8 = new Neuron(weights[1][8], thresholds[1][8], inputNeurons);
-        Neuron n9 = new Neuron(weights[1][8], thresholds[1][9], inputNeurons);
+        Neuron n9 = new Neuron(weights[1][9], thresholds[1][9], inputNeurons);
 
         hiddenLayerNeurons.add(n0);
         hiddenLayerNeurons.add(n1);
@@ -180,7 +209,9 @@ public class SnuckIndividuumNeuronal implements Individuum, Serializable {
                 sum += n.getWeight() * n.getValue();
             }
             sum -= this.threshold;
+
             this.value = sigmoid(sum);
+            System.out.println("#######" + this.value);
         }
 
         public double sigmoid(double x) {
