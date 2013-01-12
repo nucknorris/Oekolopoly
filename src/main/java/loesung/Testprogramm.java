@@ -1,9 +1,17 @@
 package loesung;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import okoelopoly.Kybernetien;
-import java.io.*;
+
+import org.apache.log4j.Logger;
 
 public class Testprogramm {
+    private static Logger logger = Logger.getLogger(Testprogramm.class);
 
     /**
      * @param args
@@ -16,7 +24,7 @@ public class Testprogramm {
         printResult(sim);
 
         // Serialisiere
-        System.out.println("Strategie schreiben ...");
+        logger.info("Strategie schreiben ...");
         try
         {
             FileOutputStream fileOut =
@@ -30,7 +38,7 @@ public class Testprogramm {
         }
 
         // Wieder einlesen
-        System.out.println("Strategie wieder einlesen ...");
+        logger.info("Strategie wieder einlesen ...");
         SnuckIndividuumNeuronal deserial = null;
         try
         {
@@ -52,23 +60,23 @@ public class Testprogramm {
         }
 
         // Wieder bewerten
-        System.out.println("Wird sie wieder gleich bewertet?");
+        logger.info("Wird sie wieder gleich bewertet?");
         Kybernetien sim2 = new Kybernetien(8, 1, 12, 13, 4, 10, 20, 21, 0);
         sim2.bewerteEineStrategie(deserial);
         printResult(sim2);
     }
 
     private static void printResult(Kybernetien sim) {
-        System.out.println("\n\n#### Auswertung #### \nRundenzahl: " + sim.getRundenzahl());
-        System.out.println("Sanierung: " + sim.getSanierung());
-        System.out.println("Produktion: " + sim.getProduktion());
-        System.out.println("Umweltbelastung: " + sim.getUmweltbelastung());
-        System.out.println("Aufklaerung: " + sim.getAufklaerung());
-        System.out.println("Lebensqualitaet: " + sim.getLebensqualitaet());
-        System.out.println("Vermehrungsrate: " + sim.getVermehrungsrate());
-        System.out.println("Bevoelkerung: " + sim.getBevoelkerung());
-        System.out.println("Politik: " + sim.getPolitik());
-        System.out.println("Bilanz: " + sim.getGesamtbilanz());
+        logger.info("\n\n#### Auswertung #### \nRundenzahl: " + sim.getRundenzahl());
+        logger.info("Sanierung: " + sim.getSanierung());
+        logger.info("Produktion: " + sim.getProduktion());
+        logger.info("Umweltbelastung: " + sim.getUmweltbelastung());
+        logger.info("Aufklaerung: " + sim.getAufklaerung());
+        logger.info("Lebensqualitaet: " + sim.getLebensqualitaet());
+        logger.info("Vermehrungsrate: " + sim.getVermehrungsrate());
+        logger.info("Bevoelkerung: " + sim.getBevoelkerung());
+        logger.info("Politik: " + sim.getPolitik());
+        logger.info("Bilanz: " + sim.getGesamtbilanz());
     }
 
 }

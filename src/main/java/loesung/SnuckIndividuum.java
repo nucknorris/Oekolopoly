@@ -1,20 +1,18 @@
 package loesung;
 
 import java.io.Serializable;
-import java.security.UnresolvedPermission;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import okoelopoly.Individuum;
 import okoelopoly.Punktverteilung;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author sebastian
@@ -63,6 +61,8 @@ public class SnuckIndividuum implements Individuum, Serializable {
     private Punktverteilung sim;
     private static double ap;
 
+    private static Logger logger = Logger.getLogger(SnuckIndividuum.class);
+
     public SnuckIndividuum(double au, double lq, double pr, double sa, double vr) {
         this.au = au;
         this.lq = lq;
@@ -76,7 +76,7 @@ public class SnuckIndividuum implements Individuum, Serializable {
         this.sim = simulatorstatus;
         this.ap = sim.getAktionspunkte();
 
-        System.out.println("\n ---- AP: " + ap + " ---- ");
+        logger.info("\n ---- AP: " + ap + " ---- ");
         print();
 
         Map<String, Double> distanceMap = buildDistanceMap();
@@ -89,7 +89,7 @@ public class SnuckIndividuum implements Individuum, Serializable {
         for (Map.Entry<String, Double> element : distanceMap.entrySet()) {
             double proportion =
                     (int) Math.round((((element.getValue() * 100.0f) / totalValues) * ap) / 100);
-            System.out.println(element.getKey() + ":" + proportion);
+            logger.info(element.getKey() + ":" + proportion);
             investInAufklaerung(distanceMap.get("au").intValue());
             investInLebensqualitaet(distanceMap.get("lq").intValue());
             investInSanierung(distanceMap.get("sa").intValue());
@@ -200,7 +200,7 @@ public class SnuckIndividuum implements Individuum, Serializable {
 
         output.append(String.format("investments: au:%s \t lq:%s \t pr:%s \t sa:%s \t vr:%s",
                 au, lq, pr, sa, vr));
-        System.out.println(output.toString());
+        logger.info(output.toString());
 
         output.setLength(0);
 
@@ -209,14 +209,14 @@ public class SnuckIndividuum implements Individuum, Serializable {
                         sim.getAufklaerung(), sim.getLebensqualitaet(),
                         sim.getProduktion(), sim.getSanierung(),
                         sim.getVermehrungsrate()));
-        System.out.println(output.toString());
+        logger.info(output.toString());
 
         output.setLength(0);
 
         output.append(String
                 .format("other      : um:%s \t be:%s \t\t po:%s",
                         sim.getUmweltbelastung(), sim.getBevoelkerung(), sim.getPolitik()));
-        System.out.println(output.toString());
+        logger.info(output.toString());
     }
 
     /**

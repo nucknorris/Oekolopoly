@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import okoelopoly.Individuum;
 import okoelopoly.Punktverteilung;
 
@@ -36,6 +38,7 @@ public class SnuckIndividuumNeuronal implements Individuum, Serializable {
      * 
      */
     private static final long serialVersionUID = -5383465147228204495L;
+    private static Logger logger = Logger.getLogger(SnuckIndividuumNeuronal.class);
 
     public SnuckIndividuumNeuronal() {
 
@@ -59,32 +62,32 @@ public class SnuckIndividuumNeuronal implements Individuum, Serializable {
 
     public void wendeDieStrategieAn(Punktverteilung simulatorstatus) {
         init(simulatorstatus);
+        logger.info("\n ");
         ArrayList<Neuron> inputLayerNeurons = initInputNeurons();
         for (Neuron neuron : inputLayerNeurons) {
-            System.out.println("i: " + neuron.getValue());
+            logger.info("i: " + neuron.getValue());
         }
         ArrayList<Neuron> hiddenLayerNeurons = initHiddenLayer(inputLayerNeurons);
         for (Neuron neuron : hiddenLayerNeurons) {
-            System.out.println("h: " + neuron.getValue());
+            logger.info("h: " + neuron.getValue());
         }
         ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayerNeurons);
         double sum = 0.0;
 
-        System.out.println("\nNeurons: ");
         for (Neuron neuron : outputLayer) {
-            System.out.println("o: " + neuron.getValue());
+            logger.info("o: " + neuron.getValue());
             sum += neuron.getValue();
         }
-        System.out.println("sum: " + sum);
+        logger.info("sum: " + sum);
 
-        System.out.println("ap: " + ap);
+        logger.info("ap: " + ap);
         lqPart = (outputLayer.get(0).getValue() / sum) * ap;
         auPart = (outputLayer.get(1).getValue() / sum) * ap;
         prPart = (outputLayer.get(2).getValue() / sum) * ap;
         saPart = (outputLayer.get(3).getValue() / sum) * ap;
         vrPart = (outputLayer.get(4).getValue() / sum) * ap;
 
-        System.out.println(lqPart + ", " + auPart + ", " + prPart + ", " + saPart + ", " + vrPart);
+        logger.info(lqPart + ", " + auPart + ", " + prPart + ", " + saPart + ", " + vrPart);
 
         sim.investiereInLebensqualitaet((int) Math.round(lqPart));
         sim.investiereInAufklaerung((int) Math.round(auPart));
@@ -208,14 +211,12 @@ public class SnuckIndividuumNeuronal implements Individuum, Serializable {
             for (Neuron n : inputs) {
                 sum += n.getWeight() * n.getValue();
             }
-            sum -= this.threshold;
-
+            sum = sum - threshold;
             this.value = sigmoid(sum);
-            System.out.println("#######" + this.value);
         }
 
         public double sigmoid(double x) {
-            return (1 / (1 + Math.pow(Math.E, (-1 * x))));
+            return 1 / (1 + Math.exp(-x));
         }
 
         public double getThreshold() {
