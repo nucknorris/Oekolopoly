@@ -17,11 +17,6 @@ import org.apache.log4j.Logger;
 public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
         Comparable<SnuckIndividuum> {
 
-    /**
-     * 
-     */
-    private static Logger logger = Logger.getLogger(SnuckIndividuum.class);
-
     private static final long serialVersionUID = 1766633117460198061L;
     private double weights[][];
     private double thresholds[][];
@@ -40,7 +35,6 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
     private double prPart; // 2 Produktion
     private double saPart; // 3 Sanierung
     private double vrPart; // 4 Vermehrungsrate
-    private double inPart; // 5 investment parameter
 
     private double result;
 

@@ -4,3 +4,4 @@
 target
 *.ser
 *.log
+old_logs

@@ -3,28 +3,39 @@ package loesung;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import okoelopoly.Kybernetien;
 
 import org.apache.log4j.Logger;
+import org.junit.Test;
 
 import ea.EvolutionaryAlgorithm;
 
 public class NeuronalTest {
 
     private static Logger logger = Logger.getLogger(NeuronalTest.class);
+    static String filename;
 
-    public static void main(String[] args) {
+    @Test
+    public void startTest() {
+
         EvolutionaryAlgorithm ea = new EvolutionaryAlgorithm();
-        ea.startWithTournierSelection();
+        filename = ea.run();
+        // filename = "30.02013-01-1316:56:45.488_5";
+        logger.info("filename: " + filename);
+        if (filename != null) {
+            deserialize();
+        }
     }
 
     public void deserialize() {
         SnuckIndividuum deserial;
+        List<Kybernetien> listOfK = genListOfKypernetien();
         try
         {
-            FileInputStream fileIn =
-                    new FileInputStream("best.ser");
+            FileInputStream fileIn = new FileInputStream(filename);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             deserial = (SnuckIndividuum) in.readObject();
             in.close();
@@ -42,9 +53,12 @@ public class NeuronalTest {
 
         // Wieder bewerten
         logger.info("Wird sie wieder gleich bewertet?");
-        Kybernetien sim2 = new Kybernetien(8, 1, 12, 13, 4, 10, 20, 21, 0);
-        sim2.bewerteEineStrategie(deserial);
-        printResult(sim2);
+
+        for (Kybernetien kybernetien : listOfK) {
+            kybernetien.bewerteEineStrategie(deserial);
+            printResult(kybernetien);
+        }
+
     }
 
     private static void printResult(Kybernetien sim) {
@@ -58,5 +72,19 @@ public class NeuronalTest {
         logger.info("Bevoelkerung: " + sim.getBevoelkerung());
         logger.info("Politik: " + sim.getPolitik());
         logger.info("Bilanz: " + sim.getGesamtbilanz());
+    }
+
+    public List<Kybernetien> genListOfKypernetien() {
+        List<Kybernetien> listOfKybernetien = new ArrayList<Kybernetien>();
+        listOfKybernetien.add(new Kybernetien(8, 1, 12, 13, 4, 10, 20, 21, 0));
+        // listOfKybernetien.add(new Kybernetien(2, 2, 6, 13, 3, 12, 14, 21,
+        // 6));
+        // listOfKybernetien.add(new Kybernetien(2, 4, 7, 6, 6, 7, 16, 15, 5));
+        // listOfKybernetien.add(new Kybernetien(3, 4, 7, 6, 6, 4, 12, 15, 6));
+        // listOfKybernetien.add(new Kybernetien(10, 6, 10, 8, 10, 8, 13, 22,
+        // 3));
+        // listOfKybernetien.add(new Kybernetien(12, 5, 10, 9, 10, 7, 13, 20,
+        // 3));
+        return listOfKybernetien;
     }
 }
