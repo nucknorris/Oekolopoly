@@ -7,8 +7,6 @@ import java.util.List;
 import okoelopoly.Individuum;
 import okoelopoly.Punktverteilung;
 
-import org.apache.log4j.Logger;
-
 /**
  * @author Sebastian Nuck
  * 
@@ -18,6 +16,7 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
         Comparable<SnuckIndividuum> {
 
     private static final long serialVersionUID = 1766633117460198061L;
+    private static final int HIDDEN_LAYER_NEURONS = 10;
     private double weights[][];
     private double thresholds[][];
     private double lq; // 0 Lebensqualitaet
@@ -79,8 +78,9 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
         // logger.info("\n ");
 
         ArrayList<Neuron> inputLayerNeurons = initInputNeurons();
-        ArrayList<Neuron> hiddenLayerNeurons = initHiddenLayer(inputLayerNeurons);
-        ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayerNeurons);
+        ArrayList<Neuron> hiddenLayer1Neurons = initHiddenLayer(inputLayerNeurons, 1);
+        ArrayList<Neuron> hiddenLayer2Neurons = initHiddenLayer(hiddenLayer1Neurons, 2);
+        ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayer2Neurons);
         double sum = 0.0;
 
         // sum everyting except investment
@@ -154,12 +154,12 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
 
     private ArrayList<Neuron> initOutputLayer(ArrayList<Neuron> inputNeurons) {
         ArrayList<Neuron> outputLayerNeurons = new ArrayList<Neuron>();
-        Neuron n0 = new Neuron(weights[2][0], thresholds[2][0], inputNeurons);
-        Neuron n1 = new Neuron(weights[2][1], thresholds[2][1], inputNeurons);
-        Neuron n2 = new Neuron(weights[2][2], thresholds[2][2], inputNeurons, true);
-        Neuron n3 = new Neuron(weights[2][3], thresholds[2][3], inputNeurons);
-        Neuron n4 = new Neuron(weights[2][4], thresholds[2][4], inputNeurons);
-        Neuron n5 = new Neuron(weights[2][5], thresholds[2][5], inputNeurons, true);
+        Neuron n0 = new Neuron(weights[3][0], thresholds[3][0], inputNeurons);
+        Neuron n1 = new Neuron(weights[3][1], thresholds[3][1], inputNeurons);
+        Neuron n2 = new Neuron(weights[3][2], thresholds[3][2], inputNeurons, true);
+        Neuron n3 = new Neuron(weights[3][3], thresholds[3][3], inputNeurons);
+        Neuron n4 = new Neuron(weights[3][4], thresholds[3][4], inputNeurons);
+        Neuron n5 = new Neuron(weights[3][5], thresholds[3][5], inputNeurons, true);
         // true);
 
         outputLayerNeurons.add(n0);
@@ -176,35 +176,15 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
      * 
      * @param inputNeurons
      */
-    private ArrayList<Neuron> initHiddenLayer(ArrayList<Neuron> inputNeurons) {
+    private ArrayList<Neuron> initHiddenLayer(ArrayList<Neuron> inputNeurons, int level) {
         ArrayList<Neuron> hiddenLayerNeurons = new ArrayList<Neuron>();
-        Neuron n0 = new Neuron(weights[1][0], thresholds[1][0], inputNeurons);
-        Neuron n1 = new Neuron(weights[1][1], thresholds[1][1], inputNeurons);
-        Neuron n2 = new Neuron(weights[1][2], thresholds[1][2], inputNeurons);
-        Neuron n3 = new Neuron(weights[1][3], thresholds[1][3], inputNeurons);
-        Neuron n4 = new Neuron(weights[1][4], thresholds[1][4], inputNeurons);
-        Neuron n5 = new Neuron(weights[1][5], thresholds[1][5], inputNeurons);
-        Neuron n6 = new Neuron(weights[1][6], thresholds[1][6], inputNeurons);
-        Neuron n7 = new Neuron(weights[1][7], thresholds[1][7], inputNeurons);
-        Neuron n8 = new Neuron(weights[1][8], thresholds[1][8], inputNeurons);
-        Neuron n9 = new Neuron(weights[1][9], thresholds[1][9], inputNeurons);
 
-        hiddenLayerNeurons.add(n0);
-        hiddenLayerNeurons.add(n1);
-        hiddenLayerNeurons.add(n2);
-        hiddenLayerNeurons.add(n3);
-        hiddenLayerNeurons.add(n4);
-        hiddenLayerNeurons.add(n5);
-        hiddenLayerNeurons.add(n6);
-        hiddenLayerNeurons.add(n7);
-        hiddenLayerNeurons.add(n8);
-        hiddenLayerNeurons.add(n9);
+        for (int i = 0; i < HIDDEN_LAYER_NEURONS; i++) {
+            hiddenLayerNeurons.add(new Neuron(weights[level][i], thresholds[level][i],
+                    inputNeurons));
+        }
         return hiddenLayerNeurons;
     }
-
-    // public int compareTo(SnuckIndividuum ind) {
-    // return 1;
-    // }
 
     public class Neuron {
         private List<Neuron> inputs;

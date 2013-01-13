@@ -11,7 +11,7 @@ import okoelopoly.Kybernetien;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-import ea.EvolutionaryAlgorithm;
+import ea.EvoAlg;
 
 public class NeuronalTest {
 
@@ -21,9 +21,8 @@ public class NeuronalTest {
     @Test
     public void startTest() {
 
-        EvolutionaryAlgorithm ea = new EvolutionaryAlgorithm();
+        EvoAlg ea = new EvoAlg();
         filename = ea.run();
-        // filename = "30.02013-01-1316:56:45.488_5";
         logger.info("filename: " + filename);
         if (filename != null) {
             deserialize();
@@ -58,7 +57,6 @@ public class NeuronalTest {
             kybernetien.bewerteEineStrategie(deserial);
             printResult(kybernetien);
         }
-
     }
 
     private static void printResult(Kybernetien sim) {
@@ -77,14 +75,13 @@ public class NeuronalTest {
     public List<Kybernetien> genListOfKypernetien() {
         List<Kybernetien> listOfKybernetien = new ArrayList<Kybernetien>();
         listOfKybernetien.add(new Kybernetien(8, 1, 12, 13, 4, 10, 20, 21, 0));
-        // listOfKybernetien.add(new Kybernetien(2, 2, 6, 13, 3, 12, 14, 21,
-        // 6));
-        // listOfKybernetien.add(new Kybernetien(2, 4, 7, 6, 6, 7, 16, 15, 5));
-        // listOfKybernetien.add(new Kybernetien(3, 4, 7, 6, 6, 4, 12, 15, 6));
-        // listOfKybernetien.add(new Kybernetien(10, 6, 10, 8, 10, 8, 13, 22,
-        // 3));
-        // listOfKybernetien.add(new Kybernetien(12, 5, 10, 9, 10, 7, 13, 20,
-        // 3));
+        listOfKybernetien.add(new Kybernetien(2, 2, 6, 13, 3, 12, 14, 21, 6));
+        listOfKybernetien.add(new Kybernetien(2, 4, 7, 6, 6, 7, 16, 15, 5));
+        listOfKybernetien.add(new Kybernetien(3, 4, 7, 6, 6, 4, 12, 15, 6));
+        listOfKybernetien.add(new Kybernetien(10, 6, 10, 8, 10, 8, 13, 22,
+                3));
+        listOfKybernetien.add(new Kybernetien(12, 5, 10, 9, 10, 7, 13, 20,
+                3));
         return listOfKybernetien;
     }
 }

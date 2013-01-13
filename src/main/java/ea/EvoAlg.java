@@ -14,26 +14,30 @@ import okoelopoly.Kybernetien;
 
 import org.apache.log4j.Logger;
 
-public class EvolutionaryAlgorithm {
+public class EvoAlg {
 
-    private static Logger logger = Logger.getLogger(EvolutionaryAlgorithm.class);
+    private static Logger logger = Logger.getLogger(EvoAlg.class);
     private static final String timestamp = new Timestamp(new Date().getTime()).toString()
             .replaceAll("\\s", "");
 
     private static final int TERMINATION_CONDITION = 30;
-    private static final int POPULATION_SIZE = 10;
+    private static final int POPULATION_SIZE = 100;
     private static final int MAX_ITERATIONS = 5000;
-    private static final int TERMINATION_LEVEL = 26;
+    private static final int TERMINATION_LEVEL = 28;
+
+    // number of neurons in hidden layer
+    private static final int HIDDEN_LAYER_NEURONS = 10;
 
     private int bestRounds; // stores the currently best number of rounds
     boolean isTerminated = false;
 
-    int iteration = 0;
+    private int iteration = 0;
+    private int globalIteration = 0;
     private String filename;
     private List<Kybernetien> listOfKybernetien;
     private Random random;
 
-    public EvolutionaryAlgorithm() {
+    public EvoAlg() {
         random = new Random();
     }
 
@@ -48,11 +52,11 @@ public class EvolutionaryAlgorithm {
         List<SnuckIndividuum> currentPop = new ArrayList<SnuckIndividuum>();
 
         // filling the strategy parameters with start values
-        weightsSParams = Util.generateStartWeightStrategyParameters();
-        thresholdsSParams = Util.generateStartThresholdStrategyParameters();
+        weightsSParams = Util.genStartWeightStrategyParams();
+        thresholdsSParams = Util.genStartThresholdStrategyParams();
 
         // populating the start population with random values
-        currentPop = populateStartPopulation(currentPop);
+        currentPop = populateStartPop(currentPop);
 
         logger.info("\nstart");
 
@@ -64,10 +68,13 @@ public class EvolutionaryAlgorithm {
                 // values.
                 if (iteration > MAX_ITERATIONS && bestRounds < TERMINATION_LEVEL) {
                     logger.info("NO BEST RESULT FOUND, RESTARTING (" + bestRounds + ")");
-                    weightsSParams = Util.generateRandomWeights(random);
-                    thresholdsSParams = Util.generateRandomThresholds(random);
+                    weightsSParams = Util.genStartWeightStrategyParams();
+                    thresholdsSParams =
+                            Util.genStartThresholdStrategyParams();
+                    // weightsSParams = Util.genRndWeights(random);
+                    // thresholdsSParams = Util.genRndThresholds(random);
                     currentPop.clear();
-                    currentPop = populateStartPopulation(currentPop);
+                    currentPop = populateStartPop(currentPop);
                     iteration = 0;
                     random = new Random();
                 }
@@ -84,7 +91,9 @@ public class EvolutionaryAlgorithm {
             // new population. afterwards it will select the best elements to be
             // the new start/current population.
             currentPop = Selector.mergeAndSelectBest(currentPop, newPop, POPULATION_SIZE);
+
             iteration++;
+            globalIteration++;
         }
         return filename;
 
@@ -97,13 +106,13 @@ public class EvolutionaryAlgorithm {
      * @param startPopulation
      * @return
      */
-    private List<SnuckIndividuum> populateStartPopulation(
-            List<SnuckIndividuum> startPopulation) {
+    private List<SnuckIndividuum> populateStartPop(List<SnuckIndividuum> startPopulation) {
         List<SnuckIndividuum> list = new ArrayList<SnuckIndividuum>();
+
         for (int i = 0; i < POPULATION_SIZE; i++) {
             SnuckIndividuum ind = new SnuckIndividuum();
-            ind.setWeights(Util.generateRandomWeights(random));
-            ind.setThresholds(Util.generateRandomThresholds(random));
+            ind.setWeights(Util.genRndWeights(random));
+            ind.setThresholds(Util.genRndThresholds(random));
             ind.setResult(runLifecycle(ind));
             list.add(ind);
         }
@@ -137,14 +146,13 @@ public class EvolutionaryAlgorithm {
     public List<Kybernetien> genListOfKypernetien() {
         List<Kybernetien> listOfKybernetien = new ArrayList<Kybernetien>();
         listOfKybernetien.add(new Kybernetien(8, 1, 12, 13, 4, 10, 20, 21, 0));
-        // listOfKybernetien.add(new Kybernetien(2, 2, 6, 13, 3, 12, 14, 21,
-        // 6));
-        // listOfKybernetien.add(new Kybernetien(2, 4, 7, 6, 6, 7, 16, 15, 5));
-        // listOfKybernetien.add(new Kybernetien(3, 4, 7, 6, 6, 4, 12, 15, 6));
-        // listOfKybernetien.add(new Kybernetien(10, 6, 10, 8, 10, 8, 13, 22,
-        // 3));
-        // listOfKybernetien.add(new Kybernetien(12, 5, 10, 9, 10, 7, 13, 20,
-        // 3));
+        listOfKybernetien.add(new Kybernetien(2, 2, 6, 13, 3, 12, 14, 21, 6));
+        listOfKybernetien.add(new Kybernetien(2, 4, 7, 6, 6, 7, 16, 15, 5));
+        listOfKybernetien.add(new Kybernetien(3, 4, 7, 6, 6, 4, 12, 15, 6));
+        listOfKybernetien.add(new Kybernetien(10, 6, 10, 8, 10, 8, 13, 22,
+                3));
+        listOfKybernetien.add(new Kybernetien(12, 5, 10, 9, 10, 7, 13, 20,
+                3));
         return listOfKybernetien;
     }
 
@@ -174,7 +182,7 @@ public class EvolutionaryAlgorithm {
             newInd.setResult(result);
             if (result > bestRounds) {
                 bestRounds = result;
-                logger.info("new best round found: " + bestRounds);
+                logger.info("new best round found: " + bestRounds + ",(" + globalIteration + ")");
             }
             if (result == TERMINATION_CONDITION) {
                 writeToFile(newInd);
@@ -210,6 +218,9 @@ public class EvolutionaryAlgorithm {
 
     }
 
+    /**
+     * @param kybernetien
+     */
     public void printResult(Kybernetien kybernetien) {
         logger.info("\n#### Auswertung #### \nRundenzahl: " + kybernetien.getRundenzahl());
         logger.info("Sanierung: " + kybernetien.getSanierung());
@@ -223,16 +234,8 @@ public class EvolutionaryAlgorithm {
         logger.info("Bilanz: " + kybernetien.getGesamtbilanz());
     }
 
-    // public SnuckIndividuum getStartInd() {
-    // return currentInd;
-    // }
-
-    // public double getResult() {
-    // return result;
-    // }
-
-    // public double getRundenzahl() {
-    // return this.sim.getRundenzahl();
-    // }
+    public static int getHiddenLayerNeurons() {
+        return HIDDEN_LAYER_NEURONS;
+    }
 
 }

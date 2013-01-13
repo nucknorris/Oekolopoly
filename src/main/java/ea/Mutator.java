@@ -7,6 +7,9 @@ import org.apache.log4j.Logger;
 public class Mutator {
     private static Logger logger = Logger.getLogger(Mutator.class);
 
+    private static final double ALPHA = 0.1;
+    private static final double EPSILON = 0.00001;
+
     private double[][] weights;
     private double[][] thresholds;
     private double[][] weightsStrategyParams;
@@ -17,8 +20,6 @@ public class Mutator {
     private double[][] newWeightsStrategyParams;
     private double[][] newThresholdsStrategyParams;
 
-    private static final double ALPHA = 0.1;
-    private static final double EPSILON = 0.00001;
     private Random random = new Random();
 
     public Mutator(double[][] weights, double[][] thresholds, double[][] weightsStrategyParams,
@@ -30,12 +31,12 @@ public class Mutator {
     }
 
     void runSelfAdaptiveEpMutation() {
-        newWeights = new double[3][10];
-        newThresholds = new double[3][10];
-        newWeightsStrategyParams = new double[3][10];
-        newThresholdsStrategyParams = new double[3][10];
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 10; j++) {
+        newWeights = new double[4][EvoAlg.getHiddenLayerNeurons()];
+        newThresholds = new double[4][EvoAlg.getHiddenLayerNeurons()];
+        newWeightsStrategyParams = new double[4][EvoAlg.getHiddenLayerNeurons()];
+        newThresholdsStrategyParams = new double[4][EvoAlg.getHiddenLayerNeurons()];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < EvoAlg.getHiddenLayerNeurons(); j++) {
                 mutateWeights(i, j);
                 mutateThresholds(i, j);
             }
@@ -59,32 +60,6 @@ public class Mutator {
 
         newWeights[i][j] = bG;
         newWeightsStrategyParams[i][j] = bS;
-
-        // double uAlphaWeights = random.nextGaussian() *
-        // weightsStrategyParams[i][j] * ALPHA;
-        // double uWeights = random.nextGaussian() *
-        // weightsStrategyParams[i][j];
-        // double uAlphaThresholds = random.nextGaussian() *
-        // tresholdsStrategyParams[i][j] * ALPHA;
-        // double uThresholds = random.nextGaussian() *
-        // tresholdsStrategyParams[i][j];
-        //
-        // weights[i][j] += uWeights;
-        // thresholds[i][j] += uThresholds;
-        //
-        // double weightsStrategyParam = Math.max((weightsStrategyParams[i][j] +
-        // uAlphaWeights),
-        // EPSILON);
-        // double tresholdsStrategyParam = Math.max(
-        // (tresholdsStrategyParams[i][j] + uAlphaThresholds), EPSILON);
-        //
-        // weightsStrategyParams[i][j] = weightsStrategyParam;
-        // tresholdsStrategyParams[i][j] = tresholdsStrategyParam;
-        //
-        // // logger.info("weights[i][j]: " + weights[i][j] +
-        // // ", thresholds[i][j]: "
-        // // + thresholds[i][j]);
-
     }
 
     private void mutateThresholds(int i, int j) {
