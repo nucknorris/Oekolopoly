@@ -18,8 +18,9 @@ public class Testprogramm {
      */
     public static void main(String[] args) {
         Kybernetien sim = new Kybernetien(8, 1, 12, 13, 4, 10, 20, 21, 0);
-        SnuckIndividuumNeuronal ind = new SnuckIndividuumNeuronal();
+        // SnuckIndividuumNeuronal ind = new SnuckIndividuumNeuronal();
         // Oplewnia ind = new Oplewnia(0.1, 0.1, 0.1, 0.2, 0.1);
+        MeinIndividuum ind = new MeinIndividuum(0.1, 0.1, 0.1, 0.1, 0.1);
         sim.bewerteEineStrategie(ind);
         printResult(sim);
 
@@ -39,13 +40,13 @@ public class Testprogramm {
 
         // Wieder einlesen
         logger.info("Strategie wieder einlesen ...");
-        SnuckIndividuumNeuronal deserial = null;
+        MeinIndividuum deserial = null;
         try
         {
             FileInputStream fileIn =
                     new FileInputStream("meinlogin.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
-            deserial = (SnuckIndividuumNeuronal) in.readObject();
+            deserial = (MeinIndividuum) in.readObject();
             in.close();
             fileIn.close();
         } catch (IOException i)

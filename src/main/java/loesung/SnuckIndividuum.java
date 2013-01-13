@@ -1,249 +1,287 @@
 package loesung;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import okoelopoly.Individuum;
 import okoelopoly.Punktverteilung;
 
-import org.apache.log4j.Logger;
-
 /**
- * @author sebastian
+ * @author Sebastian Nuck
  * 
  */
 
-public class SnuckIndividuum implements Individuum, Serializable {
+public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
+        Comparable<SnuckIndividuum> {
 
-    public enum StrategyValue {
-        AU("au"), LQ("lq"), PR("pr"), SA("sa"), VR("vr");
-        private String name;
-
-        private StrategyValue(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
-    };
-
-    private static final long serialVersionUID = 1169885659413200081L;
-    private double au; // Aufklaerung
-    private double lq; // Lebensqualitaet
-    private double pr; // Produktion
-    private double sa; // Sanierung
-    private double vr; // Vermehrungsrate
-
-    private boolean ueberproduktion = false;
-
-    /*
-     * Target values
+    /**
+     * 
      */
-    private static final double AU_TARGET = 5; // 15;
-    private static final double LQ_TARGET = 15; // 29;
-    private static final double PR_TARGET = 15; // 15;
-    private static final double SA_TARGET = 20; // 29;
-    private static final double VR_TARGET = 5; // 15;
+    private static final long serialVersionUID = 1766633117460198061L;
+    private double weights[][];
+    private double thresholds[][];
+    private double lq; // 0 Lebensqualitaet
+    private double au; // 1 Aufklaerung
+    private double pr; // 2 Produktion
+    private double sa; // 3 Sanierung
+    private double vr; // 4 Vermehrungsrate
+    private double ub; // 5 Umweltbelastung
+    private double bv; // 6 Bevšlkerung
+    private double po; // 7 Politik
+    private double ap; // 8 Aktionspunkte
 
-    private static final double AU_UPPER_BOUND = 25;
-    private static final double LQ_UPPER_BOUND = 22;
-    private static final double PR_UPPER_BOUND = 27;
-    private static final double SA_UPPER_BOUND = 22;
-    private static final double VR_UPPER_BOUND = 22;
+    private double lqPart; // 0 Lebensqualitaet
+    private double auPart; // 1 Aufklaerung
+    private double prPart; // 2 Produktion
+    private double saPart; // 3 Sanierung
+    private double vrPart; // 4 Vermehrungsrate
+    private double gvrPart; // 5 gegen Produktion
 
-    private Punktverteilung sim;
-    private static double ap;
+    private double result;
 
-    private static Logger logger = Logger.getLogger(SnuckIndividuum.class);
+    public double getResult() {
+        return result;
+    }
 
-    public SnuckIndividuum(double au, double lq, double pr, double sa, double vr) {
-        this.au = au;
-        this.lq = lq;
-        this.pr = pr;
-        this.sa = sa;
-        this.vr = vr;
+    public void setResult(double result) {
+        this.result = result;
+    }
+
+    public SnuckIndividuum() {
     }
 
     @Override
+    public SnuckIndividuum clone() {
+        try {
+            return (SnuckIndividuum) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+
+    public double[][] getWeights() {
+        return weights;
+    }
+
+    public void setWeights(double[][] weights) {
+        this.weights = weights;
+    }
+
+    public double[][] getThresholds() {
+        return thresholds;
+    }
+
+    public void setThresholds(double[][] thresholds) {
+        this.thresholds = thresholds;
+    }
+
     public void wendeDieStrategieAn(Punktverteilung simulatorstatus) {
-        this.sim = simulatorstatus;
-        this.ap = sim.getAktionspunkte();
+        init(simulatorstatus);
+        // logger.info("\n ");
 
-        logger.info("\n ---- AP: " + ap + " ---- ");
-        print();
+        ArrayList<Neuron> inputLayerNeurons = initInputNeurons();
+        // for (Neuron neuron : inputLayerNeurons) {
+        // logger.info("i: " + neuron.getValue());
+        // }
+        ArrayList<Neuron> hiddenLayerNeurons = initHiddenLayer(inputLayerNeurons);
+        // for (Neuron neuron : hiddenLayerNeurons) {
+        // logger.info("h: " + neuron.getValue());
+        // }
+        ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayerNeurons);
+        double sum = 0.0;
 
-        Map<String, Double> distanceMap = buildDistanceMap();
-
-        distributeActionPointsAsRequiered(distanceMap);
-    }
-
-    private void distributeActionPointsAsRequiered(Map<String, Double> distanceMap) {
-        double totalValues = sumCurrentValues(distanceMap);
-        for (Map.Entry<String, Double> element : distanceMap.entrySet()) {
-            double proportion =
-                    (int) Math.round((((element.getValue() * 100.0f) / totalValues) * ap) / 100);
-            logger.info(element.getKey() + ":" + proportion);
-            investInAufklaerung(distanceMap.get("au").intValue());
-            investInLebensqualitaet(distanceMap.get("lq").intValue());
-            investInSanierung(distanceMap.get("sa").intValue());
-            if (ueberproduktion) {
-                investGegenProduktion((distanceMap.get("pr").intValue()) * -1);
-                ueberproduktion = false;
-            } else {
-                investInProduktion(distanceMap.get("pr").intValue());
-            }
-            investInVermehrungsrate(distanceMap.get("vr").intValue());
+        for (Neuron neuron : outputLayer) {
+            // logger.info("o: " + neuron.getValue());
+            sum += neuron.getValue();
         }
-    }
+        // logger.info("sum: " + sum);
 
-    private void investInAufklaerung(int investment) {
-        if (sim.getAufklaerung() <= AU_UPPER_BOUND) {
-            sim.investiereInAufklaerung(investment);
-        }
-    }
+        // logger.info("ap: " + ap);
+        lqPart = (outputLayer.get(0).getValue() / sum) * ap;
+        auPart = (outputLayer.get(1).getValue() / sum) * ap;
+        prPart = (outputLayer.get(2).getValue() / sum) * ap;
+        saPart = (outputLayer.get(3).getValue() / sum) * ap;
+        vrPart = (outputLayer.get(4).getValue() / sum) * ap;
+        gvrPart = (outputLayer.get(5).getValue() / sum) * ap;
 
-    private void investInLebensqualitaet(int investment) {
-        if (sim.getLebensqualitaet() <= LQ_UPPER_BOUND) {
-            sim.investiereInLebensqualitaet(investment);
-        }
-    }
+        // logger.info(lqPart + ", " + auPart + ", " + prPart + ", " + saPart +
+        // ", " + vrPart);
 
-    private void investInProduktion(int investment) {
-        if (sim.getProduktion() <= PR_UPPER_BOUND) {
-            sim.investiereInProduktion(investment);
-        }
-    }
+        simulatorstatus.investiereInLebensqualitaet((int) Math.round(lqPart));
+        simulatorstatus.investiereInAufklaerung((int) Math.round(auPart));
+        simulatorstatus.investiereInProduktion((int) Math.round(prPart));
+        simulatorstatus.investiereInSanierung((int) Math.round(saPart));
+        simulatorstatus.investiereInVermehrungsrate((int) Math.round(vrPart));
+        simulatorstatus.investiereGegenProduktion((int) Math.round(gvrPart));
 
-    private void investGegenProduktion(int investment) {
-        System.out.println("gegen");
-        sim.investiereGegenProduktion(investment);
-    }
-
-    private void investInSanierung(int investment) {
-        if (sim.getSanierung() <= SA_UPPER_BOUND) {
-            sim.investiereInSanierung(investment);
-        }
-    }
-
-    private void investInVermehrungsrate(int investment) {
-        int be = sim.getBevoelkerung();
-        if ((be >= 0) && (be <= 14)) {
-            sim.nutzeAufklaerungFuerBevoelkerungsWachstum(1);
-        } else if ((be >= 10) && (be <= 14)) {
-            sim.nutzeAufklaerungFuerBevoelkerungsWachstum(0.2);
-        } else if ((be >= 15) && (be <= 25)) {
-            sim.nutzeAufklaerungFuerBevoelkerungsWachstum(0);
-        } else if ((be >= 26) && (be <= 30)) {
-            sim.nutzeAufklaerungFuerBevoelkerungsWachstum(-0.5);
-        } else if (be >= 31) {
-            sim.nutzeAufklaerungFuerBevoelkerungsWachstum(-1);
-            System.out.println("!");
-
-        }
-        if (sim.getVermehrungsrate() <= VR_UPPER_BOUND) {
-            sim.investiereInVermehrungsrate(investment);
-        }
-    }
-
-    private double sumCurrentValues(Map<String, Double> distanceMap) {
-        int result = 0;
-        for (Map.Entry<String, Double> element : distanceMap.entrySet()) {
-            result += element.getValue();
-        }
-        return result;
     }
 
     /**
-     * Returns a sorted map containing all distances.
+     * @param simulatorstatus
      */
-    private Map<String, Double> buildDistanceMap() {
-        Map<String, Double> distanceMap = new HashMap<String, Double>();
-        distanceMap.put("au", calcDistance(sim.getAufklaerung(), AU_TARGET, false));
-        distanceMap.put("lq", calcDistance(sim.getLebensqualitaet(), LQ_TARGET, false));
-        distanceMap.put("pr", calcDistance(sim.getProduktion(), PR_TARGET, true));
-        distanceMap.put("sa", calcDistance(sim.getSanierung(), SA_TARGET, false));
-        distanceMap.put("vr", calcDistance(sim.getVermehrungsrate(), VR_TARGET, false));
-        return sortByValue(distanceMap);
+    private void init(Punktverteilung simulatorstatus) {
+        // this.simulatorstatus = simulatorstatus;
+        this.ap = simulatorstatus.getAktionspunkte();
+        this.au = simulatorstatus.getAufklaerung();
+        this.lq = simulatorstatus.getLebensqualitaet();
+        this.pr = simulatorstatus.getProduktion();
+        this.sa = simulatorstatus.getSanierung();
+        this.vr = simulatorstatus.getVermehrungsrate();
+        this.ub = simulatorstatus.getUmweltbelastung();
+        this.bv = simulatorstatus.getBevoelkerung();
+        this.po = simulatorstatus.getPolitik();
     }
 
     /**
-     * Calculates the distance between the value and the target value
-     * 
-     * @param value
-     * @param target
      * @return
      */
-    private Double calcDistance(int value, double target, boolean isProduktion) {
-        if (target > value) {
-            return target - value;
-        } else if (isProduktion) {
-            ueberproduktion = true;
-            System.out.println("ueberproduktion");
-            return target;
-        } else {
-            return 0.0;
-        }
+    private ArrayList<Neuron> initInputNeurons() {
+        Neuron lqInput = new Neuron(lq, weights[0][0]);
+        Neuron auInput = new Neuron(au, weights[0][1]);
+        Neuron prInput = new Neuron(pr, weights[0][2]);
+        Neuron saInput = new Neuron(sa, weights[0][3]);
+        Neuron vrInput = new Neuron(vr, weights[0][4]);
+        Neuron ubInput = new Neuron(ub, weights[0][5]);
+        Neuron bvInput = new Neuron(bv, weights[0][6]);
+        Neuron poInput = new Neuron(po, weights[0][7]);
+        Neuron apInput = new Neuron(ap, weights[0][8]);
+
+        ArrayList<Neuron> inputNeurons = new ArrayList<Neuron>();
+        inputNeurons.add(lqInput);
+        inputNeurons.add(auInput);
+        inputNeurons.add(prInput);
+        inputNeurons.add(saInput);
+        inputNeurons.add(vrInput);
+        inputNeurons.add(ubInput);
+        inputNeurons.add(bvInput);
+        inputNeurons.add(poInput);
+        inputNeurons.add(apInput);
+        return inputNeurons;
+    }
+
+    private ArrayList<Neuron> initOutputLayer(ArrayList<Neuron> inputNeurons) {
+        ArrayList<Neuron> outputLayerNeurons = new ArrayList<Neuron>();
+        Neuron n0 = new Neuron(weights[2][0], thresholds[2][0], inputNeurons);
+        Neuron n1 = new Neuron(weights[2][1], thresholds[2][1], inputNeurons);
+        Neuron n2 = new Neuron(weights[2][2], thresholds[2][2], inputNeurons);
+        Neuron n3 = new Neuron(weights[2][3], thresholds[2][3], inputNeurons);
+        Neuron n4 = new Neuron(weights[2][4], thresholds[2][4], inputNeurons);
+        Neuron n5 = new Neuron(weights[2][5], thresholds[2][5], inputNeurons);
+
+        outputLayerNeurons.add(n0);
+        outputLayerNeurons.add(n1);
+        outputLayerNeurons.add(n2);
+        outputLayerNeurons.add(n3);
+        outputLayerNeurons.add(n4);
+        outputLayerNeurons.add(n5);
+        return outputLayerNeurons;
     }
 
     /**
-     * Prints the output in a human readably format.
-     */
-    private void print() {
-        StringBuilder output = new StringBuilder();
-
-        output.append(String.format("investments: au:%s \t lq:%s \t pr:%s \t sa:%s \t vr:%s",
-                au, lq, pr, sa, vr));
-        logger.info(output.toString());
-
-        output.setLength(0);
-
-        output.append(String
-                .format("results    : au:%s \t lq:%s \t\t pr:%s \t\t sa:%s \t\t vr:%s",
-                        sim.getAufklaerung(), sim.getLebensqualitaet(),
-                        sim.getProduktion(), sim.getSanierung(),
-                        sim.getVermehrungsrate()));
-        logger.info(output.toString());
-
-        output.setLength(0);
-
-        output.append(String
-                .format("other      : um:%s \t be:%s \t\t po:%s",
-                        sim.getUmweltbelastung(), sim.getBevoelkerung(), sim.getPolitik()));
-        logger.info(output.toString());
-    }
-
-    /**
-     * Sorts a generic map by its value.
+     * Inits the hidden layer with weights, thresholds and inputNeurons;
      * 
-     * @param map
-     * @return
+     * @param inputNeurons
      */
-    public static <K, V extends Comparable<? super V>> Map<K, V>
-            sortByValue(Map<K, V> map)
-    {
-        List<Map.Entry<K, V>> list =
-                new LinkedList<Map.Entry<K, V>>(map.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<K, V>>()
-        {
-            public int compare(Map.Entry<K, V> o1, Map.Entry<K, V> o2)
-            {
-                return (o1.getValue()).compareTo(o2.getValue());
-            }
-        });
+    private ArrayList<Neuron> initHiddenLayer(ArrayList<Neuron> inputNeurons) {
+        ArrayList<Neuron> hiddenLayerNeurons = new ArrayList<Neuron>();
+        Neuron n0 = new Neuron(weights[1][0], thresholds[1][0], inputNeurons);
+        Neuron n1 = new Neuron(weights[1][1], thresholds[1][1], inputNeurons);
+        Neuron n2 = new Neuron(weights[1][2], thresholds[1][2], inputNeurons);
+        Neuron n3 = new Neuron(weights[1][3], thresholds[1][3], inputNeurons);
+        Neuron n4 = new Neuron(weights[1][4], thresholds[1][4], inputNeurons);
+        Neuron n5 = new Neuron(weights[1][5], thresholds[1][5], inputNeurons);
+        Neuron n6 = new Neuron(weights[1][6], thresholds[1][6], inputNeurons);
+        Neuron n7 = new Neuron(weights[1][7], thresholds[1][7], inputNeurons);
+        Neuron n8 = new Neuron(weights[1][8], thresholds[1][8], inputNeurons);
+        Neuron n9 = new Neuron(weights[1][9], thresholds[1][9], inputNeurons);
 
-        Map<K, V> result = new LinkedHashMap<K, V>();
-        for (Map.Entry<K, V> entry : list)
-        {
-            result.put(entry.getKey(), entry.getValue());
-        }
-        return result;
+        hiddenLayerNeurons.add(n0);
+        hiddenLayerNeurons.add(n1);
+        hiddenLayerNeurons.add(n2);
+        hiddenLayerNeurons.add(n3);
+        hiddenLayerNeurons.add(n4);
+        hiddenLayerNeurons.add(n5);
+        hiddenLayerNeurons.add(n6);
+        hiddenLayerNeurons.add(n7);
+        hiddenLayerNeurons.add(n8);
+        hiddenLayerNeurons.add(n9);
+        return hiddenLayerNeurons;
     }
 
+    // public int compareTo(SnuckIndividuum ind) {
+    // return 1;
+    // }
+
+    public class Neuron {
+        private List<Neuron> inputs;
+        private double weight;
+        private double threshold;
+        private double value;
+
+        public Neuron(double weight, double value) {
+            this.weight = weight;
+            this.value = value;
+            this.inputs = new ArrayList<Neuron>();
+        }
+
+        public Neuron(double weight, double threshold, List<Neuron> inputs) {
+            this.weight = weight;
+            this.threshold = threshold;
+            this.inputs = inputs;
+            calc();
+        }
+
+        private void calc() {
+            double sum = 0.0;
+            for (Neuron n : inputs) {
+                sum += n.getWeight() * n.getValue();
+            }
+            sum = sum - threshold;
+            this.value = sigmoid(sum);
+        }
+
+        public double sigmoid(double x) {
+            return 1 / (1 + Math.exp(-x));
+        }
+
+        public double getThreshold() {
+            return threshold;
+        }
+
+        public double getWeight() {
+            return weight;
+        }
+
+        public double getValue() {
+            return value;
+        }
+
+        public void setValue(double value) {
+            this.value = value;
+        }
+
+        public void setThreshold(double threshold) {
+            this.threshold = threshold;
+        }
+
+        public void setWeight(double newWeight) {
+            weight = newWeight;
+        }
+
+        public void connect(Neuron... ns) {
+            for (Neuron n : ns)
+                inputs.add(n);
+        }
+
+        public void connect(ArrayList<Neuron> inputs) {
+            this.inputs = inputs;
+        }
+
+    }
+
+    @Override
+    public int compareTo(SnuckIndividuum ind) {
+        return ind.getResult() > result ? 1 : (ind.getResult() == result ? 0 : -1);
+    }
 }
