@@ -14,8 +14,8 @@ public class Mutator {
 	private double[][] newWeightsStratParameters;
 	private double[][] newThresholdsStratParameters;
 
-	private static final double ALPHA = 0.1;
-	private static final double EPSILON = 0.00001;
+	private static final double ALPHA = EvoAlg.getAlpha();
+	private static final double EPSILON = EvoAlg.getEpsilon();
 	private final Random random = new Random();
 
 	public Mutator(double[][] weights, double[][] thresholds,
@@ -28,11 +28,11 @@ public class Mutator {
 	}
 
 	void runMutation() {
-		newWeights = new double[3][10];
-		newThresholds = new double[3][10];
-		newWeightsStratParameters = new double[3][10];
-		newThresholdsStratParameters = new double[3][10];
-		for (int i = 0; i < 3; i++) {
+		newWeights = new double[EvoAlg.getLayer()][10];
+		newThresholds = new double[EvoAlg.getLayer()][10];
+		newWeightsStratParameters = new double[EvoAlg.getLayer()][10];
+		newThresholdsStratParameters = new double[EvoAlg.getLayer()][10];
+		for (int i = 0; i < EvoAlg.getLayer(); i++) {
 			for (int j = 0; j < 10; j++) {
 				mutateWeights(i, j);
 				mutateThresholds(i, j);

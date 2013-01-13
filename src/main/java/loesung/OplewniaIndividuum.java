@@ -25,7 +25,7 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 	private double sa; // 3 Sanierung
 	private double vr; // 4 Vermehrungsrate
 	private double ub; // 5 Umweltbelastung
-	private double bv; // 6 Bev�lkerung
+	private double bv; // 6 Bevoelkerung
 	private double po; // 7 Politik
 	private double ap; // 8 Aktionspunkte
 
@@ -74,12 +74,15 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 	}
 
 	@Override
-	public void wendeDieStrategieAn(Punktverteilung simulatorstatus) {
-		init(simulatorstatus);
+	public void wendeDieStrategieAn(Punktverteilung simu) {
+		init(simu);
 
 		ArrayList<Neuron> inputLayerNeurons = initInputNeurons();
-		ArrayList<Neuron> hiddenLayerNeurons = initHiddenLayer(inputLayerNeurons);
-		ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayerNeurons);
+		ArrayList<Neuron> hiddenLayerNeuronsOne = initHiddenLayer(
+				inputLayerNeurons, 1);
+		ArrayList<Neuron> hiddenLayerNeuronsTwo = initHiddenLayer(
+				hiddenLayerNeuronsOne, 2);
+		ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayerNeuronsTwo);
 		double sum = 0.0;
 
 		for (int i = 0; i < 5; i++) {
@@ -93,18 +96,18 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 		saPart = (outputLayer.get(3).getValue() / sum) * ap;
 		vrPart = (outputLayer.get(4).getValue() / sum) * ap;
 
-		simulatorstatus.investiereInLebensqualitaet((int) Math.round(lqPart));
-		simulatorstatus.investiereInAufklaerung((int) Math.round(auPart));
+		simu.investiereInLebensqualitaet((int) Math.round(lqPart));
+		simu.investiereInAufklaerung((int) Math.round(auPart));
 		if (production > 0) {
-			simulatorstatus.investiereInProduktion((int) Math.round(prPart));
+			simu.investiereInProduktion((int) Math.round(prPart));
 		} else {
-			simulatorstatus.investiereGegenProduktion((int) Math.round(prPart));
+			simu.investiereGegenProduktion((int) Math.round(prPart));
 		}
-		simulatorstatus.investiereInSanierung((int) Math.round(saPart));
-		simulatorstatus.investiereInVermehrungsrate((int) Math.round(vrPart));
+		simu.investiereInSanierung((int) Math.round(saPart));
+		simu.investiereInVermehrungsrate((int) Math.round(vrPart));
 
-		simulatorstatus.nutzeAufklaerungFuerBevoelkerungsWachstum(outputLayer
-				.get(5).getValue());
+		simu.nutzeAufklaerungFuerBevoelkerungsWachstum(outputLayer.get(5)
+				.getValue());
 
 	}
 
@@ -112,7 +115,7 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 	 * @param simulatorstatus
 	 */
 	private void init(Punktverteilung simulatorstatus) {
-		// this.simulatorstatus = simulatorstatus;
+
 		this.ap = simulatorstatus.getAktionspunkte();
 		this.au = simulatorstatus.getAufklaerung();
 		this.lq = simulatorstatus.getLebensqualitaet();
@@ -175,20 +178,20 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 	/**
 	 * Inits the hidden layer with weights, thresholds and inputNeurons;
 	 * 
-	 * @param inputNeurons
+	 * @param iN
 	 */
-	private ArrayList<Neuron> initHiddenLayer(ArrayList<Neuron> inputNeurons) {
+	private ArrayList<Neuron> initHiddenLayer(ArrayList<Neuron> iN, int layer) {
 		ArrayList<Neuron> hiddenLayerNeurons = new ArrayList<Neuron>();
-		Neuron n0 = new Neuron(weights[1][0], thresholds[1][0], inputNeurons);
-		Neuron n1 = new Neuron(weights[1][1], thresholds[1][1], inputNeurons);
-		Neuron n2 = new Neuron(weights[1][2], thresholds[1][2], inputNeurons);
-		Neuron n3 = new Neuron(weights[1][3], thresholds[1][3], inputNeurons);
-		Neuron n4 = new Neuron(weights[1][4], thresholds[1][4], inputNeurons);
-		Neuron n5 = new Neuron(weights[1][5], thresholds[1][5], inputNeurons);
-		Neuron n6 = new Neuron(weights[1][6], thresholds[1][6], inputNeurons);
-		Neuron n7 = new Neuron(weights[1][7], thresholds[1][7], inputNeurons);
-		Neuron n8 = new Neuron(weights[1][8], thresholds[1][8], inputNeurons);
-		Neuron n9 = new Neuron(weights[1][9], thresholds[1][9], inputNeurons);
+		Neuron n0 = new Neuron(weights[layer][0], thresholds[layer][0], iN);
+		Neuron n1 = new Neuron(weights[layer][1], thresholds[layer][1], iN);
+		Neuron n2 = new Neuron(weights[layer][2], thresholds[layer][2], iN);
+		Neuron n3 = new Neuron(weights[layer][3], thresholds[layer][3], iN);
+		Neuron n4 = new Neuron(weights[layer][4], thresholds[layer][4], iN);
+		Neuron n5 = new Neuron(weights[layer][5], thresholds[layer][5], iN);
+		Neuron n6 = new Neuron(weights[layer][6], thresholds[layer][6], iN);
+		Neuron n7 = new Neuron(weights[layer][7], thresholds[layer][7], iN);
+		Neuron n8 = new Neuron(weights[layer][8], thresholds[layer][8], iN);
+		Neuron n9 = new Neuron(weights[layer][9], thresholds[layer][9], iN);
 
 		hiddenLayerNeurons.add(n0);
 		hiddenLayerNeurons.add(n1);

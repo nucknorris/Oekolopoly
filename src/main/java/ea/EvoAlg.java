@@ -20,15 +20,18 @@ public class EvoAlg {
 	private static final String timestamp = new Timestamp(new Date().getTime())
 			.toString().replaceAll("\\s", "_");
 
-	private static final int TERMINATION_CONDITION = 30;
+	private static final int TERMINATION_ROUND = 30;
 	private static final int POPULATION_SIZE = 100;
-	private static final int MAX_ITERATIONS = 5000;
-	private static final int TERMINATION_LEVEL = 15;
+	private static final int MAX_GENERATION = 5000;
+	private static final int NOT_TERMINATION_OVER = 24;
+	private static final int LAYER = 4;
+	private static final double ALPHA = 0.1;
+	private static final double EPSILON = 0.00001;
 
 	private int bestRounds;
 	boolean isTerminated = false;
 
-	int iteration = 0;
+	int generation = 0;
 	private String filename;
 	private List<Kybernetien> listOfKybernetien;
 	private Random random;
@@ -43,8 +46,8 @@ public class EvoAlg {
 	 * @return
 	 */
 	public String run() {
-		double[][] weightsSParams; // strategic parameters for weights
-		double[][] thresholdsSParams; // strategic parameters for thresholds
+		double[][] weightsSParams; // strat parameters for weights
+		double[][] thresholdsSParams; // strat parameters for thresholds
 		List<OplewniaIndividuum> currentPop = new ArrayList<OplewniaIndividuum>();
 
 		// filling the strategy parameters with start values
@@ -57,23 +60,23 @@ public class EvoAlg {
 		logger.info("#### ALGO START");
 
 		while (!isTerminated) {
-			if (iteration % 1000 == 0) {
+			if (generation % 1000 == 0) {
 
 				/*
 				 * look while round 30 or max iteration reached
 				 */
-				if (iteration > MAX_ITERATIONS
-						&& bestRounds < TERMINATION_LEVEL) {
-					logger.info("## ALGO RESTART");
+				if (generation > MAX_GENERATION
+						&& bestRounds < NOT_TERMINATION_OVER) {
+					logger.info("## ALGO RESTART AFTER" + generation);
 					weightsSParams = Util.genRndWeights(random);
 					thresholdsSParams = Util.genRndThresholds(random);
 					currentPop.clear();
 					currentPop = genStartPopulation(currentPop);
-					iteration = 0;
+					generation = 0;
 					random = new Random();
 				}
 
-				logger.info("## I am at : iteration: " + iteration);
+				logger.info("## I am at Generation: " + generation);
 			}
 
 			// initial a list of all test cases
@@ -82,7 +85,7 @@ public class EvoAlg {
 
 			currentPop = Selector.mergeAndSelectBest(currentPop, newPop,
 					POPULATION_SIZE);
-			iteration++;
+			generation++;
 		}
 		return filename;
 
@@ -132,20 +135,17 @@ public class EvoAlg {
 	public List<Kybernetien> genListOfKypernetien() {
 		List<Kybernetien> listOfKybernetien = new ArrayList<Kybernetien>();
 		listOfKybernetien.add(new Kybernetien(8, 1, 12, 13, 4, 10, 20, 21, 0));
-		listOfKybernetien.add(new Kybernetien(2, 2, 6, 13, 3, 12, 14, 21, 6));
-		// listOfKybernetien.add(new Kybernetien(2, 4, 7, 6, 6, 7, 16, 15, 5));
-		// listOfKybernetien.add(new Kybernetien(3, 4, 7, 6, 6, 4, 12, 15, 6));
-		// listOfKybernetien.add(new Kybernetien(10, 6, 10, 8, 10, 8, 13, 22,
-		// 3));
-		// listOfKybernetien.add(new Kybernetien(12, 5, 10, 9, 10, 7, 13, 20,
-		// 3));
+		// listOfKybernetien.add(new Kybernetien(2, 2, 6, 13, 3, 12, 14, 21,
+		// 6));
+		listOfKybernetien.add(new Kybernetien(2, 4, 7, 6, 6, 7, 16, 15, 5));
+		listOfKybernetien.add(new Kybernetien(3, 4, 7, 6, 6, 4, 12, 15, 6));
+		listOfKybernetien.add(new Kybernetien(10, 6, 10, 8, 10, 8, 13, 22, 3));
+		listOfKybernetien.add(new Kybernetien(12, 5, 10, 9, 10, 7, 13, 20, 3));
 		return listOfKybernetien;
 	}
 
 	/**
-	 * First mutates the population. Afterwards it will assess each individual
-	 * and terminate the programm in case of accessing the termination
-	 * condition.
+	 * Mutate und rate Population.
 	 * 
 	 * @param startPopulation
 	 * @param weightsSParams
@@ -171,7 +171,7 @@ public class EvoAlg {
 				bestRounds = result;
 				logger.info("## BEST :" + bestRounds);
 			}
-			if (result == TERMINATION_CONDITION) {
+			if (result == TERMINATION_ROUND) {
 				writeToFile(newInd);
 				logger.info("### ALGO END");
 				isTerminated = true;
@@ -199,5 +199,20 @@ public class EvoAlg {
 			i.printStackTrace();
 		}
 
+	}
+
+	/*
+	 * Return the number of all Neuron layer.
+	 */
+	public static int getLayer() {
+		return LAYER;
+	}
+
+	public static double getAlpha() {
+		return ALPHA;
+	}
+
+	public static double getEpsilon() {
+		return EPSILON;
 	}
 }
