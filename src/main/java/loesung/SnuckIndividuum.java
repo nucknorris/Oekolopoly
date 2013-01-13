@@ -7,6 +7,8 @@ import java.util.List;
 import okoelopoly.Individuum;
 import okoelopoly.Punktverteilung;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Sebastian Nuck
  * 
@@ -18,6 +20,8 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
     /**
      * 
      */
+    private static Logger logger = Logger.getLogger(SnuckIndividuum.class);
+
     private static final long serialVersionUID = 1766633117460198061L;
     private double weights[][];
     private double thresholds[][];
@@ -36,7 +40,7 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
     private double prPart; // 2 Produktion
     private double saPart; // 3 Sanierung
     private double vrPart; // 4 Vermehrungsrate
-    private double gvrPart; // 5 gegen Produktion
+    private double inPart; // 5 investment parameter
 
     private double result;
 
@@ -81,39 +85,33 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
         // logger.info("\n ");
 
         ArrayList<Neuron> inputLayerNeurons = initInputNeurons();
-        // for (Neuron neuron : inputLayerNeurons) {
-        // logger.info("i: " + neuron.getValue());
-        // }
         ArrayList<Neuron> hiddenLayerNeurons = initHiddenLayer(inputLayerNeurons);
-        // for (Neuron neuron : hiddenLayerNeurons) {
-        // logger.info("h: " + neuron.getValue());
-        // }
         ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayerNeurons);
         double sum = 0.0;
 
-        for (Neuron neuron : outputLayer) {
-            // logger.info("o: " + neuron.getValue());
-            sum += neuron.getValue();
+        // sum everyting except investment
+        for (int i = 0; i < 5; i++) {
+            sum += outputLayer.get(i).getValue();
         }
-        // logger.info("sum: " + sum);
 
-        // logger.info("ap: " + ap);
         lqPart = (outputLayer.get(0).getValue() / sum) * ap;
         auPart = (outputLayer.get(1).getValue() / sum) * ap;
-        prPart = (outputLayer.get(2).getValue() / sum) * ap;
+        double production = outputLayer.get(2).getValue();
+        prPart = (production / sum) * ap;
         saPart = (outputLayer.get(3).getValue() / sum) * ap;
         vrPart = (outputLayer.get(4).getValue() / sum) * ap;
-        gvrPart = (outputLayer.get(5).getValue() / sum) * ap;
-
-        // logger.info(lqPart + ", " + auPart + ", " + prPart + ", " + saPart +
-        // ", " + vrPart);
 
         simulatorstatus.investiereInLebensqualitaet((int) Math.round(lqPart));
         simulatorstatus.investiereInAufklaerung((int) Math.round(auPart));
-        simulatorstatus.investiereInProduktion((int) Math.round(prPart));
+        if (production > 0) {
+            simulatorstatus.investiereInProduktion((int) Math.round(prPart));
+        } else {
+            simulatorstatus.investiereGegenProduktion((int) Math.round(prPart));
+        }
         simulatorstatus.investiereInSanierung((int) Math.round(saPart));
         simulatorstatus.investiereInVermehrungsrate((int) Math.round(vrPart));
-        simulatorstatus.investiereGegenProduktion((int) Math.round(gvrPart));
+
+        simulatorstatus.nutzeAufklaerungFuerBevoelkerungsWachstum(outputLayer.get(5).getValue());
 
     }
 
@@ -164,10 +162,11 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
         ArrayList<Neuron> outputLayerNeurons = new ArrayList<Neuron>();
         Neuron n0 = new Neuron(weights[2][0], thresholds[2][0], inputNeurons);
         Neuron n1 = new Neuron(weights[2][1], thresholds[2][1], inputNeurons);
-        Neuron n2 = new Neuron(weights[2][2], thresholds[2][2], inputNeurons);
+        Neuron n2 = new Neuron(weights[2][2], thresholds[2][2], inputNeurons, true);
         Neuron n3 = new Neuron(weights[2][3], thresholds[2][3], inputNeurons);
         Neuron n4 = new Neuron(weights[2][4], thresholds[2][4], inputNeurons);
-        Neuron n5 = new Neuron(weights[2][5], thresholds[2][5], inputNeurons);
+        Neuron n5 = new Neuron(weights[2][5], thresholds[2][5], inputNeurons, true);
+        // true);
 
         outputLayerNeurons.add(n0);
         outputLayerNeurons.add(n1);
@@ -218,6 +217,7 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
         private double weight;
         private double threshold;
         private double value;
+        private boolean isExtended;
 
         public Neuron(double weight, double value) {
             this.weight = weight;
@@ -232,17 +232,33 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
             calc();
         }
 
+        public Neuron(double weight, double threshold, List<Neuron> inputs, boolean isExtended) {
+            this.weight = weight;
+            this.threshold = threshold;
+            this.inputs = inputs;
+            this.isExtended = isExtended;
+            calc();
+        }
+
         private void calc() {
             double sum = 0.0;
             for (Neuron n : inputs) {
                 sum += n.getWeight() * n.getValue();
             }
             sum = sum - threshold;
-            this.value = sigmoid(sum);
+            if (!isExtended) {
+                this.value = sigmoid(sum);
+            } else {
+                this.value = sigmoidExtended(sum);
+            }
         }
 
         public double sigmoid(double x) {
             return 1 / (1 + Math.exp(-x));
+        }
+
+        public double sigmoidExtended(double x) {
+            return Math.tanh(x);
         }
 
         public double getThreshold() {
