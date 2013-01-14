@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import ea.EvoAlg;
+import ea.KybInputGenerator;
+import ea.KybInputs;
 
 public class NeuronalTest {
 
@@ -20,18 +22,25 @@ public class NeuronalTest {
 
     @Test
     public void startTest() {
+        KybInputGenerator gen = new KybInputGenerator(3, 2);
+        List<KybInputs> listOfKypInputs = gen.getXRandomKybInputs(20);
 
-        EvoAlg ea = new EvoAlg();
+        logger.info("KYBERNETIEN CONFIGS: ");
+        for (KybInputs kybInputs : listOfKypInputs) {
+            logger.info(kybInputs.toString());
+        }
+
+        EvoAlg ea = new EvoAlg(listOfKypInputs);
         filename = ea.run();
         logger.info("filename: " + filename);
         if (filename != null) {
-            deserialize();
+            deserialize(listOfKypInputs);
         }
+
     }
 
-    public void deserialize() {
+    public void deserialize(List<KybInputs> listOfKypInputs) {
         SnuckIndividuum deserial;
-        List<Kybernetien> listOfK = genListOfKypernetien();
         try
         {
             FileInputStream fileIn = new FileInputStream(filename);
@@ -52,10 +61,13 @@ public class NeuronalTest {
 
         // Wieder bewerten
         logger.info("Wird sie wieder gleich bewertet?");
-
-        for (Kybernetien kybernetien : listOfK) {
-            kybernetien.bewerteEineStrategie(deserial);
-            printResult(kybernetien);
+        for (KybInputs in : listOfKypInputs) {
+            Kybernetien k = new Kybernetien(in.getAktionsp(), in.getSanierung(),
+                    in.getProduktion(), in.getUmweltbelast(), in.getAufklaerung(),
+                    in.getLebensqual(), in.getVermehrungsrate(), in.getBevoelkerung(),
+                    in.getPolitik());
+            k.bewerteEineStrategie(deserial);
+            printResult(k);
         }
     }
 
@@ -72,16 +84,17 @@ public class NeuronalTest {
         logger.info("Bilanz: " + sim.getGesamtbilanz());
     }
 
-    public List<Kybernetien> genListOfKypernetien() {
-        List<Kybernetien> listOfKybernetien = new ArrayList<Kybernetien>();
-        listOfKybernetien.add(new Kybernetien(8, 1, 12, 13, 4, 10, 20, 21, 0));
-        listOfKybernetien.add(new Kybernetien(2, 2, 6, 13, 3, 12, 14, 21, 6));
-        listOfKybernetien.add(new Kybernetien(2, 4, 7, 6, 6, 7, 16, 15, 5));
-        listOfKybernetien.add(new Kybernetien(3, 4, 7, 6, 6, 4, 12, 15, 6));
-        listOfKybernetien.add(new Kybernetien(10, 6, 10, 8, 10, 8, 13, 22,
-                3));
-        listOfKybernetien.add(new Kybernetien(12, 5, 10, 9, 10, 7, 13, 20,
-                3));
-        return listOfKybernetien;
-    }
+    // public List<Kybernetien> genListOfKypernetien() {
+    // List<Kybernetien> listOfKybernetien = new ArrayList<Kybernetien>();
+    // listOfKybernetien.add(new Kybernetien(8, 2, 12, 13, 4, 10, 19, 21, 0));
+    // // listOfKybernetien.add(new Kybernetien(2, 2, 6, 13, 3, 12, 14, 21,
+    // // 6));
+    // // listOfKybernetien.add(new Kybernetien(2, 4, 7, 6, 6, 7, 16, 15, 5));
+    // // listOfKybernetien.add(new Kybernetien(3, 4, 7, 6, 6, 4, 12, 15, 6));
+    // // listOfKybernetien.add(new Kybernetien(10, 6, 10, 8, 10, 8, 13, 22,
+    // // 3));
+    // // listOfKybernetien.add(new Kybernetien(12, 5, 10, 9, 10, 7, 13, 20,
+    // // 3));
+    // return listOfKybernetien;
+    // }
 }

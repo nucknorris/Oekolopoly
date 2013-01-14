@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import ea.EvoAlg;
+
 import okoelopoly.Individuum;
 import okoelopoly.Punktverteilung;
 
@@ -75,12 +77,17 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
 
     public void wendeDieStrategieAn(Punktverteilung simulatorstatus) {
         init(simulatorstatus);
-        // logger.info("\n ");
 
         ArrayList<Neuron> inputLayerNeurons = initInputNeurons();
+
         ArrayList<Neuron> hiddenLayer1Neurons = initHiddenLayer(inputLayerNeurons, 1);
         ArrayList<Neuron> hiddenLayer2Neurons = initHiddenLayer(hiddenLayer1Neurons, 2);
-        ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayer2Neurons);
+        ArrayList<Neuron> hiddenLayer3Neurons = initHiddenLayer(hiddenLayer2Neurons, 3);
+        ArrayList<Neuron> hiddenLayer4Neurons = initHiddenLayer(hiddenLayer3Neurons, 4);
+        ArrayList<Neuron> hiddenLayer5Neurons = initHiddenLayer(hiddenLayer4Neurons, 5);
+        ArrayList<Neuron> hiddenLayer6Neurons = initHiddenLayer(hiddenLayer5Neurons, 6);
+
+        ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayer6Neurons);
         double sum = 0.0;
 
         // sum everyting except investment
@@ -154,12 +161,18 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
 
     private ArrayList<Neuron> initOutputLayer(ArrayList<Neuron> inputNeurons) {
         ArrayList<Neuron> outputLayerNeurons = new ArrayList<Neuron>();
-        Neuron n0 = new Neuron(weights[3][0], thresholds[3][0], inputNeurons);
-        Neuron n1 = new Neuron(weights[3][1], thresholds[3][1], inputNeurons);
-        Neuron n2 = new Neuron(weights[3][2], thresholds[3][2], inputNeurons, true);
-        Neuron n3 = new Neuron(weights[3][3], thresholds[3][3], inputNeurons);
-        Neuron n4 = new Neuron(weights[3][4], thresholds[3][4], inputNeurons);
-        Neuron n5 = new Neuron(weights[3][5], thresholds[3][5], inputNeurons, true);
+        Neuron n0 = new Neuron(weights[EvoAlg.TOTAL_LAYERS][0], thresholds[EvoAlg.TOTAL_LAYERS][0],
+                inputNeurons);
+        Neuron n1 = new Neuron(weights[EvoAlg.TOTAL_LAYERS][1], thresholds[EvoAlg.TOTAL_LAYERS][1],
+                inputNeurons);
+        Neuron n2 = new Neuron(weights[EvoAlg.TOTAL_LAYERS][2], thresholds[EvoAlg.TOTAL_LAYERS][2],
+                inputNeurons, true);
+        Neuron n3 = new Neuron(weights[EvoAlg.TOTAL_LAYERS][3], thresholds[EvoAlg.TOTAL_LAYERS][3],
+                inputNeurons);
+        Neuron n4 = new Neuron(weights[EvoAlg.TOTAL_LAYERS][4], thresholds[EvoAlg.TOTAL_LAYERS][4],
+                inputNeurons);
+        Neuron n5 = new Neuron(weights[EvoAlg.TOTAL_LAYERS][5], thresholds[EvoAlg.TOTAL_LAYERS][5],
+                inputNeurons, true);
         // true);
 
         outputLayerNeurons.add(n0);

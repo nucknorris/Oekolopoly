@@ -5,9 +5,9 @@ import java.util.Random;
 public class Util {
 
     public static double[][] genRndWeights(Random random) {
-        double weights[][] = new double[4][10];
+        double weights[][] = new double[EvoAlg.TOTAL_LAYERS + 1][10];
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i <= EvoAlg.TOTAL_LAYERS; i++) {
             for (int j = 0; j < 10; j++) {
                 weights[i][j] = random.nextGaussian();
             }
@@ -16,9 +16,9 @@ public class Util {
     }
 
     public static double[][] genRndThresholds(Random random) {
-        double thresholds[][] = new double[4][10];
+        double thresholds[][] = new double[EvoAlg.TOTAL_LAYERS + 1][10];
 
-        for (int i = 1; i < 4; i++) {
+        for (int i = 1; i <= EvoAlg.TOTAL_LAYERS; i++) {
             for (int j = 0; j < 10; j++) {
                 thresholds[i][j] = random.nextGaussian();
             }
@@ -27,8 +27,8 @@ public class Util {
     }
 
     public static double[][] genStartWeightStrategyParams() {
-        double strategyParams[][] = new double[4][10];
-        for (int i = 0; i < 4; i++) {
+        double strategyParams[][] = new double[EvoAlg.TOTAL_LAYERS + 1][10];
+        for (int i = 0; i <= EvoAlg.TOTAL_LAYERS; i++) {
             for (int j = 0; j < 10; j++) {
                 strategyParams[i][j] = 1;
             }
@@ -37,8 +37,8 @@ public class Util {
     }
 
     public static double[][] genStartThresholdStrategyParams() {
-        double strategyParams[][] = new double[4][10];
-        for (int i = 0; i < 4; i++) {
+        double strategyParams[][] = new double[EvoAlg.TOTAL_LAYERS + 1][10];
+        for (int i = 0; i <= EvoAlg.TOTAL_LAYERS; i++) {
             for (int j = 0; j < 10; j++) {
                 strategyParams[i][j] = 1;
             }

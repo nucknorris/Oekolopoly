@@ -22,11 +22,15 @@ public class EvoAlg {
 
     private static final int TERMINATION_CONDITION = 30;
     private static final int POPULATION_SIZE = 100;
-    private static final int MAX_ITERATIONS = 5000;
+    private static final int MAX_ITERATIONS = 1000;
     private static final int TERMINATION_LEVEL = 28;
 
     // number of neurons in hidden layer
     private static final int HIDDEN_LAYER_NEURONS = 10;
+
+    // total number of layers (x hiddenLayer + 1 outputLayer, inputLayer not
+    // included)
+    public static final int TOTAL_LAYERS = 7;
 
     private int bestRounds; // stores the currently best number of rounds
     boolean isTerminated = false;
@@ -34,11 +38,13 @@ public class EvoAlg {
     private int iteration = 0;
     private int globalIteration = 0;
     private String filename;
-    private List<Kybernetien> listOfKybernetien;
+    // private List<Kybernetien> listOfKybernetien;
     private Random random;
+    List<KybInputs> listOfKypInputs;
 
-    public EvoAlg() {
+    public EvoAlg(List<KybInputs> listOfKypInputs) {
         random = new Random();
+        this.listOfKypInputs = listOfKypInputs;
     }
 
     /**
@@ -60,8 +66,8 @@ public class EvoAlg {
 
         logger.info("\nstart");
 
-        while (!isTerminated) {
-            if (iteration % 1000 == 0) {
+        while (!isTerminated && iteration < 10000) {
+            if (iteration % 100 == 0) {
 
                 // if the max number of iterations is reached or still is no
                 // higher numer of rounds reached, the EA will reset its start
@@ -69,10 +75,7 @@ public class EvoAlg {
                 if (iteration > MAX_ITERATIONS && bestRounds < TERMINATION_LEVEL) {
                     logger.info("NO BEST RESULT FOUND, RESTARTING (" + bestRounds + ")");
                     weightsSParams = Util.genStartWeightStrategyParams();
-                    thresholdsSParams =
-                            Util.genStartThresholdStrategyParams();
-                    // weightsSParams = Util.genRndWeights(random);
-                    // thresholdsSParams = Util.genRndThresholds(random);
+                    thresholdsSParams = Util.genStartThresholdStrategyParams();
                     currentPop.clear();
                     currentPop = populateStartPop(currentPop);
                     iteration = 0;
@@ -128,32 +131,19 @@ public class EvoAlg {
      * @return
      */
     private int runLifecycle(SnuckIndividuum ind) {
-        listOfKybernetien = genListOfKypernetien();
         int totalRounds = 0;
-        for (Kybernetien kybernetien : listOfKybernetien) {
-            kybernetien.bewerteEineStrategie(ind);
-            totalRounds += kybernetien.getRundenzahl();
-        }
-        totalRounds = totalRounds / listOfKybernetien.size();
-        return totalRounds;
-    }
 
-    /**
-     * Returns a list with multiple instances of Kybernetien.
-     * 
-     * @return
-     */
-    public List<Kybernetien> genListOfKypernetien() {
-        List<Kybernetien> listOfKybernetien = new ArrayList<Kybernetien>();
-        listOfKybernetien.add(new Kybernetien(8, 1, 12, 13, 4, 10, 20, 21, 0));
-        listOfKybernetien.add(new Kybernetien(2, 2, 6, 13, 3, 12, 14, 21, 6));
-        listOfKybernetien.add(new Kybernetien(2, 4, 7, 6, 6, 7, 16, 15, 5));
-        listOfKybernetien.add(new Kybernetien(3, 4, 7, 6, 6, 4, 12, 15, 6));
-        listOfKybernetien.add(new Kybernetien(10, 6, 10, 8, 10, 8, 13, 22,
-                3));
-        listOfKybernetien.add(new Kybernetien(12, 5, 10, 9, 10, 7, 13, 20,
-                3));
-        return listOfKybernetien;
+        for (KybInputs in : listOfKypInputs) {
+            Kybernetien k = new Kybernetien(in.getAktionsp(), in.getSanierung(),
+                    in.getProduktion(), in.getUmweltbelast(), in.getAufklaerung(),
+                    in.getLebensqual(), in.getVermehrungsrate(), in.getBevoelkerung(),
+                    in.getPolitik());
+            k.bewerteEineStrategie(ind);
+            totalRounds += k.getRundenzahl();
+        }
+
+        totalRounds = totalRounds / listOfKypInputs.size();
+        return totalRounds;
     }
 
     /**
@@ -203,9 +193,7 @@ public class EvoAlg {
         try
         {
             logger.info("writing element with rounds: " + ind.getResult());
-            // filename = rounds + "_" + bilance + "_("
-            // + timestamp + ").ser";
-            filename = ind.getResult() + timestamp + ".ser";
+            filename = ind.getResult() + "_" + listOfKypInputs.size() + "_" + timestamp + ".ser";
             FileOutputStream fileOut =
                     new FileOutputStream(filename);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);

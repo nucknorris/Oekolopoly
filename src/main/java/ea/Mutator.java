@@ -31,11 +31,13 @@ public class Mutator {
     }
 
     void runSelfAdaptiveEpMutation() {
-        newWeights = new double[4][EvoAlg.getHiddenLayerNeurons()];
-        newThresholds = new double[4][EvoAlg.getHiddenLayerNeurons()];
-        newWeightsStrategyParams = new double[4][EvoAlg.getHiddenLayerNeurons()];
-        newThresholdsStrategyParams = new double[4][EvoAlg.getHiddenLayerNeurons()];
-        for (int i = 0; i < 4; i++) {
+        newWeights = new double[EvoAlg.TOTAL_LAYERS + 1][EvoAlg.getHiddenLayerNeurons()];
+        newThresholds = new double[EvoAlg.TOTAL_LAYERS + 1][EvoAlg.getHiddenLayerNeurons()];
+        newWeightsStrategyParams = new double[EvoAlg.TOTAL_LAYERS + 1][EvoAlg
+                .getHiddenLayerNeurons()];
+        newThresholdsStrategyParams = new double[EvoAlg.TOTAL_LAYERS + 1][EvoAlg
+                .getHiddenLayerNeurons()];
+        for (int i = 0; i <= EvoAlg.TOTAL_LAYERS; i++) {
             for (int j = 0; j < EvoAlg.getHiddenLayerNeurons(); j++) {
                 mutateWeights(i, j);
                 mutateThresholds(i, j);
