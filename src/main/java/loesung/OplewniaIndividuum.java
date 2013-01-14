@@ -6,6 +6,7 @@ import java.util.List;
 
 import okoelopoly.Individuum;
 import okoelopoly.Punktverteilung;
+import ea.EvoAlg;
 
 /**
  * @author Oliver Plewnia
@@ -156,14 +157,18 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 	private ArrayList<Neuron> initOutputLayer(ArrayList<Neuron> inputNeurons) {
 		ArrayList<Neuron> outputLayerNeurons = new ArrayList<Neuron>();
-		Neuron n0 = new Neuron(weights[2][0], thresholds[2][0], inputNeurons);
-		Neuron n1 = new Neuron(weights[2][1], thresholds[2][1], inputNeurons);
-		Neuron n2 = new Neuron(weights[2][2], thresholds[2][2], inputNeurons,
-				true);
-		Neuron n3 = new Neuron(weights[2][3], thresholds[2][3], inputNeurons);
-		Neuron n4 = new Neuron(weights[2][4], thresholds[2][4], inputNeurons);
-		Neuron n5 = new Neuron(weights[2][5], thresholds[2][5], inputNeurons,
-				true);
+		Neuron n0 = new Neuron(weights[EvoAlg.getLayer() - 1][0],
+				thresholds[EvoAlg.getLayer() - 1][0], inputNeurons);
+		Neuron n1 = new Neuron(weights[EvoAlg.getLayer() - 1][1],
+				thresholds[EvoAlg.getLayer() - 1][1], inputNeurons);
+		Neuron n2 = new Neuron(weights[EvoAlg.getLayer() - 1][2],
+				thresholds[EvoAlg.getLayer() - 1][2], inputNeurons, true);
+		Neuron n3 = new Neuron(weights[EvoAlg.getLayer() - 1][3],
+				thresholds[EvoAlg.getLayer() - 1][3], inputNeurons);
+		Neuron n4 = new Neuron(weights[EvoAlg.getLayer() - 1][4],
+				thresholds[EvoAlg.getLayer() - 1][4], inputNeurons);
+		Neuron n5 = new Neuron(weights[EvoAlg.getLayer() - 1][5],
+				thresholds[EvoAlg.getLayer() - 1][5], inputNeurons, true);
 		// true);
 
 		outputLayerNeurons.add(n0);

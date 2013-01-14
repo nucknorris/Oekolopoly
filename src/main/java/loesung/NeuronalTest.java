@@ -81,9 +81,11 @@ public class NeuronalTest {
 		// listOfKybernetien.add(new Kybernetien(2, 2, 6, 13, 3, 12, 14, 21,
 		// 6));
 		listOfKybernetien.add(new Kybernetien(2, 4, 7, 6, 6, 7, 16, 15, 5));
-		listOfKybernetien.add(new Kybernetien(3, 4, 7, 6, 6, 4, 12, 15, 6));
-		listOfKybernetien.add(new Kybernetien(10, 6, 10, 8, 10, 8, 13, 22, 3));
-		listOfKybernetien.add(new Kybernetien(12, 5, 10, 9, 10, 7, 13, 20, 3));
+		// listOfKybernetien.add(new Kybernetien(3, 4, 7, 6, 6, 4, 12, 15, 6));
+		// listOfKybernetien.add(new Kybernetien(10, 6, 10, 8, 10, 8, 13, 22,
+		// 3));
+		// listOfKybernetien.add(new Kybernetien(12, 5, 10, 9, 10, 7, 13, 20,
+		// 3));
 		return listOfKybernetien;
 	}
 }
