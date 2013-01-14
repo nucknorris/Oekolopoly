@@ -1,3 +1,10 @@
+/*
+ * HTWK Leipzig
+ * Evolutionaere Algorithmen 
+ * Projekt Aufgabe Drei
+ * @author Oliver Plewnia
+ * 
+ */
 package loesung;
 
 import java.io.Serializable;
@@ -6,49 +13,96 @@ import java.util.List;
 
 import okoelopoly.Individuum;
 import okoelopoly.Punktverteilung;
-import ea.EvoAlg;
+import evoalg.EvoAlg;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Oliver Plewnia
- * 
+ * The Class OplewniaIndividuum.
  */
-
 public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 		Comparable<OplewniaIndividuum> {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 5211822430302842323L;
 
+	/** The weights. */
 	private double weights[][];
+	
+	/** The thresholds. */
 	private double thresholds[][];
-	private double lq; // 0 Lebensqualitaet
-	private double au; // 1 Aufklaerung
-	private double pr; // 2 Produktion
-	private double sa; // 3 Sanierung
-	private double vr; // 4 Vermehrungsrate
-	private double ub; // 5 Umweltbelastung
-	private double bv; // 6 Bevoelkerung
-	private double po; // 7 Politik
-	private double ap; // 8 Aktionspunkte
+	
+	/** The lebq. */
+	private double lebq; // 0 Lebensqualitaet
+	
+	/** The aufk. */
+	private double aufk; // 1 Aufklaerung
+	
+	/** The prod. */
+	private double prod; // 2 Produktion
+	
+	/** The sani. */
+	private double sani; // 3 Sanierung
+	
+	/** The vemr. */
+	private double vemr; // 4 Vermehrungsrate
+	
+	/** The uweb. */
+	private double uweb; // 5 Umweltbelastung
+	
+	/** The bevo. */
+	private double bevo; // 6 Bevoelkerung
+	
+	/** The poli. */
+	private double poli; // 7 Politik
+	
+	/** The aktp. */
+	private double aktp; // 8 Aktionspunkte
 
-	private double lqPart; // 0 Lebensqualitaet
-	private double auPart; // 1 Aufklaerung
-	private double prPart; // 2 Produktion
-	private double saPart; // 3 Sanierung
-	private double vrPart; // 4 Vermehrungsrate
+	/** The lebq part. */
+	private double lebqPart; // 0 Lebensqualitaet
+	
+	/** The aufk part. */
+	private double aufkPart; // 1 Aufklaerung
+	
+	/** The prod part. */
+	private double prodPart; // 2 Produktion
+	
+	/** The sani part. */
+	private double saniPart; // 3 Sanierung
+	
+	/** The vemr part. */
+	private double vemrPart; // 4 Vermehrungsrate
 
+	/** The result. */
 	private double result;
 
+	/**
+	 * Gets the result.
+	 *
+	 * @return the result
+	 */
 	public double getResult() {
 		return result;
 	}
 
+	/**
+	 * Sets the result.
+	 *
+	 * @param result the new result
+	 */
 	public void setResult(double result) {
 		this.result = result;
 	}
 
+	/**
+	 * Instantiates a new oplewnia individuum.
+	 */
 	public OplewniaIndividuum() {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
 	@Override
 	public OplewniaIndividuum clone() {
 		try {
@@ -58,248 +112,313 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 		}
 	}
 
+	/**
+	 * Gets the weights.
+	 *
+	 * @return the weights
+	 */
 	public double[][] getWeights() {
 		return weights;
 	}
 
+	/**
+	 * Sets the weights.
+	 *
+	 * @param weights the new weights
+	 */
 	public void setWeights(double[][] weights) {
 		this.weights = weights;
 	}
 
+	/**
+	 * Gets the thresholds.
+	 *
+	 * @return the thresholds
+	 */
 	public double[][] getThresholds() {
 		return thresholds;
 	}
 
+	/**
+	 * Sets the thresholds.
+	 *
+	 * @param thresholds the new thresholds
+	 */
 	public void setThresholds(double[][] thresholds) {
 		this.thresholds = thresholds;
 	}
 
+	/* (non-Javadoc)
+	 * @see okoelopoly.Individuum#wendeDieStrategieAn(okoelopoly.Punktverteilung)
+	 */
 	@Override
 	public void wendeDieStrategieAn(Punktverteilung simu) {
 		init(simu);
 
-		ArrayList<Neuron> inputLayerNeurons = initInputNeurons();
-		ArrayList<Neuron> hiddenLayerNeuronsOne = initHiddenLayer(
-				inputLayerNeurons, 1);
-		ArrayList<Neuron> hiddenLayerNeuronsTwo = initHiddenLayer(
-				hiddenLayerNeuronsOne, 2);
-		ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayerNeuronsTwo);
-		double sum = 0.0;
+		ArrayList<Neuron> inputLayer = initInputNeurons();
+		ArrayList<Neuron> hiddenLayerOne = initHiddenLayer(inputLayer, 1);
+		ArrayList<Neuron> hiddenLayerTwo = initHiddenLayer(hiddenLayerOne, 2);
+		ArrayList<Neuron> hiddenLayerTree = initHiddenLayer(hiddenLayerTwo, 3);
+		ArrayList<Neuron> hiddenLayerFour = initHiddenLayer(hiddenLayerTree, 4);
+		ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayerFour);
 
+		double sum = 0.0;
 		for (int i = 0; i < 5; i++) {
 			sum += outputLayer.get(i).getValue();
 		}
 
-		lqPart = (outputLayer.get(0).getValue() / sum) * ap;
-		auPart = (outputLayer.get(1).getValue() / sum) * ap;
+		lebqPart = (outputLayer.get(0).getValue() / sum) * aktp;
+		aufkPart = (outputLayer.get(1).getValue() / sum) * aktp;
 		double production = outputLayer.get(2).getValue();
-		prPart = (production / sum) * ap;
-		saPart = (outputLayer.get(3).getValue() / sum) * ap;
-		vrPart = (outputLayer.get(4).getValue() / sum) * ap;
+		prodPart = (production / sum) * aktp;
+		saniPart = (outputLayer.get(3).getValue() / sum) * aktp;
+		vemrPart = (outputLayer.get(4).getValue() / sum) * aktp;
 
-		simu.investiereInLebensqualitaet((int) Math.round(lqPart));
-		simu.investiereInAufklaerung((int) Math.round(auPart));
+		simu.investiereInLebensqualitaet((int) Math.round(lebqPart));
+		simu.investiereInAufklaerung((int) Math.round(aufkPart));
 		if (production > 0) {
-			simu.investiereInProduktion((int) Math.round(prPart));
+			simu.investiereInProduktion((int) Math.round(prodPart));
 		} else {
-			simu.investiereGegenProduktion((int) Math.round(prPart));
+			simu.investiereGegenProduktion((int) Math.round(prodPart));
 		}
-		simu.investiereInSanierung((int) Math.round(saPart));
-		simu.investiereInVermehrungsrate((int) Math.round(vrPart));
-
+		simu.investiereInSanierung((int) Math.round(saniPart));
+		simu.investiereInVermehrungsrate((int) Math.round(vemrPart));
 		simu.nutzeAufklaerungFuerBevoelkerungsWachstum(outputLayer.get(5)
 				.getValue());
-
 	}
 
 	/**
-	 * @param simulatorstatus
+	 * Inits the.
+	 *
+	 * @param simu the simu
 	 */
-	private void init(Punktverteilung simulatorstatus) {
-
-		this.ap = simulatorstatus.getAktionspunkte();
-		this.au = simulatorstatus.getAufklaerung();
-		this.lq = simulatorstatus.getLebensqualitaet();
-		this.pr = simulatorstatus.getProduktion();
-		this.sa = simulatorstatus.getSanierung();
-		this.vr = simulatorstatus.getVermehrungsrate();
-		this.ub = simulatorstatus.getUmweltbelastung();
-		this.bv = simulatorstatus.getBevoelkerung();
-		this.po = simulatorstatus.getPolitik();
+	private void init(Punktverteilung simu) {
+		this.aktp = simu.getAktionspunkte();
+		this.aufk = simu.getAufklaerung();
+		this.lebq = simu.getLebensqualitaet();
+		this.prod = simu.getProduktion();
+		this.sani = simu.getSanierung();
+		this.vemr = simu.getVermehrungsrate();
+		this.uweb = simu.getUmweltbelastung();
+		this.bevo = simu.getBevoelkerung();
+		this.poli = simu.getPolitik();
 	}
 
 	/**
-	 * @return
+	 * Inits the input neurons.
+	 *
+	 * @return the array list
 	 */
 	private ArrayList<Neuron> initInputNeurons() {
-		Neuron lqInput = new Neuron(lq, weights[0][0]);
-		Neuron auInput = new Neuron(au, weights[0][1]);
-		Neuron prInput = new Neuron(pr, weights[0][2]);
-		Neuron saInput = new Neuron(sa, weights[0][3]);
-		Neuron vrInput = new Neuron(vr, weights[0][4]);
-		Neuron ubInput = new Neuron(ub, weights[0][5]);
-		Neuron bvInput = new Neuron(bv, weights[0][6]);
-		Neuron poInput = new Neuron(po, weights[0][7]);
-		Neuron apInput = new Neuron(ap, weights[0][8]);
-
-		ArrayList<Neuron> inputNeurons = new ArrayList<Neuron>();
-		inputNeurons.add(lqInput);
-		inputNeurons.add(auInput);
-		inputNeurons.add(prInput);
-		inputNeurons.add(saInput);
-		inputNeurons.add(vrInput);
-		inputNeurons.add(ubInput);
-		inputNeurons.add(bvInput);
-		inputNeurons.add(poInput);
-		inputNeurons.add(apInput);
-		return inputNeurons;
-	}
-
-	private ArrayList<Neuron> initOutputLayer(ArrayList<Neuron> inputNeurons) {
-		ArrayList<Neuron> outputLayerNeurons = new ArrayList<Neuron>();
-		Neuron n0 = new Neuron(weights[EvoAlg.getLayer() - 1][0],
-				thresholds[EvoAlg.getLayer() - 1][0], inputNeurons);
-		Neuron n1 = new Neuron(weights[EvoAlg.getLayer() - 1][1],
-				thresholds[EvoAlg.getLayer() - 1][1], inputNeurons);
-		Neuron n2 = new Neuron(weights[EvoAlg.getLayer() - 1][2],
-				thresholds[EvoAlg.getLayer() - 1][2], inputNeurons, true);
-		Neuron n3 = new Neuron(weights[EvoAlg.getLayer() - 1][3],
-				thresholds[EvoAlg.getLayer() - 1][3], inputNeurons);
-		Neuron n4 = new Neuron(weights[EvoAlg.getLayer() - 1][4],
-				thresholds[EvoAlg.getLayer() - 1][4], inputNeurons);
-		Neuron n5 = new Neuron(weights[EvoAlg.getLayer() - 1][5],
-				thresholds[EvoAlg.getLayer() - 1][5], inputNeurons, true);
-		// true);
-
-		outputLayerNeurons.add(n0);
-		outputLayerNeurons.add(n1);
-		outputLayerNeurons.add(n2);
-		outputLayerNeurons.add(n3);
-		outputLayerNeurons.add(n4);
-		outputLayerNeurons.add(n5);
-		return outputLayerNeurons;
+		ArrayList<Neuron> inputLayer = new ArrayList<Neuron>();
+		inputLayer.add(new Neuron(lebq, weights[0][0]));
+		inputLayer.add(new Neuron(aufk, weights[0][1]));
+		inputLayer.add(new Neuron(prod, weights[0][2]));
+		inputLayer.add(new Neuron(sani, weights[0][3]));
+		inputLayer.add(new Neuron(vemr, weights[0][4]));
+		inputLayer.add(new Neuron(uweb, weights[0][5]));
+		inputLayer.add(new Neuron(bevo, weights[0][6]));
+		inputLayer.add(new Neuron(poli, weights[0][7]));
+		inputLayer.add(new Neuron(aktp, weights[0][8]));
+		return inputLayer;
 	}
 
 	/**
-	 * Inits the hidden layer with weights, thresholds and inputNeurons;
-	 * 
-	 * @param iN
+	 * Inits the output layer.
+	 *
+	 * @param inputNeurons the input neurons
+	 * @return the array list
 	 */
-	private ArrayList<Neuron> initHiddenLayer(ArrayList<Neuron> iN, int layer) {
-		ArrayList<Neuron> hiddenLayerNeurons = new ArrayList<Neuron>();
-		Neuron n0 = new Neuron(weights[layer][0], thresholds[layer][0], iN);
-		Neuron n1 = new Neuron(weights[layer][1], thresholds[layer][1], iN);
-		Neuron n2 = new Neuron(weights[layer][2], thresholds[layer][2], iN);
-		Neuron n3 = new Neuron(weights[layer][3], thresholds[layer][3], iN);
-		Neuron n4 = new Neuron(weights[layer][4], thresholds[layer][4], iN);
-		Neuron n5 = new Neuron(weights[layer][5], thresholds[layer][5], iN);
-		Neuron n6 = new Neuron(weights[layer][6], thresholds[layer][6], iN);
-		Neuron n7 = new Neuron(weights[layer][7], thresholds[layer][7], iN);
-		Neuron n8 = new Neuron(weights[layer][8], thresholds[layer][8], iN);
-		Neuron n9 = new Neuron(weights[layer][9], thresholds[layer][9], iN);
-
-		hiddenLayerNeurons.add(n0);
-		hiddenLayerNeurons.add(n1);
-		hiddenLayerNeurons.add(n2);
-		hiddenLayerNeurons.add(n3);
-		hiddenLayerNeurons.add(n4);
-		hiddenLayerNeurons.add(n5);
-		hiddenLayerNeurons.add(n6);
-		hiddenLayerNeurons.add(n7);
-		hiddenLayerNeurons.add(n8);
-		hiddenLayerNeurons.add(n9);
-		return hiddenLayerNeurons;
+	private ArrayList<Neuron> initOutputLayer(ArrayList<Neuron> inputNeurons) {
+		ArrayList<Neuron> outputLayer = new ArrayList<Neuron>();
+		outputLayer.add(new Neuron(weights[EvoAlg.getLayer() - 1][0],
+				thresholds[EvoAlg.getLayer() - 1][0], inputNeurons));
+		outputLayer.add(new Neuron(weights[EvoAlg.getLayer() - 1][1],
+				thresholds[EvoAlg.getLayer() - 1][1], inputNeurons));
+		outputLayer.add(new Neuron(weights[EvoAlg.getLayer() - 1][2],
+				thresholds[EvoAlg.getLayer() - 1][2], inputNeurons, true));
+		outputLayer.add(new Neuron(weights[EvoAlg.getLayer() - 1][3],
+				thresholds[EvoAlg.getLayer() - 1][3], inputNeurons));
+		outputLayer.add(new Neuron(weights[EvoAlg.getLayer() - 1][4],
+				thresholds[EvoAlg.getLayer() - 1][4], inputNeurons));
+		outputLayer.add(new Neuron(weights[EvoAlg.getLayer() - 1][5],
+				thresholds[EvoAlg.getLayer() - 1][5], inputNeurons, true));
+		return outputLayer;
 	}
 
-	// public int compareTo(SnuckIndividuum ind) {
-	// return 1;
-	// }
+	/**
+	 * Inits the hidden layer.
+	 *
+	 * @param iN the i n
+	 * @param layer the layer
+	 * @return the array list
+	 */
+	private ArrayList<Neuron> initHiddenLayer(ArrayList<Neuron> iN, int layer) {
+		ArrayList<Neuron> hiddenLayer = new ArrayList<Neuron>();
+		for (int i = 0; i < EvoAlg.getNeurons(); i++) {
+			hiddenLayer.add(new Neuron(weights[layer][i], thresholds[layer][i],
+					iN));
+		}
+		return hiddenLayer;
+	}
 
+	/**
+	 * The Class Neuron.
+	 */
 	public class Neuron {
-		private List<Neuron> inputs;
+		
+		/** The inputs. */
+		private final List<Neuron> inputs;
+		
+		/** The weight. */
 		private double weight;
+		
+		/** The threshold. */
 		private double threshold;
+		
+		/** The value. */
 		private double value;
-		private boolean isExtended;
+		
+		/** The sigmoid two. */
+		private boolean sigmoidTwo;
 
+		/**
+		 * Instantiates a new neuron.
+		 *
+		 * @param weight the weight
+		 * @param value the value
+		 */
 		public Neuron(double weight, double value) {
 			this.weight = weight;
 			this.value = value;
 			this.inputs = new ArrayList<Neuron>();
 		}
 
+		/**
+		 * Instantiates a new neuron.
+		 *
+		 * @param weight the weight
+		 * @param threshold the threshold
+		 * @param inputs the inputs
+		 */
 		public Neuron(double weight, double threshold, List<Neuron> inputs) {
 			this.weight = weight;
 			this.threshold = threshold;
 			this.inputs = inputs;
-			calc();
+			calcValue();
 		}
 
+		/**
+		 * Instantiates a new neuron.
+		 *
+		 * @param weight the weight
+		 * @param threshold the threshold
+		 * @param inputs the inputs
+		 * @param isExtended the is extended
+		 */
 		public Neuron(double weight, double threshold, List<Neuron> inputs,
 				boolean isExtended) {
 			this.weight = weight;
 			this.threshold = threshold;
 			this.inputs = inputs;
-			this.isExtended = isExtended;
-			calc();
+			this.sigmoidTwo = isExtended;
+			calcValue();
 		}
 
-		private void calc() {
+		/**
+		 * Calc value.
+		 */
+		private void calcValue() {
 			double sum = 0.0;
 			for (Neuron n : inputs) {
 				sum += n.getWeight() * n.getValue();
 			}
 			sum = sum - threshold;
-			if (!isExtended) {
-				this.value = sigmoid(sum);
+			if (!sigmoidTwo) {
+				this.value = sigmoidOne(sum);
 			} else {
-				this.value = sigmoidExtended(sum);
+				this.value = sigmoidTwo(sum);
 			}
 		}
 
-		public double sigmoid(double x) {
+		/**
+		 * Sigmoid one.
+		 *
+		 * @param x the x
+		 * @return the double
+		 */
+		public double sigmoidOne(double x) {
 			return 1 / (1 + Math.exp(-x));
 		}
 
-		public double sigmoidExtended(double x) {
+		/**
+		 * Sigmoid two.
+		 *
+		 * @param x the x
+		 * @return the double
+		 */
+		public double sigmoidTwo(double x) {
 			return Math.tanh(x);
 		}
 
+		/**
+		 * Gets the threshold.
+		 *
+		 * @return the threshold
+		 */
 		public double getThreshold() {
 			return threshold;
 		}
 
+		/**
+		 * Gets the weight.
+		 *
+		 * @return the weight
+		 */
 		public double getWeight() {
 			return weight;
 		}
 
+		/**
+		 * Gets the value.
+		 *
+		 * @return the value
+		 */
 		public double getValue() {
 			return value;
 		}
 
+		/**
+		 * Sets the value.
+		 *
+		 * @param value the new value
+		 */
 		public void setValue(double value) {
 			this.value = value;
 		}
 
+		/**
+		 * Sets the threshold.
+		 *
+		 * @param threshold the new threshold
+		 */
 		public void setThreshold(double threshold) {
 			this.threshold = threshold;
 		}
 
+		/**
+		 * Sets the weight.
+		 *
+		 * @param newWeight the new weight
+		 */
 		public void setWeight(double newWeight) {
 			weight = newWeight;
 		}
-
-		public void connect(Neuron... ns) {
-			for (Neuron n : ns)
-				inputs.add(n);
-		}
-
-		public void connect(ArrayList<Neuron> inputs) {
-			this.inputs = inputs;
-		}
-
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	@Override
 	public int compareTo(OplewniaIndividuum ind) {
 		return ind.getResult() > result ? 1 : (ind.getResult() == result ? 0
