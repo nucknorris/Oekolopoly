@@ -4,4 +4,5 @@
 target
 *.ser
 *.log
+*.dat
 old_logs

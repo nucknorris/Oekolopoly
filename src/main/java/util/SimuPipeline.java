@@ -20,11 +20,12 @@ public class SimuPipeline implements Serializable, Cloneable {
 	}
 
 	public int[][] getSimuPipeline() {
-		return matrix;
+		int[][] m = matrix.clone();
+		return m;
 	}
 
 	public void setSimuPipeline(int[][] matrix) {
-		int[][] m = matrix;
+		int[][] m = matrix.clone();
 		this.matrix = m;
 	}
 }

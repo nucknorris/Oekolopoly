@@ -44,7 +44,7 @@ public class NeuronalNetworkTest {
 		spg.genNewSimuPipeline();
 
 		EvoAlg ea = new EvoAlg();
-		filename = ea.runEvoAlg();
+		filename = ea.run();
 		if (filename != null) {
 			objectDeserialization();
 		}
@@ -67,7 +67,6 @@ public class NeuronalNetworkTest {
 			i.printStackTrace();
 			return;
 		} catch (ClassNotFoundException c) {
-			System.out.println("MeinIndividuum class not found");
 			c.printStackTrace();
 			return;
 		}
@@ -106,15 +105,7 @@ public class NeuronalNetworkTest {
 	 * @return the list
 	 */
 	public List<Kybernetien> genSimuPipeline() {
-		List<Kybernetien> simuPipeline;
-		simuPipeline = spg.getSimuPipeline();
-		// List<Kybernetien> simuPipeline = new ArrayList<Kybernetien>();
-		// simuPipeline.add(new Kybernetien(8, 1, 12, 13, 4, 10, 20, 21, 0));
-		// // simuPipeline.add(new Kybernetien(2, 2, 6, 13, 3, 12, 14, 21, 6));
-		// // simuPipeline.add(new Kybernetien(2, 4, 7, 6, 6, 7, 16, 15, 5));
-		// // simuPipeline.add(new Kybernetien(3, 4, 7, 6, 6, 4, 12, 15, 6));
-		// // simuPipeline.add(new Kybernetien(10, 6, 10, 8, 10, 8, 13, 22, 3));
-		// // simuPipeline.add(new Kybernetien(12, 5, 10, 9, 10, 7, 13, 20, 3));
+		List<Kybernetien> simuPipeline = spg.getSimuPipeline();
 		return simuPipeline;
 	}
 }

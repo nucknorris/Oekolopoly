@@ -21,17 +21,22 @@ public class BestSelection {
 
 	/**
 	 * Selection.
-	 *
-	 * @param startPop the start pop
-	 * @param newPop the new pop
-	 * @param limit the limit
+	 * 
+	 * @param startPop
+	 *            the start pop
+	 * @param newPop
+	 *            the new pop
+	 * @param limit
+	 *            the limit
 	 * @return the list
 	 */
 	public static List<OplewniaIndividuum> selection(
 			List<OplewniaIndividuum> startPop, List<OplewniaIndividuum> newPop,
 			int limit) {
+
 		newPop.addAll(clone(startPop));
 		Collections.sort(newPop);
+
 		List<OplewniaIndividuum> sortedList = new ArrayList<OplewniaIndividuum>();
 		for (int i = 0; i < limit; i++) {
 			sortedList.add(newPop.get(i).clone());
@@ -41,8 +46,9 @@ public class BestSelection {
 
 	/**
 	 * Clone.
-	 *
-	 * @param startPop the start pop
+	 * 
+	 * @param startPop
+	 *            the start pop
 	 * @return the list
 	 */
 	private static List<OplewniaIndividuum> clone(

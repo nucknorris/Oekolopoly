@@ -15,7 +15,6 @@ import okoelopoly.Individuum;
 import okoelopoly.Punktverteilung;
 import evoalg.EvoAlg;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class OplewniaIndividuum.
  */
@@ -27,49 +26,49 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 	/** The weights. */
 	private double weights[][];
-	
+
 	/** The thresholds. */
 	private double thresholds[][];
-	
+
 	/** The lebq. */
 	private double lebq; // 0 Lebensqualitaet
-	
+
 	/** The aufk. */
 	private double aufk; // 1 Aufklaerung
-	
+
 	/** The prod. */
 	private double prod; // 2 Produktion
-	
+
 	/** The sani. */
 	private double sani; // 3 Sanierung
-	
+
 	/** The vemr. */
 	private double vemr; // 4 Vermehrungsrate
-	
+
 	/** The uweb. */
 	private double uweb; // 5 Umweltbelastung
-	
+
 	/** The bevo. */
 	private double bevo; // 6 Bevoelkerung
-	
+
 	/** The poli. */
 	private double poli; // 7 Politik
-	
+
 	/** The aktp. */
 	private double aktp; // 8 Aktionspunkte
 
 	/** The lebq part. */
 	private double lebqPart; // 0 Lebensqualitaet
-	
+
 	/** The aufk part. */
 	private double aufkPart; // 1 Aufklaerung
-	
+
 	/** The prod part. */
 	private double prodPart; // 2 Produktion
-	
+
 	/** The sani part. */
 	private double saniPart; // 3 Sanierung
-	
+
 	/** The vemr part. */
 	private double vemrPart; // 4 Vermehrungsrate
 
@@ -78,7 +77,7 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 	/**
 	 * Gets the result.
-	 *
+	 * 
 	 * @return the result
 	 */
 	public double getResult() {
@@ -87,8 +86,9 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 	/**
 	 * Sets the result.
-	 *
-	 * @param result the new result
+	 * 
+	 * @param result
+	 *            the new result
 	 */
 	public void setResult(double result) {
 		this.result = result;
@@ -100,7 +100,9 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 	public OplewniaIndividuum() {
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -114,7 +116,7 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 	/**
 	 * Gets the weights.
-	 *
+	 * 
 	 * @return the weights
 	 */
 	public double[][] getWeights() {
@@ -123,8 +125,9 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 	/**
 	 * Sets the weights.
-	 *
-	 * @param weights the new weights
+	 * 
+	 * @param weights
+	 *            the new weights
 	 */
 	public void setWeights(double[][] weights) {
 		this.weights = weights;
@@ -132,7 +135,7 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 	/**
 	 * Gets the thresholds.
-	 *
+	 * 
 	 * @return the thresholds
 	 */
 	public double[][] getThresholds() {
@@ -141,15 +144,19 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 	/**
 	 * Sets the thresholds.
-	 *
-	 * @param thresholds the new thresholds
+	 * 
+	 * @param thresholds
+	 *            the new thresholds
 	 */
 	public void setThresholds(double[][] thresholds) {
 		this.thresholds = thresholds;
 	}
 
-	/* (non-Javadoc)
-	 * @see okoelopoly.Individuum#wendeDieStrategieAn(okoelopoly.Punktverteilung)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * okoelopoly.Individuum#wendeDieStrategieAn(okoelopoly.Punktverteilung)
 	 */
 	@Override
 	public void wendeDieStrategieAn(Punktverteilung simu) {
@@ -189,8 +196,9 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 	/**
 	 * Inits the.
-	 *
-	 * @param simu the simu
+	 * 
+	 * @param simu
+	 *            the simu
 	 */
 	private void init(Punktverteilung simu) {
 		this.aktp = simu.getAktionspunkte();
@@ -206,7 +214,7 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 	/**
 	 * Inits the input neurons.
-	 *
+	 * 
 	 * @return the array list
 	 */
 	private ArrayList<Neuron> initInputNeurons() {
@@ -225,37 +233,40 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 	/**
 	 * Inits the output layer.
-	 *
-	 * @param inputNeurons the input neurons
+	 * 
+	 * @param inputNeurons
+	 *            the input neurons
 	 * @return the array list
 	 */
 	private ArrayList<Neuron> initOutputLayer(ArrayList<Neuron> inputNeurons) {
 		ArrayList<Neuron> outputLayer = new ArrayList<Neuron>();
-		outputLayer.add(new Neuron(weights[EvoAlg.getLayer() - 1][0],
-				thresholds[EvoAlg.getLayer() - 1][0], inputNeurons));
-		outputLayer.add(new Neuron(weights[EvoAlg.getLayer() - 1][1],
-				thresholds[EvoAlg.getLayer() - 1][1], inputNeurons));
-		outputLayer.add(new Neuron(weights[EvoAlg.getLayer() - 1][2],
-				thresholds[EvoAlg.getLayer() - 1][2], inputNeurons, true));
-		outputLayer.add(new Neuron(weights[EvoAlg.getLayer() - 1][3],
-				thresholds[EvoAlg.getLayer() - 1][3], inputNeurons));
-		outputLayer.add(new Neuron(weights[EvoAlg.getLayer() - 1][4],
-				thresholds[EvoAlg.getLayer() - 1][4], inputNeurons));
-		outputLayer.add(new Neuron(weights[EvoAlg.getLayer() - 1][5],
-				thresholds[EvoAlg.getLayer() - 1][5], inputNeurons, true));
+		outputLayer.add(new Neuron(weights[EvoAlg.LAYER - 1][0],
+				thresholds[EvoAlg.LAYER - 1][0], inputNeurons));
+		outputLayer.add(new Neuron(weights[EvoAlg.LAYER - 1][1],
+				thresholds[EvoAlg.LAYER - 1][1], inputNeurons));
+		outputLayer.add(new Neuron(weights[EvoAlg.LAYER - 1][2],
+				thresholds[EvoAlg.LAYER - 1][2], inputNeurons, true));
+		outputLayer.add(new Neuron(weights[EvoAlg.LAYER - 1][3],
+				thresholds[EvoAlg.LAYER - 1][3], inputNeurons));
+		outputLayer.add(new Neuron(weights[EvoAlg.LAYER - 1][4],
+				thresholds[EvoAlg.LAYER - 1][4], inputNeurons));
+		outputLayer.add(new Neuron(weights[EvoAlg.LAYER - 1][5],
+				thresholds[EvoAlg.LAYER - 1][5], inputNeurons, true));
 		return outputLayer;
 	}
 
 	/**
 	 * Inits the hidden layer.
-	 *
-	 * @param iN the i n
-	 * @param layer the layer
+	 * 
+	 * @param iN
+	 *            the i n
+	 * @param layer
+	 *            the layer
 	 * @return the array list
 	 */
 	private ArrayList<Neuron> initHiddenLayer(ArrayList<Neuron> iN, int layer) {
 		ArrayList<Neuron> hiddenLayer = new ArrayList<Neuron>();
-		for (int i = 0; i < EvoAlg.getNeurons(); i++) {
+		for (int i = 0; i < EvoAlg.NEURONS; i++) {
 			hiddenLayer.add(new Neuron(weights[layer][i], thresholds[layer][i],
 					iN));
 		}
@@ -266,27 +277,29 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 	 * The Class Neuron.
 	 */
 	public class Neuron {
-		
+
 		/** The inputs. */
 		private final List<Neuron> inputs;
-		
+
 		/** The weight. */
 		private double weight;
-		
+
 		/** The threshold. */
 		private double threshold;
-		
+
 		/** The value. */
 		private double value;
-		
+
 		/** The sigmoid two. */
 		private boolean sigmoidTwo;
 
 		/**
 		 * Instantiates a new neuron.
-		 *
-		 * @param weight the weight
-		 * @param value the value
+		 * 
+		 * @param weight
+		 *            the weight
+		 * @param value
+		 *            the value
 		 */
 		public Neuron(double weight, double value) {
 			this.weight = weight;
@@ -296,10 +309,13 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 		/**
 		 * Instantiates a new neuron.
-		 *
-		 * @param weight the weight
-		 * @param threshold the threshold
-		 * @param inputs the inputs
+		 * 
+		 * @param weight
+		 *            the weight
+		 * @param threshold
+		 *            the threshold
+		 * @param inputs
+		 *            the inputs
 		 */
 		public Neuron(double weight, double threshold, List<Neuron> inputs) {
 			this.weight = weight;
@@ -310,11 +326,15 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 		/**
 		 * Instantiates a new neuron.
-		 *
-		 * @param weight the weight
-		 * @param threshold the threshold
-		 * @param inputs the inputs
-		 * @param isExtended the is extended
+		 * 
+		 * @param weight
+		 *            the weight
+		 * @param threshold
+		 *            the threshold
+		 * @param inputs
+		 *            the inputs
+		 * @param isExtended
+		 *            the is extended
 		 */
 		public Neuron(double weight, double threshold, List<Neuron> inputs,
 				boolean isExtended) {
@@ -343,8 +363,9 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 		/**
 		 * Sigmoid one.
-		 *
-		 * @param x the x
+		 * 
+		 * @param x
+		 *            the x
 		 * @return the double
 		 */
 		public double sigmoidOne(double x) {
@@ -353,8 +374,9 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 		/**
 		 * Sigmoid two.
-		 *
-		 * @param x the x
+		 * 
+		 * @param x
+		 *            the x
 		 * @return the double
 		 */
 		public double sigmoidTwo(double x) {
@@ -363,7 +385,7 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 		/**
 		 * Gets the threshold.
-		 *
+		 * 
 		 * @return the threshold
 		 */
 		public double getThreshold() {
@@ -372,7 +394,7 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 		/**
 		 * Gets the weight.
-		 *
+		 * 
 		 * @return the weight
 		 */
 		public double getWeight() {
@@ -381,7 +403,7 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 		/**
 		 * Gets the value.
-		 *
+		 * 
 		 * @return the value
 		 */
 		public double getValue() {
@@ -390,8 +412,9 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 		/**
 		 * Sets the value.
-		 *
-		 * @param value the new value
+		 * 
+		 * @param value
+		 *            the new value
 		 */
 		public void setValue(double value) {
 			this.value = value;
@@ -399,8 +422,9 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 		/**
 		 * Sets the threshold.
-		 *
-		 * @param threshold the new threshold
+		 * 
+		 * @param threshold
+		 *            the new threshold
 		 */
 		public void setThreshold(double threshold) {
 			this.threshold = threshold;
@@ -408,15 +432,18 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 
 		/**
 		 * Sets the weight.
-		 *
-		 * @param newWeight the new weight
+		 * 
+		 * @param newWeight
+		 *            the new weight
 		 */
 		public void setWeight(double newWeight) {
 			weight = newWeight;
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
