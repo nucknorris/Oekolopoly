@@ -5,9 +5,11 @@
  * @author Oliver Plewnia
  * 
  */
-package evoalg;
+package util;
 
 import java.util.Random;
+
+import evoalg.EvoAlg;
 
 // TODO: Auto-generated Javadoc
 /**

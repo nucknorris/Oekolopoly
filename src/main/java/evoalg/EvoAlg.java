@@ -21,6 +21,9 @@ import okoelopoly.Kybernetien;
 
 import org.apache.log4j.Logger;
 
+import util.SimuPipelineGenerator;
+import util.Utilities;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class EvoAlg.
@@ -76,6 +79,8 @@ public class EvoAlg {
 	/** The rnd. */
 	private Random rnd;
 
+	private SimuPipelineGenerator spg;
+
 	/**
 	 * Instantiates a new evo alg.
 	 */
@@ -85,10 +90,12 @@ public class EvoAlg {
 
 	/**
 	 * Run evo alg.
-	 *
+	 * 
 	 * @return the string
 	 */
 	public String runEvoAlg() {
+		spg = new SimuPipelineGenerator();
+
 		double[][] weightsSParams;
 		double[][] thresholdsSParams;
 		List<OplewniaIndividuum> currentPop = new ArrayList<OplewniaIndividuum>();
@@ -121,8 +128,9 @@ public class EvoAlg {
 
 	/**
 	 * Gen start population.
-	 *
-	 * @param startPopulation the start population
+	 * 
+	 * @param startPopulation
+	 *            the start population
 	 * @return the list
 	 */
 	private List<OplewniaIndividuum> genStartPopulation(
@@ -140,8 +148,9 @@ public class EvoAlg {
 
 	/**
 	 * Run simulation pipeline.
-	 *
-	 * @param ind the ind
+	 * 
+	 * @param ind
+	 *            the ind
 	 * @return the int
 	 */
 	private int runSimulationPipeline(OplewniaIndividuum ind) {
@@ -157,26 +166,31 @@ public class EvoAlg {
 
 	/**
 	 * Gen simu pipeline.
-	 *
+	 * 
 	 * @return the list
 	 */
 	public List<Kybernetien> genSimuPipeline() {
-		List<Kybernetien> simuPipeline = new ArrayList<Kybernetien>();
-		simuPipeline.add(new Kybernetien(8, 1, 12, 13, 4, 10, 20, 21, 0));
-		// simuPipeline.add(new Kybernetien(2, 2, 6, 13, 3, 12, 14, 21, 6));
-		simuPipeline.add(new Kybernetien(2, 4, 7, 6, 6, 7, 16, 15, 5));
-		simuPipeline.add(new Kybernetien(3, 4, 7, 6, 6, 4, 12, 15, 6));
-		simuPipeline.add(new Kybernetien(10, 6, 10, 8, 10, 8, 13, 22, 3));
-		simuPipeline.add(new Kybernetien(12, 5, 10, 9, 10, 7, 13, 20, 3));
+		List<Kybernetien> simuPipeline;
+		simuPipeline = spg.getSimuPipeline();
+		// List<Kybernetien> simuPipeline = new ArrayList<Kybernetien>();
+		// simuPipeline.add(new Kybernetien(8, 1, 12, 13, 4, 10, 20, 21, 0));
+		// // simuPipeline.add(new Kybernetien(2, 2, 6, 13, 3, 12, 14, 21, 6));
+		// // simuPipeline.add(new Kybernetien(2, 4, 7, 6, 6, 7, 16, 15, 5));
+		// // simuPipeline.add(new Kybernetien(3, 4, 7, 6, 6, 4, 12, 15, 6));
+		// // simuPipeline.add(new Kybernetien(10, 6, 10, 8, 10, 8, 13, 22, 3));
+		// // simuPipeline.add(new Kybernetien(12, 5, 10, 9, 10, 7, 13, 20, 3));
 		return simuPipeline;
 	}
 
 	/**
 	 * Mutate and rate population.
-	 *
-	 * @param startPopulation the start population
-	 * @param weightsSParams the weights s params
-	 * @param thresholdsSParams the thresholds s params
+	 * 
+	 * @param startPopulation
+	 *            the start population
+	 * @param weightsSParams
+	 *            the weights s params
+	 * @param thresholdsSParams
+	 *            the thresholds s params
 	 * @return the list
 	 */
 	private List<OplewniaIndividuum> mutateAndRatePopulation(
@@ -211,8 +225,9 @@ public class EvoAlg {
 
 	/**
 	 * Write to file.
-	 *
-	 * @param ind the ind
+	 * 
+	 * @param ind
+	 *            the ind
 	 */
 	private void writeToFile(OplewniaIndividuum ind) {
 		try {
@@ -230,7 +245,7 @@ public class EvoAlg {
 
 	/**
 	 * Gets the layer.
-	 *
+	 * 
 	 * @return the layer
 	 */
 	public static int getLayer() {
@@ -239,7 +254,7 @@ public class EvoAlg {
 
 	/**
 	 * Gets the alpha.
-	 *
+	 * 
 	 * @return the alpha
 	 */
 	public static double getAlpha() {
@@ -248,7 +263,7 @@ public class EvoAlg {
 
 	/**
 	 * Gets the epsilon.
-	 *
+	 * 
 	 * @return the epsilon
 	 */
 	public static double getEpsilon() {
@@ -257,7 +272,7 @@ public class EvoAlg {
 
 	/**
 	 * Gets the neurons.
-	 *
+	 * 
 	 * @return the neurons
 	 */
 	public static int getNeurons() {
