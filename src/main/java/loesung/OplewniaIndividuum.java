@@ -167,7 +167,8 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 		ArrayList<Neuron> hiddenLayerTwo = initHiddenLayer(hiddenLayerOne, 2);
 		ArrayList<Neuron> hiddenLayerTree = initHiddenLayer(hiddenLayerTwo, 3);
 		ArrayList<Neuron> hiddenLayerFour = initHiddenLayer(hiddenLayerTree, 4);
-		ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayerFour);
+		ArrayList<Neuron> hiddenLayerFive = initHiddenLayer(hiddenLayerFour, 5);
+		ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayerFive);
 
 		double sum = 0.0;
 		for (int i = 0; i < 5; i++) {

@@ -30,13 +30,11 @@ import util.Utilities;
 public class EvoAlg {
 
 	private static Logger logger = Logger.getLogger(EvoAlg.class);
-	private static final String timestamp = new Timestamp(new Date().getTime())
-			.toString().replaceAll("\\s", "_");
 	static final int TERMINATION_ROUND = 30;
 	static final int POP_SIZE = 100;
-	static final int MAX_GENERATION = 3000;
-	static final int NO_TERMINATION_OVER = 24;
-	public static final int LAYER = 6;
+	static final int MAX_GENERATION = 5000;
+	static final int NO_TERMINATION_OVER = 20;
+	public static final int LAYER = 7;
 	public static final int NEURONS = 10;
 	public static final double ALPHA = 0.1;
 	public static final double EPSILON = 0.00001;
@@ -74,7 +72,7 @@ public class EvoAlg {
 					random = new Random();
 					bestRounds = 0;
 				}
-				logger.info("## ");
+				logger.info("## " + generation);
 			}
 
 			List<OplewniaIndividuum> newPop = mutatePopulation(oldPop,
@@ -131,6 +129,7 @@ public class EvoAlg {
 
 			if (result > bestRounds) {
 				bestRounds = result;
+				writeToFile(newInd);
 				logger.info("## NEW BEST: " + bestRounds);
 			}
 			if (result == TERMINATION_ROUND) {
@@ -146,6 +145,8 @@ public class EvoAlg {
 	private void writeToFile(OplewniaIndividuum ind) {
 		try {
 			logger.info("## SAVE INDIVIDUAL TO FILE");
+			String timestamp = new Timestamp(new Date().getTime()).toString()
+					.replaceAll("\\s", "_");
 			filename = ind.getResult() + "_" + timestamp + ".ser";
 			FileOutputStream fileOut = new FileOutputStream(filename);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
