@@ -3,6 +3,7 @@ package loesung;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import okoelopoly.Kybernetien;
@@ -10,31 +11,29 @@ import okoelopoly.Kybernetien;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-import ea.EvoAlg;
-import ea.KybInputGenerator;
+import ea.KybDefVal;
 import ea.KybInputs;
 
-public class NeuronalTest {
+public class SerialisationTest {
 
-    private static Logger logger = Logger.getLogger(NeuronalTest.class);
+    private static Logger logger = Logger.getLogger(SerialisationTest.class);
     static String filename;
 
     @Test
     public void startTest() {
-        KybInputGenerator gen = new KybInputGenerator(2, 2);
-        List<KybInputs> listOfKypInputs = gen.getList(100);
-
-        logger.info("KYBERNETIEN CONFIGS: ");
-        for (KybInputs kybInputs : listOfKypInputs) {
-            logger.info(kybInputs.toString());
-        }
-
-        EvoAlg ea = new EvoAlg(listOfKypInputs);
-        filename = ea.run();
-        logger.info("filename: " + filename);
-        if (filename != null) {
-            deserialize(listOfKypInputs);
-        }
+        filename = "28.0_500_2013-01-1700:34:11.593.ser";
+        List<KybInputs> list = new ArrayList<KybInputs>();
+        list.add(new KybInputs(
+                KybDefVal.AP.getDefVal() - 0,
+                KybDefVal.SA.getDefVal() - 0,
+                KybDefVal.PR.getDefVal() - 0,
+                KybDefVal.UM.getDefVal() + 0,
+                KybDefVal.AU.getDefVal() + 0,
+                KybDefVal.LQ.getDefVal() - 0,
+                KybDefVal.VR.getDefVal() - 0,
+                KybDefVal.BE.getDefVal() - 0,
+                KybDefVal.PO.getDefVal() - 0));
+        deserialize(list);
     }
 
     public void deserialize(List<KybInputs> listOfKypInputs) {

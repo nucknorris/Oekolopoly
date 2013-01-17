@@ -32,11 +32,38 @@ public class KybInputGenerator {
     List<KybInputs> listOfKypInputs;
     private static Logger logger = Logger.getLogger(KybInputGenerator.class);
     private Random rand;
+    private static int ap = KybDefVal.AP.getOptDefVal();
+    private static int sa = KybDefVal.SA.getOptDefVal();
+    private static int pr = KybDefVal.PR.getOptDefVal();
+    private static int um = KybDefVal.UM.getOptDefVal();
+    private static int au = KybDefVal.AU.getOptDefVal();
+    private static int lq = KybDefVal.LQ.getOptDefVal();
+    private static int vr = KybDefVal.VR.getOptDefVal();
+    private static int be = KybDefVal.BE.getOptDefVal();
+    private static int po = KybDefVal.PO.getOptDefVal();
 
     public KybInputGenerator(int epsilon, int steps) {
         this.e = epsilon;
         this.steps = steps;
-        this.listOfKypInputs = genListOfKybs();
+        // this.listOfKypInputs = genListOfKybs();
+        rand = new Random();
+    }
+
+    public List<KybInputs> getList(int amount) {
+        List<KybInputs> list = new ArrayList<KybInputs>();
+        for (int i = 0; i < amount; i++) {
+            list.add(new KybInputs(
+                    getRandInt(ap - e, ap + e),
+                    getRandInt(sa - e, sa + e),
+                    getRandInt(pr - e, pr + e),
+                    getRandInt(um - e, um + e),
+                    getRandInt(au - e, au + e),
+                    getRandInt(lq - e, lq + e),
+                    getRandInt(vr - e, vr + e),
+                    getRandInt(be - e, be + e),
+                    getRandInt(po - e, po + e)));
+        }
+        return list;
     }
 
     private List<KybInputs> genListOfKybs() {
@@ -76,6 +103,10 @@ public class KybInputGenerator {
         }
         logger.info("finish generating kybernetien inputs");
         return listOfKypInputs;
+    }
+
+    private int getRandInt(int min, int max) {
+        return min + (int) (rand.nextDouble() * ((max - min) + 1));
     }
 
     public List<KybInputs> getCompleteList() {

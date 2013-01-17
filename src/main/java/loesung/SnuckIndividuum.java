@@ -39,6 +39,8 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
 
     private double result;
 
+    private double bilance;
+
     public double getResult() {
         return result;
     }
@@ -286,5 +288,13 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
     @Override
     public int compareTo(SnuckIndividuum ind) {
         return ind.getResult() > result ? 1 : (ind.getResult() == result ? 0 : -1);
+    }
+
+    public double getBilance() {
+        return bilance;
+    }
+
+    public void setBilance(double bilance) {
+        this.bilance = bilance;
     }
 }

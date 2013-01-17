@@ -23,10 +23,10 @@ public class EvoAlg {
     private static final int TERMINATION_CONDITION = 30;
     private static final int POPULATION_SIZE = 100;
     private static final int MAX_ITERATIONS = 1000;
-    private static final int TERMINATION_LEVEL = 28;
+    private static final int TERMINATION_LEVEL = 25;
 
     // number of neurons in hidden layer
-    private static final int HIDDEN_LAYER_NEURONS = 10;
+    public static final int HIDDEN_LAYER_NEURONS = 15;
 
     // total number of layers (x hiddenLayer + 1 outputLayer, inputLayer not
     // included)
@@ -139,6 +139,7 @@ public class EvoAlg {
                     in.getLebensqual(), in.getVermehrungsrate(), in.getBevoelkerung(),
                     in.getPolitik());
             k.bewerteEineStrategie(ind);
+            ind.setBilance(k.getGesamtbilanz());
             totalRounds += k.getRundenzahl();
         }
 
@@ -172,7 +173,9 @@ public class EvoAlg {
             newInd.setResult(result);
             if (result > bestRounds) {
                 bestRounds = result;
-                logger.info("new best round found: " + bestRounds + ",(" + globalIteration + ")");
+                logger.info("new best round found: " + bestRounds + ", " + newInd.getBilance()
+                        + " (" + globalIteration + ")");
+                writeToFile(newInd);
             }
             if (result == TERMINATION_CONDITION) {
                 writeToFile(newInd);
