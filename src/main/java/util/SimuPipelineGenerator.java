@@ -1,11 +1,14 @@
 package util;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -17,7 +20,7 @@ public class SimuPipelineGenerator {
 
 	// private static int EPSILON = 2;
 	// private static final int START_VARIABLES = 9;
-	private static int pipelineSize = 100;
+	private static int pipelineSize = 30;
 	private static final String filename = "simuPipeline.dat";
 	private boolean isLoaded;
 	private int[][] matrix;
@@ -39,7 +42,7 @@ public class SimuPipelineGenerator {
 		// // matrix[5] = new int[] { 12, 5, 10, 9, 10, 7, 13, 20, 3 };
 
 		matrix = generator(pipelineSize);
-
+		saveArrayToFile(matrix);
 		savePipeline();
 	}
 
@@ -96,8 +99,15 @@ public class SimuPipelineGenerator {
 
 	public static int[][] generator(int x) {
 		Random rnd = new Random();
-		int[] us = { 5, 1, 5, 5, 1, 5, 8, 10, -5 };
-		int[] os = { 12, 15, 25, 25, 20, 20, 22, 25, 20 };
+		// test 1
+		// int[] us = { 5, 1, 5, 5, 1, 5, 8, 10, -5 };
+		// int[] os = { 12, 15, 25, 25, 20, 20, 22, 25, 20 };
+		// test 2
+		// int[] us = { 6, 4, 8, 8, 4, 9, 12, 14, 0 };
+		// int[] os = { 10, 11, 20, 20, 16, 17, 20, 20, 16 };
+		// test 3
+		int[] us = { 5, 5, 9, 9, 5, 10, 13, 15, 2 };
+		int[] os = { 9, 10, 19, 19, 15, 16, 19, 19, 14 };
 		int epsilon = 1;
 		int count = x;
 		int[][] matrix = new int[count][us.length];
@@ -124,6 +134,7 @@ public class SimuPipelineGenerator {
 					p8[(int) (((p8.length - 1) * Utilities.genGaussian(rnd)))],
 					p9[(int) (((p9.length - 1) * Utilities.genGaussian(rnd)))] };
 		}
+
 		return matrix;
 	}
 
@@ -135,4 +146,28 @@ public class SimuPipelineGenerator {
 		return p;
 	}
 
+	private void saveArrayToFile(int[][] m) {
+
+		String timestamp = new Timestamp(new Date().getTime()).toString()
+				.replaceAll("\\s", "_");
+		File file = new File(timestamp + filename);
+		try {
+			FileOutputStream fop = new FileOutputStream(file);
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			// get the content in bytes
+			for (int i = 0; i < m.length; i++) {
+				for (int j = 0; j < m[i].length; j++) {
+
+					fop.write((" " + m[i][j]).getBytes());
+				}
+				fop.write("\n".getBytes());
+			}
+			fop.flush();
+			fop.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

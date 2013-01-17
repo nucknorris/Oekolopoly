@@ -31,11 +31,11 @@ public class EvoAlg {
 
 	private static Logger logger = Logger.getLogger(EvoAlg.class);
 	static final int TERMINATION_ROUND = 30;
-	static final int POP_SIZE = 100;
+	static final int POP_SIZE = 200;
 	static final int MAX_GENERATION = 5000;
-	static final int NO_TERMINATION_OVER = 20;
-	public static final int LAYER = 7;
-	public static final int NEURONS = 10;
+	static final int NO_TERMINATION_OVER = 15;
+	public static final int LAYER = 8;
+	public static final int NEURONS = 15;
 	public static final double ALPHA = 0.1;
 	public static final double EPSILON = 0.00001;
 
@@ -60,7 +60,7 @@ public class EvoAlg {
 		thresholdsSP = Utilities.genStartThresholdSP();
 		List<OplewniaIndividuum> oldPop = populateStartPop();
 
-		while (!isTerminated && generation < 10000) {
+		while (!isTerminated) {
 			if (generation % 1000 == 0) {
 				if (generation > MAX_GENERATION
 						&& bestRounds < NO_TERMINATION_OVER) {
