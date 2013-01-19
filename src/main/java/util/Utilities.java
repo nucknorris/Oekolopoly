@@ -107,6 +107,10 @@ public class Utilities {
 		return Math.abs(g);
 	}
 
+	public static double genRandom(Random rnd) {
+		return rnd.nextDouble();
+	}
+
 	public static int sum(int i[]) {
 		int sum = 0;
 		for (int j : i) {

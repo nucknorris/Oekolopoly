@@ -18,9 +18,8 @@ import org.apache.log4j.Logger;
 
 public class SimuPipelineGenerator {
 
-	// private static int EPSILON = 2;
-	// private static final int START_VARIABLES = 9;
-	private static int pipelineSize = 30;
+	private static int pipelineSize = 50;
+	private static boolean gauss = false;
 	private static final String filename = "simuPipeline.dat";
 	private boolean isLoaded;
 	private int[][] matrix;
@@ -106,8 +105,11 @@ public class SimuPipelineGenerator {
 		// int[] us = { 6, 4, 8, 8, 4, 9, 12, 14, 0 };
 		// int[] os = { 10, 11, 20, 20, 16, 17, 20, 20, 16 };
 		// test 3
-		int[] us = { 5, 5, 9, 9, 5, 10, 13, 15, 2 };
-		int[] os = { 9, 10, 19, 19, 15, 16, 19, 19, 14 };
+		// int[] us = { 5, 5, 9, 9, 5, 10, 13, 15, 2 };
+		// int[] os = { 9, 10, 19, 19, 15, 16, 19, 19, 14 };
+		// 8, 1, 12, 13, 4, 10, 20, 21, 0
+		int[] us = { 7, 1, 11, 11, 3, 9, 19, 20, 0 };
+		int[] os = { 9, 3, 13, 14, 5, 11, 21, 22, 2 };
 		int epsilon = 1;
 		int count = x;
 		int[][] matrix = new int[count][us.length];
@@ -122,25 +124,39 @@ public class SimuPipelineGenerator {
 		int p8[] = genVal(us[7], os[7], epsilon);
 		int p9[] = genVal(us[8], os[8], epsilon);
 
-		for (int i = 0; i < count; i++) {
-			matrix[i] = new int[] {
-					p1[(int) (((p1.length - 1) * Utilities.genGaussian(rnd)))],
-					p2[(int) (((p2.length - 1) * Utilities.genGaussian(rnd)))],
-					p3[(int) (((p3.length - 1) * Utilities.genGaussian(rnd)))],
-					p4[(int) (((p4.length - 1) * Utilities.genGaussian(rnd)))],
-					p5[(int) (((p5.length - 1) * Utilities.genGaussian(rnd)))],
-					p6[(int) (((p6.length - 1) * Utilities.genGaussian(rnd)))],
-					p7[(int) (((p7.length - 1) * Utilities.genGaussian(rnd)))],
-					p8[(int) (((p8.length - 1) * Utilities.genGaussian(rnd)))],
-					p9[(int) (((p9.length - 1) * Utilities.genGaussian(rnd)))] };
+		if (gauss) {
+			for (int i = 0; i < count; i++) {
+				matrix[i] = new int[] {
+						p1[(int) (((p1.length - 1) * Utilities.genGaussian(rnd)))],
+						p2[(int) (((p2.length - 1) * Utilities.genGaussian(rnd)))],
+						p3[(int) (((p3.length - 1) * Utilities.genGaussian(rnd)))],
+						p4[(int) (((p4.length - 1) * Utilities.genGaussian(rnd)))],
+						p5[(int) (((p5.length - 1) * Utilities.genGaussian(rnd)))],
+						p6[(int) (((p6.length - 1) * Utilities.genGaussian(rnd)))],
+						p7[(int) (((p7.length - 1) * Utilities.genGaussian(rnd)))],
+						p8[(int) (((p8.length - 1) * Utilities.genGaussian(rnd)))],
+						p9[(int) (((p9.length - 1) * Utilities.genGaussian(rnd)))] };
+			}
+		} else {
+			for (int i = 0; i < count; i++) {
+				matrix[i] = new int[] {
+						p1[(int) (((p1.length - 1) * Utilities.genRandom(rnd)))],
+						p2[(int) (((p2.length - 1) * Utilities.genRandom(rnd)))],
+						p3[(int) (((p3.length - 1) * Utilities.genRandom(rnd)))],
+						p4[(int) (((p4.length - 1) * Utilities.genRandom(rnd)))],
+						p5[(int) (((p5.length - 1) * Utilities.genRandom(rnd)))],
+						p6[(int) (((p6.length - 1) * Utilities.genRandom(rnd)))],
+						p7[(int) (((p7.length - 1) * Utilities.genRandom(rnd)))],
+						p8[(int) (((p8.length - 1) * Utilities.genRandom(rnd)))],
+						p9[(int) (((p9.length - 1) * Utilities.genRandom(rnd)))] };
+			}
 		}
-
 		return matrix;
 	}
 
 	public static int[] genVal(int start, int end, int epsilon) {
-		int[] p = new int[(end - start)];
-		for (int i = 0; i < (end - start); i++) {
+		int[] p = new int[(end - start + 2)];
+		for (int i = 0; i <= (end - start + 1); i++) {
 			p[i] = start + i;
 		}
 		return p;

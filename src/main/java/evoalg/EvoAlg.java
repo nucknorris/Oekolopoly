@@ -31,11 +31,12 @@ public class EvoAlg {
 
 	private static Logger logger = Logger.getLogger(EvoAlg.class);
 	static final int TERMINATION_ROUND = 30;
-	static final int POP_SIZE = 200;
-	static final int MAX_GENERATION = 5000;
-	static final int NO_TERMINATION_OVER = 15;
+	static final int POP_SIZE = 100;
+	static final int MAX_GENERATION = 2000;
+	static final int MAX_GLOBAL_GENERATION = 40000;
+	static final int NO_TERMINATION_OVER = 20;
 	public static final int LAYER = 8;
-	public static final int NEURONS = 15;
+	public static final int NEURONS = 16;
 	public static final double ALPHA = 0.1;
 	public static final double EPSILON = 0.00001;
 
@@ -43,6 +44,7 @@ public class EvoAlg {
 	boolean isTerminated = false;
 
 	private int generation = 0;
+	private int globalGeneration = 0;
 	private String filename;
 	private Random random;
 	private SimuPipelineGenerator spg;
@@ -62,13 +64,14 @@ public class EvoAlg {
 
 		while (!isTerminated) {
 			if (generation % 1000 == 0) {
-				if (generation > MAX_GENERATION
-						&& bestRounds < NO_TERMINATION_OVER) {
+				if ((generation > MAX_GENERATION && bestRounds < NO_TERMINATION_OVER)
+						|| globalGeneration >= MAX_GLOBAL_GENERATION) {
 					logger.info("## RESTARTING");
 					weightsSP = Utilities.genStartWeightSP();
 					thresholdsSP = Utilities.genStartThresholdSP();
 					oldPop = populateStartPop();
 					generation = 0;
+					globalGeneration = 0;
 					random = new Random();
 					bestRounds = 0;
 				}
@@ -80,6 +83,7 @@ public class EvoAlg {
 
 			oldPop = BestSelection.selection(oldPop, newPop, POP_SIZE);
 			generation++;
+			globalGeneration++;
 		}
 		return filename;
 	}
