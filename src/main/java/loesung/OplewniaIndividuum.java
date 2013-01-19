@@ -21,58 +21,23 @@ import evoalg.EvoAlg;
 public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 		Comparable<OplewniaIndividuum> {
 
-	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 5211822430302842323L;
-
-	/** The weights. */
 	private double weights[][];
-
-	/** The thresholds. */
 	private double thresholds[][];
-
-	/** The lebq. */
 	private double lebq; // 0 Lebensqualitaet
-
-	/** The aufk. */
 	private double aufk; // 1 Aufklaerung
-
-	/** The prod. */
 	private double prod; // 2 Produktion
-
-	/** The sani. */
 	private double sani; // 3 Sanierung
-
-	/** The vemr. */
 	private double vemr; // 4 Vermehrungsrate
-
-	/** The uweb. */
 	private double uweb; // 5 Umweltbelastung
-
-	/** The bevo. */
 	private double bevo; // 6 Bevoelkerung
-
-	/** The poli. */
 	private double poli; // 7 Politik
-
-	/** The aktp. */
 	private double aktp; // 8 Aktionspunkte
-
-	/** The lebq part. */
 	private double lebqPart; // 0 Lebensqualitaet
-
-	/** The aufk part. */
 	private double aufkPart; // 1 Aufklaerung
-
-	/** The prod part. */
 	private double prodPart; // 2 Produktion
-
-	/** The sani part. */
 	private double saniPart; // 3 Sanierung
-
-	/** The vemr part. */
 	private double vemrPart; // 4 Vermehrungsrate
-
-	/** The result. */
 	private double result;
 
 	/**

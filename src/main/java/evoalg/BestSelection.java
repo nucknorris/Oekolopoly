@@ -13,7 +13,6 @@ import java.util.List;
 
 import loesung.OplewniaIndividuum;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BestSelection.
  */

@@ -7,9 +7,6 @@
  */
 package test;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.List;
 
 import loesung.OplewniaIndividuum;
@@ -19,18 +16,15 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import util.SimuPipelineGenerator;
+import util.Utilities;
 import evoalg.EvoAlg;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class NeuronalNetworkTest.
  */
 public class NeuronalNetworkTest {
 
-	/** The logger. */
 	private static Logger logger = Logger.getLogger(NeuronalNetworkTest.class);
-
-	/** The filename. */
 	static String filename;
 	private SimuPipelineGenerator spg;
 
@@ -57,19 +51,7 @@ public class NeuronalNetworkTest {
 		logger.info("## Deserial Ind. Object");
 		OplewniaIndividuum deserialObject;
 		List<Kybernetien> simuPipeline = genSimuPipeline();
-		try {
-			FileInputStream fileInStream = new FileInputStream(filename);
-			ObjectInputStream objInStream = new ObjectInputStream(fileInStream);
-			deserialObject = (OplewniaIndividuum) objInStream.readObject();
-			objInStream.close();
-			fileInStream.close();
-		} catch (IOException i) {
-			i.printStackTrace();
-			return;
-		} catch (ClassNotFoundException c) {
-			c.printStackTrace();
-			return;
-		}
+		deserialObject = Utilities.loadIndividual(filename);
 		logger.info("### RUNNING TESTS SIMU PIPELINE ###");
 		for (Kybernetien kybernetien : simuPipeline) {
 			kybernetien.bewerteEineStrategie(deserialObject);

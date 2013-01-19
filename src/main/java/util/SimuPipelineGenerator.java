@@ -30,6 +30,13 @@ public class SimuPipelineGenerator {
 		isLoaded = false;
 	}
 
+	public SimuPipelineGenerator(int i, boolean b) {
+		logger.info("### START PIPELINEGENERATOR");
+		gauss = b;
+		isLoaded = false;
+		setPipelineSize(i);
+	}
+
 	public void genNewSimuPipeline() {
 		logger.info("# GENERATE NEW PIPELINE");
 		// matrix = new int[pipelineSize][START_VARIABLES];
@@ -40,14 +47,14 @@ public class SimuPipelineGenerator {
 		// // matrix[4] = new int[] { 10, 6, 10, 8, 10, 8, 13, 22, 3 };
 		// // matrix[5] = new int[] { 12, 5, 10, 9, 10, 7, 13, 20, 3 };
 
-		matrix = generator(pipelineSize);
+		matrix = generator(getPipelineSize());
 		saveArrayToFile(matrix);
 		savePipeline();
 	}
 
 	private static List<Kybernetien> convert(int[][] js) {
 		List<Kybernetien> list = new ArrayList<Kybernetien>();
-		for (int i = 0; i < pipelineSize; i++) {
+		for (int i = 0; i < getPipelineSize(); i++) {
 			list.add(new Kybernetien(js[i][0], js[i][1], js[i][2], js[i][3],
 					js[i][4], js[i][5], js[i][6], js[i][7], js[i][8]));
 		}
@@ -185,5 +192,13 @@ public class SimuPipelineGenerator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static int getPipelineSize() {
+		return pipelineSize;
+	}
+
+	public static void setPipelineSize(int pipelineSize) {
+		SimuPipelineGenerator.pipelineSize = pipelineSize;
 	}
 }

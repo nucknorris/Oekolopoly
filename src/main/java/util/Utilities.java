@@ -7,11 +7,15 @@
  */
 package util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Random;
 
+import loesung.OplewniaIndividuum;
 import evoalg.EvoAlg;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Utilities.
  */
@@ -125,5 +129,23 @@ public class Utilities {
 			fact *= i;
 		}
 		return fact;
+	}
+
+	public static OplewniaIndividuum loadIndividual(String s) {
+
+		OplewniaIndividuum deserial = null;
+		try {
+			FileInputStream fileIn = new FileInputStream(new File(s));
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			deserial = (OplewniaIndividuum) in.readObject();
+			in.close();
+			fileIn.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+		} catch (ClassNotFoundException c) {
+			System.out.println("MeinIndividuum class not found");
+			c.printStackTrace();
+		}
+		return deserial;
 	}
 }

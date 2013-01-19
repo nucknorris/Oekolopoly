@@ -1,0 +1,52 @@
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: project3.aux
+The style file: alphadin.bst
+A level-1 auxiliary file: content/content.aux
+Reallocated wiz_functions (elt_size=4) to 6000 items from 472446405560.
+Database file #1: literatur.bib
+Illegal end of database file---line 8 of file literatur.bib
+ :  address = {Berlin, Heidelberg},
+ :                                 
+I'm skipping whatever remains of this entry
+You've used 1 entry,
+            4793 wiz_defined-function locations,
+            899 strings with 6423 characters,
+and the built_in function-call counts, 644 in all, are:
+= -- 63
+> -- 8
+< -- 11
++ -- 10
+- -- 2
+* -- 43
+:= -- 107
+add.period$ -- 2
+call.type$ -- 1
+change.case$ -- 4
+chr.to.int$ -- 1
+cite$ -- 1
+duplicate$ -- 18
+empty$ -- 57
+format.name$ -- 6
+if$ -- 135
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 4
+newline$ -- 17
+num.names$ -- 3
+pop$ -- 6
+preamble$ -- 1
+purify$ -- 6
+quote$ -- 0
+skip$ -- 25
+stack$ -- 0
+substring$ -- 71
+swap$ -- 3
+text.length$ -- 3
+text.prefix$ -- 1
+top$ -- 0
+type$ -- 6
+warning$ -- 0
+while$ -- 4
+width$ -- 2
+write$ -- 22
+(There was 1 error message)

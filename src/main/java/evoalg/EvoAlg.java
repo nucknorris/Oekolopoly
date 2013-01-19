@@ -50,7 +50,8 @@ public class EvoAlg {
 	private SimuPipelineGenerator spg;
 
 	public EvoAlg() {
-		spg = new SimuPipelineGenerator();
+		spg = new SimuPipelineGenerator(200, false);
+		spg.genNewSimuPipeline();
 		random = new Random();
 	}
 
