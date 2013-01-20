@@ -56,7 +56,7 @@ public class Utilities {
 	}
 
 	/**
-	 * Gen start weight strat param.
+	 * Gen start weight sp.
 	 * 
 	 * @return the double[][]
 	 */
@@ -71,7 +71,7 @@ public class Utilities {
 	}
 
 	/**
-	 * Gen start threshold strat param.
+	 * Gen start threshold sp.
 	 * 
 	 * @return the double[][]
 	 */
@@ -85,6 +85,12 @@ public class Utilities {
 		return strategyParams;
 	}
 
+	/**
+	 * Pretty print.
+	 * 
+	 * @param m
+	 *            the m
+	 */
 	public static void prettyPrint(int[][] m) {
 		for (int i = 0; i < m.length; i++) {
 			for (int j = 0; j < m[i].length; j++) {
@@ -94,6 +100,12 @@ public class Utilities {
 		}
 	}
 
+	/**
+	 * Pretty print.
+	 * 
+	 * @param m
+	 *            the m
+	 */
 	public static void prettyPrint(double[][] m) {
 		for (int i = 0; i < m.length; i++) {
 			for (int j = 0; j < m[i].length; j++) {
@@ -103,6 +115,13 @@ public class Utilities {
 		}
 	}
 
+	/**
+	 * Gen gaussian.
+	 * 
+	 * @param rnd
+	 *            the rnd
+	 * @return the double
+	 */
 	public static double genGaussian(Random rnd) {
 		double g = Math.abs(rnd.nextGaussian());
 		while (g >= 1) {
@@ -111,10 +130,24 @@ public class Utilities {
 		return Math.abs(g);
 	}
 
+	/**
+	 * Gen random.
+	 * 
+	 * @param rnd
+	 *            the rnd
+	 * @return the double
+	 */
 	public static double genRandom(Random rnd) {
 		return rnd.nextDouble();
 	}
 
+	/**
+	 * Sum.
+	 * 
+	 * @param i
+	 *            the i
+	 * @return the int
+	 */
 	public static int sum(int i[]) {
 		int sum = 0;
 		for (int j : i) {
@@ -123,6 +156,13 @@ public class Utilities {
 		return sum;
 	}
 
+	/**
+	 * Factorial.
+	 * 
+	 * @param n
+	 *            the n
+	 * @return the int
+	 */
 	public static int factorial(int n) {
 		int fact = 1;
 		for (int i = 1; i <= n; i++) {
@@ -131,6 +171,13 @@ public class Utilities {
 		return fact;
 	}
 
+	/**
+	 * Load individual.
+	 * 
+	 * @param s
+	 *            the s
+	 * @return the oplewnia individuum
+	 */
 	public static OplewniaIndividuum loadIndividual(String s) {
 
 		OplewniaIndividuum deserial = null;

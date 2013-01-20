@@ -34,9 +34,6 @@ public class NeuronalNetworkTest {
 	@Test
 	public void startTest() {
 		logger.info("### TEST THE INDIVIDUAL");
-		spg = new SimuPipelineGenerator();
-		spg.genNewSimuPipeline();
-
 		EvoAlg ea = new EvoAlg();
 		filename = ea.run();
 		if (filename != null) {

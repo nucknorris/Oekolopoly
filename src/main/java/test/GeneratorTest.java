@@ -1,12 +1,20 @@
+/*
+ * HTWK Leipzig
+ * Evolutionaere Algorithmen 
+ * Projekt Aufgabe Drei
+ * @author Oliver Plewnia
+ */
 package test;
 
 import org.junit.Test;
 
-import util.SimuPipelineGenerator;
 import util.Utilities;
 
 public class GeneratorTest {
 
+	/**
+	 * Test.
+	 */
 	@Test
 	public void test() {
 
@@ -15,8 +23,7 @@ public class GeneratorTest {
 		matrix[1] = new int[] { 1, 2, 3 };
 		matrix[2] = new int[] { 1, 2, 3 };
 		Utilities.prettyPrint(matrix);
-		int matrix2[][] = SimuPipelineGenerator.generator(100);
-		Utilities.prettyPrint(matrix2);
+
 	}
 
 }

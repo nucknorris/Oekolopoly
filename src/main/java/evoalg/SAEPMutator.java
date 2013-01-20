@@ -26,6 +26,14 @@ public class SAEPMutator {
 
 	private Random random = new Random();
 
+	/**
+	 * Instantiates a new sAEP mutator.
+	 *
+	 * @param weights the weights
+	 * @param thresholds the thresholds
+	 * @param weightsStrategyParams the weights strategy params
+	 * @param tresholdsStrategyParams the tresholds strategy params
+	 */
 	public SAEPMutator(double[][] weights, double[][] thresholds,
 			double[][] weightsStrategyParams, double[][] tresholdsStrategyParams) {
 		this.weights = weights.clone();
@@ -34,6 +42,9 @@ public class SAEPMutator {
 		this.thresholdsStrategyParams = tresholdsStrategyParams.clone();
 	}
 
+	/**
+	 * Run mutation.
+	 */
 	void runMutation() {
 		newWeights = new double[EvoAlg.LAYER][EvoAlg.NEURONS];
 		newThresholds = new double[EvoAlg.LAYER][EvoAlg.NEURONS];
@@ -47,6 +58,12 @@ public class SAEPMutator {
 		}
 	}
 
+	/**
+	 * Mutate weights.
+	 *
+	 * @param i the i
+	 * @param j the j
+	 */
 	private void mutateWeights(int i, int j) {
 
 		double uPipe = 0.0;
@@ -66,6 +83,12 @@ public class SAEPMutator {
 		newWeightsStrategyParams[i][j] = bS;
 	}
 
+	/**
+	 * Mutate thresholds.
+	 *
+	 * @param i the i
+	 * @param j the j
+	 */
 	private void mutateThresholds(int i, int j) {
 
 		double uPipe = 0.0;
@@ -85,26 +108,56 @@ public class SAEPMutator {
 		newThresholdsStrategyParams[i][j] = bS;
 	}
 
+	/**
+	 * Gets the weights.
+	 *
+	 * @return the weights
+	 */
 	public double[][] getWeights() {
 		return newWeights;
 	}
 
+	/**
+	 * Gets the thresholds.
+	 *
+	 * @return the thresholds
+	 */
 	public double[][] getThresholds() {
 		return newThresholds;
 	}
 
+	/**
+	 * Gets the weights sp.
+	 *
+	 * @return the weights sp
+	 */
 	public double[][] getWeightsSP() {
 		return newWeightsStrategyParams;
 	}
 
+	/**
+	 * Sets the weights strategy params.
+	 *
+	 * @param weightsStrategyParams the new weights strategy params
+	 */
 	public void setWeightsStrategyParams(double[][] weightsStrategyParams) {
 		this.weightsStrategyParams = weightsStrategyParams;
 	}
 
+	/**
+	 * Gets the tresholds sp.
+	 *
+	 * @return the tresholds sp
+	 */
 	public double[][] getTresholdsSP() {
 		return newThresholdsStrategyParams;
 	}
 
+	/**
+	 * Sets the tresholds strategy params.
+	 *
+	 * @param tresholdsStrategyParams the new tresholds strategy params
+	 */
 	public void setTresholdsStrategyParams(double[][] tresholdsStrategyParams) {
 		this.thresholdsStrategyParams = tresholdsStrategyParams;
 	}

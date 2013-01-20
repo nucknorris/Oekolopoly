@@ -1,3 +1,9 @@
+/*
+ * HTWK Leipzig
+ * Evolutionaere Algorithmen 
+ * Projekt Aufgabe Drei
+ * @author Oliver Plewnia
+ */
 package test;
 
 import java.util.List;
@@ -12,6 +18,9 @@ import util.Utilities;
 
 public class IndividualTest {
 
+	/**
+	 * Test.
+	 */
 	@Test
 	public void test() {
 		int testsize = 5000;
