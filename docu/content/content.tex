@@ -56,6 +56,7 @@ Ausschlaggebend für den Erfolg ist jedoch auf welchen Startzustand des Simulato
 \section{Fazit}
 Die Strategie welche im Neuronalen Netz erfasst ist abhängig von der Größe des Netzes. Ein hinreicht großes Netz ist sicher in der Lage für alle Startkonstellationen eine Strategie auszuführen, welche $30$ Runden im Simulator überlebt. Schwachpunkt ist die zu Langsame Mutation die Dauer für die Generierung solch eines Individuums ist enorm.
 
-Ein Knackpunkt ist die Implementierung des Pseudozufallszahl-Generator von Java er verbraucht mit Abstand die meiste Laufzeit in der Mutation. Eine effizientere Methode würde die Mutation beschleunigen. Insgesamt wurde ein vielfaches mehr Zeit für die Bearbeitung und Implementierung des Projektes verwendet als angesetzt wurde.
+Ein Knackpunkt ist die Implementierung des Pseudozufallszahl-Generator von Java er verbraucht mit Abstand die meiste Laufzeit in der Mutation. Eine effizientere Methode würde die Mutation beschleunigen. Eine alternative ist der \textit{Mersenne-Twister}\footnote{\hyperref[Mersenne-Twister]{http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html}
+} von Makoto Matsumoto.
 
-Eine zusätzliche Testumgebung lädt ein beliebiges Individuum erzeugt eine beliebige Anzahl von Test Simulationen und lässt das Individuum gegen den Simulator antreten. Zehntausend Testfälle werden in weniger als zehn Sekunden abgearbeitet und ausgewertet werden. Sämtlicher Code liegt dieser Ausarbeitung bei und kann frei verwendet werden.
+Eine zusätzliche Testumgebung lädt ein beliebiges Individuum erzeugt eine beliebige Anzahl von Test Simulationen und lässt das Individuum gegen den Simulator antreten. Zehntausend Testfälle werden in weniger als zehn Sekunden abgearbeitet und ausgewertet werden. Sämtlicher Code liegt dieser Ausarbeitung bei und kann frei verwendet werden. Insgesamt wurde ein vielfaches mehr Zeit für die Bearbeitung und Implementierung des Projektes verwendet als angesetzt wurde.

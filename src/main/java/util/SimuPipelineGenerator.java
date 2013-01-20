@@ -141,7 +141,8 @@ public class SimuPipelineGenerator {
 	 * @return the int[][]
 	 */
 	public int[][] generator(int x) {
-		Random rnd = new Random();
+		Random rnd2 = new Random();
+		MersenneTwisterFast rnd = new MersenneTwisterFast();
 		// test 1
 		// int[] us = { 5, 1, 5, 5, 1, 5, 8, 10, -5 };
 		// int[] os = { 12, 15, 25, 25, 20, 20, 22, 25, 20 };
@@ -192,15 +193,15 @@ public class SimuPipelineGenerator {
 		} else {
 			for (int i = 0; i < count; i++) {
 				matrix[i] = new int[] {
-						p1[(int) (((p1.length - 1) * Utilities.genRandom(rnd)))],
-						p2[(int) (((p2.length - 1) * Utilities.genRandom(rnd)))],
-						p3[(int) (((p3.length - 1) * Utilities.genRandom(rnd)))],
-						p4[(int) (((p4.length - 1) * Utilities.genRandom(rnd)))],
-						p5[(int) (((p5.length - 1) * Utilities.genRandom(rnd)))],
-						p6[(int) (((p6.length - 1) * Utilities.genRandom(rnd)))],
-						p7[(int) (((p7.length - 1) * Utilities.genRandom(rnd)))],
-						p8[(int) (((p8.length - 1) * Utilities.genRandom(rnd)))],
-						p9[(int) (((p9.length - 1) * Utilities.genRandom(rnd)))] };
+						p1[(int) (((p1.length - 1) * Utilities.genRandom(rnd2)))],
+						p2[(int) (((p2.length - 1) * Utilities.genRandom(rnd2)))],
+						p3[(int) (((p3.length - 1) * Utilities.genRandom(rnd2)))],
+						p4[(int) (((p4.length - 1) * Utilities.genRandom(rnd2)))],
+						p5[(int) (((p5.length - 1) * Utilities.genRandom(rnd2)))],
+						p6[(int) (((p6.length - 1) * Utilities.genRandom(rnd2)))],
+						p7[(int) (((p7.length - 1) * Utilities.genRandom(rnd2)))],
+						p8[(int) (((p8.length - 1) * Utilities.genRandom(rnd2)))],
+						p9[(int) (((p9.length - 1) * Utilities.genRandom(rnd2)))] };
 			}
 		}
 		return matrix;

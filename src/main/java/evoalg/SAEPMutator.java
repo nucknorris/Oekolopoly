@@ -7,7 +7,7 @@
  */
 package evoalg;
 
-import java.util.Random;
+import util.MersenneTwisterFast;
 
 /**
  * The Class SelfAdaptEpMutator.
@@ -24,15 +24,20 @@ public class SAEPMutator {
 	private double[][] newWeightsStrategyParams;
 	private double[][] newThresholdsStrategyParams;
 
-	private Random random = new Random();
+	// private Random random = new Random();
+	private MersenneTwisterFast random = new MersenneTwisterFast();
 
 	/**
 	 * Instantiates a new sAEP mutator.
-	 *
-	 * @param weights the weights
-	 * @param thresholds the thresholds
-	 * @param weightsStrategyParams the weights strategy params
-	 * @param tresholdsStrategyParams the tresholds strategy params
+	 * 
+	 * @param weights
+	 *            the weights
+	 * @param thresholds
+	 *            the thresholds
+	 * @param weightsStrategyParams
+	 *            the weights strategy params
+	 * @param tresholdsStrategyParams
+	 *            the tresholds strategy params
 	 */
 	public SAEPMutator(double[][] weights, double[][] thresholds,
 			double[][] weightsStrategyParams, double[][] tresholdsStrategyParams) {
@@ -60,9 +65,11 @@ public class SAEPMutator {
 
 	/**
 	 * Mutate weights.
-	 *
-	 * @param i the i
-	 * @param j the j
+	 * 
+	 * @param i
+	 *            the i
+	 * @param j
+	 *            the j
 	 */
 	private void mutateWeights(int i, int j) {
 
@@ -85,9 +92,11 @@ public class SAEPMutator {
 
 	/**
 	 * Mutate thresholds.
-	 *
-	 * @param i the i
-	 * @param j the j
+	 * 
+	 * @param i
+	 *            the i
+	 * @param j
+	 *            the j
 	 */
 	private void mutateThresholds(int i, int j) {
 
@@ -110,7 +119,7 @@ public class SAEPMutator {
 
 	/**
 	 * Gets the weights.
-	 *
+	 * 
 	 * @return the weights
 	 */
 	public double[][] getWeights() {
@@ -119,7 +128,7 @@ public class SAEPMutator {
 
 	/**
 	 * Gets the thresholds.
-	 *
+	 * 
 	 * @return the thresholds
 	 */
 	public double[][] getThresholds() {
@@ -128,7 +137,7 @@ public class SAEPMutator {
 
 	/**
 	 * Gets the weights sp.
-	 *
+	 * 
 	 * @return the weights sp
 	 */
 	public double[][] getWeightsSP() {
@@ -137,8 +146,9 @@ public class SAEPMutator {
 
 	/**
 	 * Sets the weights strategy params.
-	 *
-	 * @param weightsStrategyParams the new weights strategy params
+	 * 
+	 * @param weightsStrategyParams
+	 *            the new weights strategy params
 	 */
 	public void setWeightsStrategyParams(double[][] weightsStrategyParams) {
 		this.weightsStrategyParams = weightsStrategyParams;
@@ -146,7 +156,7 @@ public class SAEPMutator {
 
 	/**
 	 * Gets the tresholds sp.
-	 *
+	 * 
 	 * @return the tresholds sp
 	 */
 	public double[][] getTresholdsSP() {
@@ -155,8 +165,9 @@ public class SAEPMutator {
 
 	/**
 	 * Sets the tresholds strategy params.
-	 *
-	 * @param tresholdsStrategyParams the new tresholds strategy params
+	 * 
+	 * @param tresholdsStrategyParams
+	 *            the new tresholds strategy params
 	 */
 	public void setTresholdsStrategyParams(double[][] tresholdsStrategyParams) {
 		this.thresholdsStrategyParams = tresholdsStrategyParams;

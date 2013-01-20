@@ -14,13 +14,13 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import loesung.OplewniaIndividuum;
 import okoelopoly.Kybernetien;
 
 import org.apache.log4j.Logger;
 
+import util.MersenneTwisterFast;
 import util.SimuPipelineGenerator;
 import util.Utilities;
 
@@ -46,7 +46,8 @@ public class EvoAlg {
 	private int generation = 0;
 	private int globalGeneration = 0;
 	private String filename;
-	private Random random;
+	// private Random random;
+	private MersenneTwisterFast random;
 	private SimuPipelineGenerator spg;
 
 	/**
@@ -55,12 +56,13 @@ public class EvoAlg {
 	public EvoAlg() {
 		spg = new SimuPipelineGenerator(80, false);
 		spg.genNewSimuPipeline();
-		random = new Random();
+		// random = new Random();
+		random = new MersenneTwisterFast();
 	}
 
 	/**
 	 * Run.
-	 *
+	 * 
 	 * @return the string
 	 */
 	public String run() {
@@ -79,7 +81,8 @@ public class EvoAlg {
 					oldPop = populateStartPop();
 					generation = 0;
 					globalGeneration = 0;
-					random = new Random();
+					// random = new Random();
+					random = new MersenneTwisterFast();
 					bestRounds = 0;
 				}
 				logger.info("## " + generation);
@@ -96,7 +99,7 @@ public class EvoAlg {
 
 	/**
 	 * Populate start pop.
-	 *
+	 * 
 	 * @return the list
 	 */
 	private List<OplewniaIndividuum> populateStartPop() {
@@ -113,8 +116,9 @@ public class EvoAlg {
 
 	/**
 	 * Run pipeline.
-	 *
-	 * @param ind the ind
+	 * 
+	 * @param ind
+	 *            the ind
 	 * @return the int
 	 */
 	private int runPipeline(OplewniaIndividuum ind) {
@@ -130,10 +134,13 @@ public class EvoAlg {
 
 	/**
 	 * Mutate population.
-	 *
-	 * @param startPopulation the start population
-	 * @param weightsSP the weights sp
-	 * @param thresholdsSP the thresholds sp
+	 * 
+	 * @param startPopulation
+	 *            the start population
+	 * @param weightsSP
+	 *            the weights sp
+	 * @param thresholdsSP
+	 *            the thresholds sp
 	 * @return the list
 	 */
 	private List<OplewniaIndividuum> mutatePopulation(
@@ -173,8 +180,9 @@ public class EvoAlg {
 
 	/**
 	 * Write to file.
-	 *
-	 * @param ind the ind
+	 * 
+	 * @param ind
+	 *            the ind
 	 */
 	private void writeToFile(OplewniaIndividuum ind) {
 		try {
@@ -195,8 +203,9 @@ public class EvoAlg {
 
 	/**
 	 * Prints the result.
-	 *
-	 * @param kybernetien the kybernetien
+	 * 
+	 * @param kybernetien
+	 *            the kybernetien
 	 */
 	public void printResult(Kybernetien kybernetien) {
 		logger.info("##### Auswertung #####");

@@ -38,6 +38,16 @@ public class Utilities {
 		return weights;
 	}
 
+	public static double[][] genRndWeights(MersenneTwisterFast random) {
+		double weights[][] = new double[EvoAlg.LAYER][EvoAlg.NEURONS];
+		for (int i = 0; i < EvoAlg.LAYER; i++) {
+			for (int j = 0; j < EvoAlg.NEURONS; j++) {
+				weights[i][j] = random.nextGaussian();
+			}
+		}
+		return weights;
+	}
+
 	/**
 	 * Gen rnd thresholds.
 	 * 
@@ -46,6 +56,16 @@ public class Utilities {
 	 * @return the double[][]
 	 */
 	public static double[][] genRndThresholds(Random random) {
+		double thresholds[][] = new double[EvoAlg.LAYER][EvoAlg.NEURONS];
+		for (int i = 0; i < EvoAlg.LAYER; i++) {
+			for (int j = 0; j < EvoAlg.NEURONS; j++) {
+				thresholds[i][j] = random.nextGaussian();
+			}
+		}
+		return thresholds;
+	}
+
+	public static double[][] genRndThresholds(MersenneTwisterFast random) {
 		double thresholds[][] = new double[EvoAlg.LAYER][EvoAlg.NEURONS];
 		for (int i = 0; i < EvoAlg.LAYER; i++) {
 			for (int j = 0; j < EvoAlg.NEURONS; j++) {
@@ -122,7 +142,16 @@ public class Utilities {
 	 *            the rnd
 	 * @return the double
 	 */
+	@Deprecated
 	public static double genGaussian(Random rnd) {
+		double g = Math.abs(rnd.nextGaussian());
+		while (g >= 1) {
+			g = Math.abs(rnd.nextGaussian());
+		}
+		return Math.abs(g);
+	}
+
+	public static double genGaussian(MersenneTwisterFast rnd) {
 		double g = Math.abs(rnd.nextGaussian());
 		while (g >= 1) {
 			g = Math.abs(rnd.nextGaussian());
