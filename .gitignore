@@ -6,3 +6,5 @@ target
 *.log
 *.dat
 old_logs
+*.out
+*.gz
