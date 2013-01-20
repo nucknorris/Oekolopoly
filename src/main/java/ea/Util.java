@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Util {
 
-    public static double[][] genRndWeights(Random random) {
+    public static double[][] genRndWeights(MersenneTwisterFast random) {
         double weights[][] = new double[EvoAlg.TOTAL_LAYERS + 1][EvoAlg.HIDDEN_LAYER_NEURONS];
 
         for (int i = 0; i <= EvoAlg.TOTAL_LAYERS; i++) {
@@ -15,7 +15,7 @@ public class Util {
         return weights;
     }
 
-    public static double[][] genRndThresholds(Random random) {
+    public static double[][] genRndThresholds(MersenneTwisterFast random) {
         double thresholds[][] = new double[EvoAlg.TOTAL_LAYERS + 1][EvoAlg.HIDDEN_LAYER_NEURONS];
 
         for (int i = 1; i <= EvoAlg.TOTAL_LAYERS; i++) {

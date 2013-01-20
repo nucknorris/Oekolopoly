@@ -21,7 +21,7 @@ public class SerialisationTest {
 
     @Test
     public void startTest() {
-        filename = "28.0_500_2013-01-1700:34:11.593.ser";
+        filename = "28.0_100_2013-01-1919:38:36.914.ser";
         List<KybInputs> list = new ArrayList<KybInputs>();
         list.add(new KybInputs(
                 KybDefVal.AP.getDefVal() - 0,

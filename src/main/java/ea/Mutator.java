@@ -20,7 +20,8 @@ public class Mutator {
     private double[][] newWeightsStrategyParams;
     private double[][] newThresholdsStrategyParams;
 
-    private Random random = new Random();
+    // private Random random = new Random();
+    private MersenneTwisterFast random = new MersenneTwisterFast();
 
     public Mutator(double[][] weights, double[][] thresholds, double[][] weightsStrategyParams,
             double[][] tresholdsStrategyParams) {

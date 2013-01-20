@@ -39,11 +39,11 @@ public class EvoAlg {
     private int globalIteration = 0;
     private String filename;
     // private List<Kybernetien> listOfKybernetien;
-    private Random random;
+    private MersenneTwisterFast random;
     List<KybInputs> listOfKypInputs;
 
     public EvoAlg(List<KybInputs> listOfKypInputs) {
-        random = new Random();
+        random = new MersenneTwisterFast();
         this.listOfKypInputs = listOfKypInputs;
     }
 
@@ -79,7 +79,7 @@ public class EvoAlg {
                     currentPop.clear();
                     currentPop = populateStartPop(currentPop);
                     iteration = 0;
-                    random = new Random();
+                    random = new MersenneTwisterFast();
                 }
 
                 logger.info("STILL WORKING ... iteration: " + iteration + "(" + bestRounds + ")");
