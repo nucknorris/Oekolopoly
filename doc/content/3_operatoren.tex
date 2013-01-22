@@ -1,0 +1,17 @@
+%!TEX root = ../document.tex
+\chapter{Mutation, Selektion und Gütebewertung}
+
+\section{Mutation}
+Als Basis für die Mutation dient die \verb+SELBSTADAPTIVE-EP-MUTATION+ wie im Algorithmus 4.19 in \cite{Weicker200709} beschrieben. Im Detail werden die Gewichte, Schwellwerte und deren beider Strategieparameter mutiert, indem ein bestimmter Anteil eines zufällig gewählten Wertes aufaddiert wird. 
+
+Für die Bestimmung der gaußverteilten Zufallszahlen wird nicht die Standardimplementierung von Java verwendet sonder eine in Java geschriebene Version des \verb+Mersenne Twister+. Die Implementierung stammt von \textit{Sean Luke} \cite{mersenne}. Dieser Generator wurde der Standardimplementierung vorgezogen, da er ca. $ \frac{1}{3} $ schneller ist als Java's \verb+Random+.
+
+Diese Art der Mutation wurde verwendet, weil sie eine Anpassung der Parameter des Netzes erlaubt. Dabei werden bei jeder Mutation alle der 100 Werte der Startpopulation mutiert. Als Resultat werden dieser Population die 100 mutierten Individuen angehängt.
+
+\section{Selektion}
+Als Selektion wird eine Bestenselektion verwendet. Dabei werden die besten 100 der insgesamt 200 Individuen entnommen. Diese stellen die Startpopulation für den neuen Zyklus des Algorithmus dar. Die Auswahl dieser Selektion lässt sich damit begründen, dass für das Lernen des Netzes möglichst nur die Besten verwendet werden sollen. Durch die Durchmischung mit den nicht-mutierten Individuen wird garantiert, dass mutierte Individuen, die schlechtere Werte liefern als vor der Mutation sich erneut in der Startpopulation befinden.
+
+Eine bessere Diversität der Individuen hätte sich eventuell durch die \verb+Q-STUFIGE-TURNIER-SELEKTION+ nach Algorithmus 3.7 aus \cite{Weicker200709} erreichen lassen können. Allerdings wurde dieser Ansatz nicht weiter verfolgt.
+
+\section{Gütebewertung}
+Die Güte eines Individuum wird im Algorithmus durch die Anzahl der überlebten Zyklen bestimmt. Dabei wird nicht allein die Standardkonfiguration verwendet. Vielmehr werden mithilfe des Generators eine Menge unterschiedlicher Konfigurationen erstellt dessen mittlere Güte für die Bewertung der Individuen verwendet wird.

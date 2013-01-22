@@ -1,0 +1,53 @@
+%!TEX root = ../document.tex
+\chapter{Simulationsszenarien und Effizienz}
+
+Für ein bestmögliches Training des Neuronalen Netzes wird versucht, mithilfe des Generators eine größtmögliche Diversität an Startkonfigurationen für den Simulator bereitzustellen. Als Basis dienten folgende Werte.
+
+\IfDefined{rowcolor}{%
+\colorlet{tablesubheadcolor}{gray!40}
+\colorlet{tableheadcolor}{gray!25}
+\colorlet{tableblackheadcolor}{black!50}
+\colorlet{tablerowcolor}{gray!15.0}
+ 
+ 
+\renewcommand\tablehead{%
+  \tableheadfontsize%
+  \sffamily\bfseries%
+  %\slshape % = kursiv
+  \color{white}
+}
+ 
+\renewcommand\tableheadcolor{
+   \rowcolor{tableblackheadcolor}
+}
+%---------------------------------------
+%
+\begin{table}[!ht]
+   \tablestyle
+   \tablealtcolored
+   \begin{tabular}{*{3}{v{0.174\textwidth}}}
+   \hline
+   \tableheadcolor
+	   \tablehead Parameter &
+	   \tablehead Wertebereich &
+	   \tablehead Standardparameter\tabularnewline\hline
+
+\tablebody
+	   \textit{Aktionspunkte} & $5 \hdots 11$ & 8 \tabularnewline
+	   \textit{Sanierung} & $1 \hdots 7$ & 1\tabularnewline
+	   \textit{Produktion} & $9 \hdots 15 $ & 12\tabularnewline
+	   \textit{Umweltbelastung} & $5 \hdots 11$ & 13 \tabularnewline
+	   \textit{Aufklärung} & $1 \hdots 7$ & 4\tabularnewline
+	   \textit{Lebensqualität} & $7 \hdots 13$ & 10\tabularnewline
+	   \textit{Vermehrungsrate} & $17 \hdots 23$ & 20 \tabularnewline
+	   \textit{Bevölkerung} & $18 \hdots 24$ & 21\tabularnewline
+	   \textit{Politik} & $-3 \hdots 3$ & 0\tabularnewline
+
+   \end{tabular}
+   \caption{Verwendete Wertebereiche zur Bestimmung des besten Individuums}
+   \label{tab:bereich}
+\end{table}
+%
+} % End If
+
+Insgesamt wurden 80 Konfigurationen mit zufälligen Parameter in den Bereichen aus Tabelle \ref{tab:bereich} erstellt. Zusätzlich wurden noch für jeden Parameter Extremwerte, positiv wie negativ, hinzugefügt. Die genauen Werte der verwendeten Konfigurationen können aus dem beiliegenden Logfile entnommen werden.

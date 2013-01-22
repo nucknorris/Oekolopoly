@@ -1,0 +1,18 @@
+\begin{thebibliography}{Wei07}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\input{babelbst.tex}
+\newcommand{\Capitalize}[1]{\uppercase{#1}}
+\newcommand{\capitalize}[1]{\expandafter\Capitalize#1}
+
+\bibitem[Luk]{mersenne}
+\textsc{Luke}, Sean: The Mersenne Twister in Java,
+  \urlprefix\url{http://www.cs.gmu.edu/~sean/research/}, last checked:
+  22.01.2013
+
+\bibitem[Wei07]{Weicker200709}
+\textsc{Weicker}, Karsten: \textit{Evolutionäre Algorithmen (XLeitfäden der
+  Informatik)}, Vieweg+Teubner Verlag, 2., überarb. u. erw. aufl. 2007
+  \bbledn{} (2007), \urlprefix\url{http://amazon.de/o/ASIN/3835102192/}
+
+\end{thebibliography}

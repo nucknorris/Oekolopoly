@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import ea.KybDefVal;
+import ea.KybInputGenerator;
 import ea.KybInputs;
 
 public class SerialisationTest {
@@ -21,19 +22,23 @@ public class SerialisationTest {
 
     @Test
     public void startTest() {
-        filename = "28.0_100_2013-01-1919:38:36.914.ser";
+        filename = "25.ser";
         List<KybInputs> list = new ArrayList<KybInputs>();
-        list.add(new KybInputs(
-                KybDefVal.AP.getDefVal() - 0,
-                KybDefVal.SA.getDefVal() - 0,
-                KybDefVal.PR.getDefVal() - 0,
-                KybDefVal.UM.getDefVal() + 0,
-                KybDefVal.AU.getDefVal() + 0,
-                KybDefVal.LQ.getDefVal() - 0,
-                KybDefVal.VR.getDefVal() - 0,
-                KybDefVal.BE.getDefVal() - 0,
-                KybDefVal.PO.getDefVal() - 0));
-        deserialize(list);
+        KybInputGenerator gen = new KybInputGenerator(3, 2);
+        List<KybInputs> listOfKypInputs = gen.getList(38);
+        // list.add(new KybInputs(
+        // KybDefVal.AP.getDefVal() - 0,
+        // KybDefVal.SA.getDefVal() - 0,
+        // KybDefVal.PR.getDefVal() - 0,
+        // KybDefVal.UM.getDefVal() + 0,
+        // KybDefVal.AU.getDefVal() + 0,
+        // KybDefVal.LQ.getDefVal() - 0,
+        // KybDefVal.VR.getDefVal() - 0,
+        // KybDefVal.BE.getDefVal() - 0,
+        // KybDefVal.PO.getDefVal() - 0));
+        list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 21, 0));
+        list.add(new KybInputs(8, 1, 12, 13, 4, 10, 15, 21, 0));
+        deserialize(listOfKypInputs);
     }
 
     public void deserialize(List<KybInputs> listOfKypInputs) {
@@ -55,7 +60,8 @@ public class SerialisationTest {
             c.printStackTrace();
             return;
         }
-
+        double average = 0;
+        double averageBilance = 0;
         // Wieder bewerten
         logger.info("Wird sie wieder gleich bewertet?");
         for (KybInputs in : listOfKypInputs) {
@@ -64,8 +70,15 @@ public class SerialisationTest {
                     in.getLebensqual(), in.getVermehrungsrate(), in.getBevoelkerung(),
                     in.getPolitik());
             k.bewerteEineStrategie(deserial);
-            printResult(k);
+            average += k.getRundenzahl();
+            averageBilance += k.getGesamtbilanz();
+            // printResult(k);
         }
+
+        logger.info("\n\n");
+        logger.info("naverage rounds: " + average / listOfKypInputs.size());
+        logger.info("avera. bilance: " + averageBilance / listOfKypInputs.size());
+
     }
 
     private static void printResult(Kybernetien sim) {

@@ -1,0 +1,10 @@
+%!TEX root = ../document.tex
+\chapter{Konzept}
+
+Als Basis des Gesamtkonzepts dient ein Neuronales Netz. Um das Netz zu trainieren, mutiert der Algorithmus die Gewichte und Schwellwerte des Netzes. Damit es zu keine Übertrainierung kommt, wird mit verschiedenen Startkonfigurationen für die Klasse Kybernetien gearbeitet.
+
+\section{Erstellung von Startkonfigurationen}
+Um eine Menge von unterschiedlichen Konfigurationen für den Simulator zu erstellen, wird die Datenstruktur \verb+KypInputs+ verwendet. Diese beinhaltet alle Parameter, die der Simulator zum Start benötigt. Ein dafür implementierter Generator erstellt verschiedene Konfigurationen mit zufälligen Parametern in einem vorher definierten Bereich und stellt diese als Liste für den Evolutionären Algorithmus bereit. 
+
+\section{Evolutionärer Algorithmus}
+Der Algorithmus erstellt anfangs eine zufällige Startbelegung für die Bestandteile des neuronalen Netzes. Diese wird im Laufe des Algorithmus mutiert. Damit wird versucht, das Netz möglichst gut auf die generierten Startkonfigurationen anzulernen.

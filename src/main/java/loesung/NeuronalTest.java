@@ -22,7 +22,7 @@ public class NeuronalTest {
     @Test
     public void startTest() {
         KybInputGenerator gen = new KybInputGenerator(3, 2);
-        List<KybInputs> listOfKypInputs = gen.getList(40);
+        List<KybInputs> listOfKypInputs = gen.getList(80);
 
         logger.info("KYBERNETIEN CONFIGS: ");
         for (KybInputs kybInputs : listOfKypInputs) {

@@ -88,8 +88,10 @@ public class SnuckIndividuum implements Individuum, Serializable, Cloneable,
         ArrayList<Neuron> hiddenLayer4Neurons = initHiddenLayer(hiddenLayer3Neurons, 4);
         ArrayList<Neuron> hiddenLayer5Neurons = initHiddenLayer(hiddenLayer4Neurons, 5);
         ArrayList<Neuron> hiddenLayer6Neurons = initHiddenLayer(hiddenLayer5Neurons, 6);
+        ArrayList<Neuron> hiddenLayer7Neurons = initHiddenLayer(hiddenLayer6Neurons, 7);
+        ArrayList<Neuron> hiddenLayer8Neurons = initHiddenLayer(hiddenLayer7Neurons, 8);
 
-        ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayer6Neurons);
+        ArrayList<Neuron> outputLayer = initOutputLayer(hiddenLayer8Neurons);
         double sum = 0.0;
 
         // sum everyting except investment

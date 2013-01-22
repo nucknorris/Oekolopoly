@@ -22,15 +22,15 @@ public class EvoAlg {
 
     private static final int TERMINATION_CONDITION = 30;
     private static final int POPULATION_SIZE = 100;
-    private static final int MAX_ITERATIONS = 1000;
+    private static final int MAX_ITERATIONS = 800;
     private static final int TERMINATION_LEVEL = 25;
 
     // number of neurons in hidden layer
-    public static final int HIDDEN_LAYER_NEURONS = 15;
+    public static final int HIDDEN_LAYER_NEURONS = 20;
 
     // total number of layers (x hiddenLayer + 1 outputLayer, inputLayer not
     // included)
-    public static final int TOTAL_LAYERS = 7;
+    public static final int TOTAL_LAYERS = 9;
 
     private int bestRounds; // stores the currently best number of rounds
     boolean isTerminated = false;
@@ -66,13 +66,14 @@ public class EvoAlg {
 
         logger.info("\nstart");
 
-        while (!isTerminated && iteration < 10000) {
+        while (!isTerminated) {
             if (iteration % 100 == 0) {
 
                 // if the max number of iterations is reached or still is no
                 // higher numer of rounds reached, the EA will reset its start
                 // values.
-                if (iteration > MAX_ITERATIONS && bestRounds < TERMINATION_LEVEL) {
+                if (iteration > MAX_ITERATIONS && bestRounds < TERMINATION_LEVEL
+                        && iteration < 5000) {
                     logger.info("NO BEST RESULT FOUND, RESTARTING (" + bestRounds + ")");
                     weightsSParams = Util.genStartWeightStrategyParams();
                     thresholdsSParams = Util.genStartThresholdStrategyParams();
@@ -123,7 +124,7 @@ public class EvoAlg {
     }
 
     /**
-     * Runs a full lifecycle. It will asses the value of the given indiviudal
+     * Runs a full lifecycle. It will assess the value of the given indiviudal
      * using multiple instances of Kybernetien. More precisely the number of
      * rounds will be summed and an average will be calculated.
      * 

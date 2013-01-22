@@ -63,46 +63,26 @@ public class KybInputGenerator {
                     getRandInt(be - e, be + e),
                     getRandInt(po - e, po + e)));
         }
+        // list.add(new KybInputs(10, 1, 12, 13, 4, 10, 20, 21, 0));
+        // list.add(new KybInputs(6, 1, 12, 13, 4, 10, 20, 21, 0));
+        // list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 21, 0));
+        // list.add(new KybInputs(8, 10, 12, 13, 4, 10, 20, 21, 0));
+        // list.add(new KybInputs(8, 1, 5, 13, 4, 10, 20, 21, 0));
+        list.add(new KybInputs(8, 1, 20, 13, 4, 10, 20, 21, 0));
+        // list.add(new KybInputs(8, 1, 12, 5, 4, 10, 20, 21, 0));
+        // list.add(new KybInputs(8, 1, 12, 20, 4, 10, 20, 21, 0));
+        // list.add(new KybInputs(8, 1, 12, 13, 1, 10, 20, 21, 0));
+        // list.add(new KybInputs(8, 1, 12, 13, 15, 10, 20, 21, 0));
+        // list.add(new KybInputs(8, 1, 12, 13, 4, 7, 20, 21, 0));
+        // list.add(new KybInputs(8, 1, 12, 13, 4, 15, 20, 21, 0));
+        // list.add(new KybInputs(8, 1, 12, 13, 4, 10, 21, 21, 0));
+        list.add(new KybInputs(8, 1, 12, 13, 4, 10, 12, 21, 0));
+        // list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 15, 0));
+        // list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 30, 0));
+        // list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 21, -4));
+        // list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 21, 15));
+
         return list;
-    }
-
-    private List<KybInputs> genListOfKybs() {
-
-        List<KybInputs> listOfKypInputs = new ArrayList<KybInputs>();
-        logger.info("start generating kybernetien inputs");
-        for (int ap = KybDefVal.AP.getOptDefVal() - e; ap <= KybDefVal.AP.getOptDefVal() + e; ap = ap
-                + steps) {
-            for (int sa = KybDefVal.SA.getOptDefVal() - e; sa <= KybDefVal.SA.getOptDefVal() + e; sa = sa
-                    + steps) {
-                for (int pr = KybDefVal.PR.getOptDefVal() - e; pr <= KybDefVal.PR.getOptDefVal()
-                        + e; pr = pr + steps) {
-                    for (int um = KybDefVal.UM.getOptDefVal() - e; um <= KybDefVal.UM
-                            .getOptDefVal() + e; um = um + steps) {
-                        for (int au = KybDefVal.AU.getOptDefVal() - e; au <= KybDefVal.AU
-                                .getOptDefVal() + e; au = au + steps) {
-                            for (int lq = KybDefVal.LQ.getOptDefVal() - e; lq <= KybDefVal.LQ
-                                    .getOptDefVal() + e; lq = lq + steps) {
-                                for (int vr = KybDefVal.VR.getOptDefVal() - e; vr <= KybDefVal.VR
-                                        .getOptDefVal() + e; vr = vr + steps) {
-                                    for (int be = KybDefVal.BE.getOptDefVal() - e; be <= KybDefVal.BE
-                                            .getOptDefVal()
-                                            + e; be = be + steps) {
-                                        for (int po = KybDefVal.PO.getOptDefVal() - e; po <= KybDefVal.PO
-                                                .getOptDefVal()
-                                                + e; po = po + steps) {
-                                            listOfKypInputs.add(new KybInputs(ap, sa, pr, um, au,
-                                                    lq, vr, be, po));
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        logger.info("finish generating kybernetien inputs");
-        return listOfKypInputs;
     }
 
     private int getRandInt(int min, int max) {
