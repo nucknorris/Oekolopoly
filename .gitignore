@@ -8,3 +8,6 @@ target
 old_logs
 *.out
 *.gz
+*.aux
+*.bbl
+*.blg
