@@ -33,7 +33,7 @@ public class EvoAlg {
 	static final int TERMINATION_ROUND = 30;
 	static final int POP_SIZE = 100;
 	static final int MAX_GENERATION = 1000;
-	static final int MAX_GLOBAL_GENERATION = 5000;
+	static final int MAX_GLOBAL_GENERATION = 6000;
 	static final int NO_TERMINATION_OVER = 20;
 	public static final int LAYER = 8;
 	public static final int NEURONS = 16;
@@ -54,7 +54,7 @@ public class EvoAlg {
 	 * Instantiates a new evo alg.
 	 */
 	public EvoAlg() {
-		spg = new SimuPipelineGenerator(80, false);
+		spg = new SimuPipelineGenerator(40, false);
 		spg.genNewSimuPipeline();
 		// random = new Random();
 		random = new MersenneTwisterFast();

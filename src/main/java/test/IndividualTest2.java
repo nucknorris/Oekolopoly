@@ -25,7 +25,7 @@ public class IndividualTest2 {
 	public void test() {
 		int testsize = 50000;
 		SimuPipelineGenerator spg = new SimuPipelineGenerator(testsize, true);
-		// spg.genNewSimuPipeline();
+		spg.genNewSimuPipeline();
 
 		OplewniaIndividuum ind = Utilities
 				.loadIndividual("/home/olitologie/Workspace/ae_project3/best/28.0_2013-01-20_18:49:05.289.ser");

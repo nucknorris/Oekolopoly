@@ -245,19 +245,10 @@ public class OplewniaIndividuum implements Individuum, Serializable, Cloneable,
 	 */
 	public class Neuron {
 
-		/** The inputs. */
 		private final List<Neuron> inputs;
-
-		/** The weight. */
 		private double weight;
-
-		/** The threshold. */
 		private double threshold;
-
-		/** The value. */
 		private double value;
-
-		/** The sigmoid two. */
 		private boolean sigmoidTwo;
 
 		/**
