@@ -1,2 +1,12 @@
 %!TEX root = ../document.tex
 \chapter{Fazit}
+
+Das geplante Gesamtkonzept mit neuronalem Netz hat sich als durchaus geeignet erwiesen. Nachdem das Netz erst einmal implementiert war konnten schnell gute Werte erreicht werden. Mit der Hilfe des Startkonfiguration-Generators konnte außerdem die nötige Diversität ermittelt und gleichzeitig ein Übertrainieren auf eine bestimmte Konfiguration vermieden werden.
+
+Allerdings wird schnell ersichtlich, dass das ganze Verfahren stark auf Zufallswerten beruht. Äußerst entscheidend ist dabei die Startpopulation. Wurden da geeignete Gewichte und Schwellwerte erzeugt konnte der Algorithmus sehr schnell eine hohe Rundenanzahl erreichen. Dieser Erkenntnis führte auch zum Anwenden der Abbrucheinschaft, die greift, wenn über mehrere Iterationen kein besseres Ergebnis gefunden werden konnte. Durch die neue Generierung der Gewichte und Schwellwerte konnten auch in der Praxis hohe Rundenanzahlen erreicht werden. Mithilfe von Backpropagation könnte man an dieser Stelle ansetzen und noch bessere Ergebnisse erreichen. 
+
+Ich denke, dass mit dem erreichten Individuum ein gutes Allround-Individuum erzeugt wurde. Tests zeigten, dass es wenig anfällig gegen Extremwerte ist. Einzig der Wert \emph{Produktion} führt  relativ schnell zu einem Sinken der Rundenanzahl.
+
+Ob mit Hilfe dieses implementierten neuronalen Netzes eine bessere Rundenanzahl, oder sogar das Optimum - dauerhaft 30 Runden - erreicht werden kann ist fraglich. Da aufgrund der begrenzten Zeit die Testläufe nach max. 48h für Auswertungen und Neukonfigurationen unterbrochen werden mussten ist außerdem nicht klar, ob das Netz nach einer größeren Zeitdauer irgendwann zu einem optimalen Ergebnis gekommen wäre. Wahrscheinlicher ist, dass es, wie in den stattgefundenen Testläufen, in lokalen Optima hängen bleibt und nur mit einer günstigen Zufallszahlkombination weiterläuft. Vermutlich wird sich das Netz nach einer gewissen Zeit in eine, für die Startparameter geeigneten, Konfiguration übertrainiert haben.
+
+Leider war die angesetzte Zeit für die Bearbeitung des Projektes ungünstig bemessen. Allein für die Einarbeitung in Grundlagen zu Neuronalen Netzen und für die Basisimplementierung mussten min. 20h Arbeitszeit investiert werden. Daraus folgte natürlich, dass für die eigentliche Optimierung des Programms nur noch relativ wenig Zeit zur Verfügung stand. Ich war zwar in der Lage alle geplanten Features zu implementieren, jedoch hätte ich gerne die Zeit gehabt, weitere Selektionsmechanismen oder andere Strategien zu implementieren.

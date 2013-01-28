@@ -22,7 +22,7 @@ public class SerialisationTest {
 
     @Test
     public void startTest() {
-        filename = "25.ser";
+        filename = "snuck.ser";
         List<KybInputs> list = new ArrayList<KybInputs>();
         KybInputGenerator gen = new KybInputGenerator(3, 2);
         List<KybInputs> listOfKypInputs = gen.getList(38);
@@ -36,8 +36,8 @@ public class SerialisationTest {
         // KybDefVal.VR.getDefVal() - 0,
         // KybDefVal.BE.getDefVal() - 0,
         // KybDefVal.PO.getDefVal() - 0));
-        list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 21, 0));
-        list.add(new KybInputs(8, 1, 12, 13, 4, 10, 15, 21, 0));
+        // list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 21, 0));
+        // list.add(new KybInputs(8, 1, 12, 13, 4, 10, 15, 21, 0));
         deserialize(listOfKypInputs);
     }
 

@@ -63,24 +63,24 @@ public class KybInputGenerator {
                     getRandInt(be - e, be + e),
                     getRandInt(po - e, po + e)));
         }
-        // list.add(new KybInputs(10, 1, 12, 13, 4, 10, 20, 21, 0));
-        // list.add(new KybInputs(6, 1, 12, 13, 4, 10, 20, 21, 0));
-        // list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 21, 0));
-        // list.add(new KybInputs(8, 10, 12, 13, 4, 10, 20, 21, 0));
-        // list.add(new KybInputs(8, 1, 5, 13, 4, 10, 20, 21, 0));
+        list.add(new KybInputs(10, 1, 12, 13, 4, 10, 20, 21, 0));
+        list.add(new KybInputs(6, 1, 12, 13, 4, 10, 20, 21, 0));
+        list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 21, 0));
+        list.add(new KybInputs(8, 10, 12, 13, 4, 10, 20, 21, 0));
+        list.add(new KybInputs(8, 1, 5, 13, 4, 10, 20, 21, 0));
         list.add(new KybInputs(8, 1, 20, 13, 4, 10, 20, 21, 0));
-        // list.add(new KybInputs(8, 1, 12, 5, 4, 10, 20, 21, 0));
-        // list.add(new KybInputs(8, 1, 12, 20, 4, 10, 20, 21, 0));
-        // list.add(new KybInputs(8, 1, 12, 13, 1, 10, 20, 21, 0));
-        // list.add(new KybInputs(8, 1, 12, 13, 15, 10, 20, 21, 0));
-        // list.add(new KybInputs(8, 1, 12, 13, 4, 7, 20, 21, 0));
-        // list.add(new KybInputs(8, 1, 12, 13, 4, 15, 20, 21, 0));
-        // list.add(new KybInputs(8, 1, 12, 13, 4, 10, 21, 21, 0));
+        list.add(new KybInputs(8, 1, 12, 5, 4, 10, 20, 21, 0));
+        list.add(new KybInputs(8, 1, 12, 20, 4, 10, 20, 21, 0));
+        list.add(new KybInputs(8, 1, 12, 13, 1, 10, 20, 21, 0));
+        list.add(new KybInputs(8, 1, 12, 13, 15, 10, 20, 21, 0));
+        list.add(new KybInputs(8, 1, 12, 13, 4, 7, 20, 21, 0));
+        list.add(new KybInputs(8, 1, 12, 13, 4, 15, 20, 21, 0));
+        list.add(new KybInputs(8, 1, 12, 13, 4, 10, 21, 21, 0));
         list.add(new KybInputs(8, 1, 12, 13, 4, 10, 12, 21, 0));
-        // list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 15, 0));
-        // list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 30, 0));
-        // list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 21, -4));
-        // list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 21, 15));
+        list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 15, 0));
+        list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 30, 0));
+        list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 21, -4));
+        list.add(new KybInputs(8, 1, 12, 13, 4, 10, 20, 21, 15));
 
         return list;
     }

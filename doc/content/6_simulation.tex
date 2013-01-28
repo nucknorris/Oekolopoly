@@ -1,7 +1,7 @@
 %!TEX root = ../document.tex
 \chapter{Simulationsszenarien und Effizienz}
 
-Für ein bestmögliches Training des Neuronalen Netzes wird versucht, mithilfe des Generators eine größtmögliche Diversität an Startkonfigurationen für den Simulator bereitzustellen. Als Basis dienten folgende Werte.
+Für ein bestmögliches Training des Neuronalen Netzes wird versucht, mithilfe des Generators eine größtmögliche Diversität an Startkonfigurationen für den Simulator bereitzustellen. Es wurden 100 Individuen als Startpopulation verwendet. Als Basis für die Startkonfigurationen des Simulators für das abgegebene Individuum dienten die Wertebereiche, wie in Tabelle \ref{tab:bereich} beschrieben.
 
 \IfDefined{rowcolor}{%
 \colorlet{tablesubheadcolor}{gray!40}
@@ -51,3 +51,53 @@ Für ein bestmögliches Training des Neuronalen Netzes wird versucht, mithilfe d
 } % End If
 
 Insgesamt wurden 80 Konfigurationen mit zufälligen Parameter in den Bereichen aus Tabelle \ref{tab:bereich} erstellt. Zusätzlich wurden noch für jeden Parameter Extremwerte, positiv wie negativ, hinzugefügt. Die genauen Werte der verwendeten Konfigurationen können aus dem beiliegenden Logfile entnommen werden.
+
+Um sich schließlich auf diese Konfiguration festlegen zu können, mussten vorher viele Tests abgearbeitet werden. Das Netz wurde zu Beginn nur auf die Standardkonfiguration angelernt um die grundsätzliche Funktionalität zu überprüfen. Mit der Verwendung des Generators konnten später verschiedene Konfigurationsbereiche abgedeckt werden. Dazu werden vorher festgelegte Standardwerte um ein einstellbares $ \epsilon $ in die positive wie auch in die negative Richtung verschoben. Mithilfe des $ \epsilon $ wird dadurch ein Bereich festgelegt aus dem sich der Zufallszahlengenerator einen Wert entnimmt. Für $ \epsilon=1 $ bis $ \epsilon = 2 $ konnte selbst bei 500 zufällig gewählten Startkombinationen ein Durchschnitt von 30 Runden erreicht werden. Tabelle \ref{tab:laufzeit} zeigt, wie viele Runden in max. 120s erreicht werden konnten.
+
+\IfDefined{rowcolor}{%
+\colorlet{tablesubheadcolor}{gray!40}
+\colorlet{tableheadcolor}{gray!25}
+\colorlet{tableblackheadcolor}{black!50}
+\colorlet{tablerowcolor}{gray!15.0}
+ 
+ 
+\renewcommand\tablehead{%
+  \tableheadfontsize%
+  \sffamily\bfseries%
+  %\slshape % = kursiv
+  \color{white}
+}
+ 
+\renewcommand\tableheadcolor{
+   \rowcolor{tableblackheadcolor}
+}
+%---------------------------------------
+%
+\begin{table}[!ht]
+   \tablestyle
+   \tablealtcolored
+   \begin{tabular}{*{4}{v{0.13\textwidth}}}
+   \hline
+   \tableheadcolor
+	   \tablehead $ \epsilon $ &
+	   \tablehead max. Runden &
+	   \tablehead Iterationen &
+	   \tablehead Laufzeit in [s]\tabularnewline\hline
+
+\tablebody
+	   \textit{0} & 30 & 227 & 2 \tabularnewline
+	   \textit{1} & 30 & 1365 & 85 \tabularnewline
+	   \textit{2} & 30 & 1169 & 90 \tabularnewline
+	   \textit{3} & 26 & 750 & 120 \tabularnewline
+	   \textit{4} & 25 & 1600 & 120 \tabularnewline
+	   \textit{5} & 25 & 800 & 120 \tabularnewline
+	   \textit{6} & 22 & 500 & 120 \tabularnewline
+	   \textit{7} & 10 & 900 & 120 \tabularnewline
+
+
+   \end{tabular}
+   \caption{Maximal erreichte Runden in 120s}
+   \label{tab:laufzeit}
+\end{table}
+%
+} % End If
